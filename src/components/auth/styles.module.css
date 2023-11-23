@@ -1,0 +1,8 @@
+
+.styleForm {
+  padding: 0px 20%;
+  margin: 0 auto;
+  width: 80%;
+  min-height: 80vh;
+  justify-content: space-between
+};
