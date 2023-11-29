@@ -47,7 +47,8 @@ const Chapter = () => {
         >
           <ColorButton variant="contained" size="large">
             {filterChapter?.attributes?.title}
-          </ColorButton></ChakraLink>
+          </ColorButton>
+        </ChakraLink>
       ))}      
     </VStack>
     

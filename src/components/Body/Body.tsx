@@ -40,7 +40,13 @@ const Body = () => {
   
   
   return (    
-    <Flex p={4} justifyContent="center" flexWrap={'wrap'} gap={20} height="100%" >
+    <Flex 
+      p={4} 
+      justifyContent="center" 
+      flexWrap={'wrap'} 
+      gap={20} 
+      minHeight="100%" 
+    >
       {courses?.map((course, index) => (
         <ChakraLink as={ReactRouterLink} 
           type='button'

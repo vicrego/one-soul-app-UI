@@ -1,29 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
+import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
+import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import {getTopic} from '../../../api/api';
-
 //import { Stepper, Step, StepIndicator, StepStatus, StepTitle, StepDescription, StepNumber, StepIcon, StepSeparator, useSteps} from '@chakra-ui/stepper';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { MobileStepper } from '@mui/material';
-
 import {
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendTheme,
 } from '@mui/material/styles';
-import { useLocation } from 'react-router-dom';
+import { ButtonProps, styled } from '@mui/material';
+import { purple, blue, teal } from '@mui/material/colors';
 
 
 const Topics = () => {
 
   const location = useLocation();
   const { chapterTitle } = location.state;
-  
   const [steps, setSteps] = useState<any[]>();
   //const [type, setType] = useState();
 
-
+  const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
+    borderRadius: '1.5rem',
+    color: theme.palette.getContrastText(teal[500]),
+    backgroundColor: teal[500],
+    '&:hover': {
+      backgroundColor: teal[700],
+    },
+  }));
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,14 +45,14 @@ const Topics = () => {
 
 
   const theme = extendTheme();
-  //console.log('chapterTitle',chapterTitle)    chapter.attributes.course.data.attributes.title 
+  
   const filteredSteps = steps?.filter((step) => step.attributes?.chapter.data.attributes.title === chapterTitle);
   console.log('filteredSteps',filteredSteps);
   const [activeStep, setActiveStep] = React.useState(0);
   const title = filteredSteps && filteredSteps[activeStep]?.attributes?.title;
   const type = filteredSteps && filteredSteps[activeStep]?.attributes?.type;
-  
-
+  const image = filteredSteps && `http://localhost:1337${filteredSteps[activeStep]?.attributes?.image.data?.attributes?.url}`;
+ 
   const content = filteredSteps && filteredSteps[activeStep]?.attributes?.content;
   const hasCompletedAllSteps = activeStep === filteredSteps?.length;
   const bg = useColorModeValue("gray.200", "gray.700");
@@ -59,16 +66,34 @@ const Topics = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
   
   return (
     
-    <Stack style={{height: "100%"}} >
+    <Stack 
+      height={"fit-content"}
+      
+      style={{
+      display: "block",
+      //maxHeight: "1000rem",
+      backgroundColor: "rgba(253, 230, 179)",
+      borderColor: "red", 
+      borderWidth: "2.2px",
+      borderRadius: "1rem",
+      margin: "0.5rem 4rem",
+      padding: "0.5rem",
+      overflow: "auto"
+    }}>
       <MobileStepper
         variant="progress"
         steps={maxSteps}
         position="static"
         activeStep={activeStep}
-        sx={{ mx: "10%", flexGrow: 1 }}
+        sx={{ 
+          mx: "10%", 
+          borderRadius: "1.5rem", 
+          flexGrow: 1 
+        }}
         nextButton={
           <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps}>
             Next
@@ -93,38 +118,66 @@ const Topics = () => {
 
       {hasCompletedAllSteps ? (
         <>
-        <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>
-          <Heading fontSize="xl" textAlign={"center"}>
-            Woohoo! All steps completed! 🎉
-          </Heading>
-        </Box>
+          <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>
+            <Heading fontSize="xl" textAlign={"center"}>
+              Woohoo! All steps completed! 🎉
+            </Heading>
+            <ChakraLink as={ReactRouterLink} 
+              type='button'
+              to="/task"
+              state={{chapterTitle: chapterTitle}}
+            >
+              <ColorButton variant="contained" size="large">
+                Challenge!
+              </ColorButton>
+            </ChakraLink>    
+          </Box>
         </>
-        ) : (
+      ) : (
         <>
           {type === "introduction" &&
           (
-          <Stack sx={{ height: 255, width: '100%', px: "10%" } } gap={3} >
+          <Stack sx={{ height: 255, width: '100%', px: "1rem" } } gap={3} >
             <Heading as={"h1"}>{title}</Heading>
             <Text p={5}>{content}</Text>
           </Stack>
           )}
           {type === "theory" &&
           (
-          <Stack sx={{ height: 255,width: '100%', px: "10%" } } gap={3} >
+          <Stack sx={{ height: 255,width: '100%', px: "10%"} } gap={3} >
             <Heading as={"h1"}>{title}</Heading>
             <Text p={5}>{content}</Text>
           </Stack>
           )}
           {type === "exercise" &&
           (
-          <Stack sx={{ height: 255,width: '100%', px: "15%" } } gap={3}  >
+          <Stack sx={{ height: 255,width: '100%', px: "8%" } } gap={3}  >
             <Heading as={"h1"}>{title}</Heading>
-            <Box style={{borderWidth: 5, borderStyle: "dotted", backgroundColor: 'beige', borderRadius: '2rem', borderColor: "red"}} p={5}>
-              <b>Exercise!</b>
-              <Text textAlign={'start'}>
-                 {content}
-              </Text>
-            </Box>
+            <HStack gap={5}>
+              <Box 
+                style={{
+                  borderWidth: 5, 
+                  borderStyle: "dotted", 
+                  backgroundColor: 'beige', 
+                  borderRadius: '1rem', 
+                  borderColor: "red"
+                }} 
+                p={5}
+              >
+                <b>Exercise!</b>
+                <Text  
+                  textAlign={'start'}>
+                  {content}
+                </Text> 
+              </Box>
+              <img 
+                margin-left={'auto'}
+                margin-right={'auto'}
+                width={'400rem'}
+                src={image}
+                style={{borderRadius: "20%"}}
+              />
+            </HStack>
           </Stack>
           )}
           {type === "task" &&

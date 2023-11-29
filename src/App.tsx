@@ -10,6 +10,7 @@ import NavBar from './components/Head/navigation/NavBar'
 import About from './components/Body/About'
 import Topics from './components/Body/content/Topics'
 import Chapter from './components/Body/content/Chapter'
+import Task from './components/Body/content/Task'
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/chapters" element={<Chapter />} />
         <Route path="/topics" element={<Topics />} />
+        <Route path="/task" element={<Task />} />
       </Routes>
     </Box>
   )
