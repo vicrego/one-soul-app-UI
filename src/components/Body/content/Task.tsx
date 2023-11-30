@@ -73,13 +73,14 @@ const Task = () => {
       padding: "0.5rem"
     }}>
     <MobileStepper
-      variant="progress"
+      variant="text"
       steps={maxSteps}
       position="static"
       activeStep={activeStep}
       sx={{  
         flexGrow: 1, 
         mx: "10%", 
+        padding: "0.3%",
         borderRadius: "1.5rem", 
         backgroundColor: "rgb(138, 97, 130)", 
       }}
@@ -117,14 +118,14 @@ const Task = () => {
       <>
         {type === "warmUp" &&
         (
-        <Stack sx={{ height: 255, width: '100%', px: "10%" } } gap={3} >
+        <Stack sx={{ width: '100%', px: "10%" } } gap={3} >
           <Heading as={"h1"}>Challenge</Heading>
           <Text p={5}>{content}</Text>
         </Stack>
         )}
         {type === "task" &&
         (
-        <Stack sx={{ height: 255,width: '100%', px: "10%" } } gap={3} >
+        <Stack sx={{ width: '100%', px: "10%" } } gap={3} >
           <Heading as={"h1"}>Challenge</Heading>
           <Text p={5}>{content}</Text>
         </Stack>

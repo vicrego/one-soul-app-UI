@@ -71,17 +71,14 @@ const Topics = () => {
   return (
     
     <Stack 
-      height={"fit-content"}
-      
       style={{
       display: "block",
-      //maxHeight: "1000rem",
       backgroundColor: "rgba(253, 230, 179)",
       borderColor: "red", 
       borderWidth: "2.2px",
       borderRadius: "1rem",
       margin: "0.5rem 4rem",
-      padding: "0.5rem",
+      padding: "1rem",
       overflow: "auto"
     }}>
       <MobileStepper
@@ -92,7 +89,9 @@ const Topics = () => {
         sx={{ 
           mx: "10%", 
           borderRadius: "1.5rem", 
-          flexGrow: 1 
+          flexGrow: 1,
+          padding: "0.3%",
+          backgroundColor: "rgb(138, 97, 130)", 
         }}
         nextButton={
           <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps}>
@@ -137,21 +136,21 @@ const Topics = () => {
         <>
           {type === "introduction" &&
           (
-          <Stack sx={{ height: 255, width: '100%', px: "1rem" } } gap={3} >
+          <Stack sx={{ width: '100%', px: "1rem" } } gap={3} >
             <Heading as={"h1"}>{title}</Heading>
             <Text p={5}>{content}</Text>
           </Stack>
           )}
           {type === "theory" &&
           (
-          <Stack sx={{ height: 255,width: '100%', px: "10%"} } gap={3} >
+          <Stack sx={{width: '100%', px: "10%"} } gap={3} >
             <Heading as={"h1"}>{title}</Heading>
             <Text p={5}>{content}</Text>
           </Stack>
           )}
           {type === "exercise" &&
           (
-          <Stack sx={{ height: 255,width: '100%', px: "8%" } } gap={3}  >
+          <Stack sx={{ width: '100%', px: "8%" } } gap={3}  >
             <Heading as={"h1"}>{title}</Heading>
             <HStack gap={5}>
               <Box 
@@ -178,13 +177,6 @@ const Topics = () => {
                 style={{borderRadius: "20%"}}
               />
             </HStack>
-          </Stack>
-          )}
-          {type === "task" &&
-          (
-          <Stack sx={{ height: 255,width: '100%', px: "10%" } } gap={3} >
-            <Heading as={"h1"}>{title}</Heading>
-            <Text p={5}>{content}</Text>
           </Stack>
           )}
         </>

@@ -38,7 +38,7 @@ const Chapter = () => {
   }, []);
   
   return (    
-    <VStack p={4} style={{height: "100%"}} >
+    <VStack p={10} style={{height: "100%"}} gap={2} >
       {chapters?.filter(chapter => chapter.attributes.course.data.attributes.title === courseTitle).map(filterChapter => (
         <ChakraLink as={ReactRouterLink} 
           type='button'

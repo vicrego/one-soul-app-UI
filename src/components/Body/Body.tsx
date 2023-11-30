@@ -41,7 +41,7 @@ const Body = () => {
   
   return (    
     <Flex 
-      p={4} 
+      p={10} 
       justifyContent="center" 
       flexWrap={'wrap'} 
       gap={20} 
