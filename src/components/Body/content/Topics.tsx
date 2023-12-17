@@ -53,7 +53,22 @@ const Topics = () => {
   const type = filteredSteps && filteredSteps[activeStep]?.attributes?.type;
   const image = filteredSteps && `http://localhost:1337${filteredSteps[activeStep]?.attributes?.image.data?.attributes?.url}`;
  
-  const content = filteredSteps && filteredSteps[activeStep]?.attributes?.content;
+  const content = filteredSteps && filteredSteps[activeStep]?.attributes?.content.split("\\n");
+  //const updatedContent = content.replace(/\n/g, '\n');
+  //const paragraphs = content.split("\n");
+  console.log('paragraphs', content);
+  const paragraphArrays = [];
+/*
+  for (let i = 0; i < content.length; i++) {
+    //const paragraphArray = [];
+    
+    paragraphArray.push(content[i]);
+    paragraphArrays.push(paragraphArray);
+  }
+*/
+  //console.log(paragraphArrays);
+
+  
   const hasCompletedAllSteps = activeStep === filteredSteps?.length;
   const bg = useColorModeValue("gray.200", "gray.700");
    
@@ -136,21 +151,27 @@ const Topics = () => {
         <>
           {type === "introduction" &&
           (
-          <Stack sx={{ width: '100%', px: "1rem" } } gap={3} >
+          <Stack sx={{width: '100%', px: "1rem" } } gap={3} >
             <Heading as={"h1"}>{title}</Heading>
-            <Text p={5}>{content}</Text>
+            {content?.map((post: any) =>
+              <Text key={post.id}>
+                {post}
+              </Text>
+            )}
           </Stack>
           )}
           {type === "theory" &&
           (
-          <Stack sx={{width: '100%', px: "10%"} } gap={3} >
+          <Stack sx={{width: '100%', px: "1rem"} }  gap={3} >
             <Heading as={"h1"}>{title}</Heading>
-            <Text p={5}>{content}</Text>
+            {content?.map((post: any) =>
+              <Text key={post.id}>{content}</Text>
+            )}
           </Stack>
           )}
           {type === "exercise" &&
           (
-          <Stack sx={{ width: '100%', px: "8%" } } gap={3}  >
+          <Stack sx={{ width: '100%', px: "1rem" } } gap={3}  >
             <Heading as={"h1"}>{title}</Heading>
             <HStack gap={5}>
               <Box 
@@ -164,10 +185,9 @@ const Topics = () => {
                 p={5}
               >
                 <b>Exercise!</b>
-                <Text  
-                  textAlign={'start'}>
-                  {content}
-                </Text> 
+                {content?.map((post: any) =>
+                  <Text textAlign={'start'} key={post.id}>{content}</Text>
+                )}
               </Box>
               <img 
                 margin-left={'auto'}

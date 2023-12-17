@@ -3,7 +3,7 @@ import { Link as ChakraLink, LinkProps, /*Button*/ Box, Flex, HStack, Heading, M
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import {getCourse} from '../../api/api';
 import Button from '@mui/material/Button';
-import { ButtonProps, styled } from '@mui/material';
+import { ButtonProps, styled, CircularProgress } from '@mui/material';
 import { purple, blue, teal } from '@mui/material/colors';
 
 
@@ -47,15 +47,23 @@ const Body = () => {
       gap={20} 
       minHeight="100%" 
     >
-      {courses?.map((course, index) => (
-        <ChakraLink as={ReactRouterLink} 
-          type='button'
-          to="/chapters"
-          state={{courseTitle: course?.attributes?.title}}
-        >
-          <ColorButton variant="contained" size="large">{course?.attributes?.title}</ColorButton>
-        </ChakraLink>
-      ))}
+      {courses ? (
+        <>
+        {courses?.map((course, index) => (
+          
+            <ChakraLink as={ReactRouterLink} 
+              type='button'
+              to="/chapters"
+              state={{courseTitle: course?.attributes?.title}}
+            >
+              <ColorButton variant="contained" size="large">{course?.attributes?.title}</ColorButton>
+            </ChakraLink>
+        ))}
+        </>
+        ) : (
+          <CircularProgress />
+        )
+        }
     </Flex>
   )
 }
