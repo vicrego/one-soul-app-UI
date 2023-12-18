@@ -6,7 +6,7 @@ import {getTopic} from '../../../api/api';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { MobileStepper } from '@mui/material';
+import { MobileStepper, useMediaQuery } from '@mui/material';
 import {
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendTheme,
@@ -20,8 +20,7 @@ const Topics = () => {
   const location = useLocation();
   const { chapterTitle } = location.state;
   const [steps, setSteps] = useState<any[]>();
-  //const [type, setType] = useState();
-
+  
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
     color: theme.palette.getContrastText(teal[500]),
@@ -54,23 +53,11 @@ const Topics = () => {
   const image = filteredSteps && `http://localhost:1337${filteredSteps[activeStep]?.attributes?.image.data?.attributes?.url}`;
  
   const content = filteredSteps && filteredSteps[activeStep]?.attributes?.content.split("\\n");
-  //const updatedContent = content.replace(/\n/g, '\n');
-  //const paragraphs = content.split("\n");
-  console.log('paragraphs', content);
-  const paragraphArrays = [];
-/*
-  for (let i = 0; i < content.length; i++) {
-    //const paragraphArray = [];
-    
-    paragraphArray.push(content[i]);
-    paragraphArrays.push(paragraphArray);
-  }
-*/
-  //console.log(paragraphArrays);
 
-  
   const hasCompletedAllSteps = activeStep === filteredSteps?.length;
   const bg = useColorModeValue("gray.200", "gray.700");
+  const isSmallScreen = useMediaQuery('(max-width: 1090px)');
+
    
   const maxSteps: number = filteredSteps ? filteredSteps.length : 0;
 
@@ -81,7 +68,6 @@ const Topics = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
   
   return (
     
@@ -166,13 +152,18 @@ const Topics = () => {
           (
           <Stack sx={{ width: '100%', px: "1rem" } } gap={3}  >
             <Heading as={"h1"}>{title}</Heading>
-            <Flex sx={{width: '100%', px: "1rem"}}  gap={5} >   
-              <Box marginTop={5}>
-              {content?.map((post: any) =>
-                <Text key={post.id} marginBottom={3.5}>
-                  {post}
-                </Text>
-              )}
+            <Flex 
+              justifyContent={"center"} 
+              sx={{width: '100%', px: "1rem" }} 
+              flexWrap={"wrap"} 
+              gap={5} 
+            >
+              <Box width={isSmallScreen ? "100%" : "50%"}>
+                {content?.map((post: any) =>
+                  <Text key={post.id} marginBottom={3.5}>
+                    {post}
+                  </Text>
+                )}
               </Box>
               <img 
                 margin-left={'auto'}
@@ -188,16 +179,22 @@ const Topics = () => {
           (
           <Stack sx={{ width: '100%', px: "1rem" }}  >
             <Heading as={"h1"}>{title}</Heading>
-            <HStack gap={5}>
+            <Flex 
+              style={{alignItems:"flex-start"}} 
+              justifyContent={"center"} 
+              gap={5} 
+              flexWrap={"wrap"}>
               <Box 
+                width={isSmallScreen ? "100%" : "50%"}
                 style={{
                   borderWidth: 5, 
                   borderStyle: "dotted", 
                   backgroundColor: 'beige', 
                   borderRadius: '1rem', 
-                  borderColor: "red"
+                  borderColor: "red",
+                  marginTop: "3rem"
                 }} 
-                p={5}
+                p={6}
               >
                 <b>Exercise!</b>
                 {content?.map((post: any) =>
@@ -211,7 +208,7 @@ const Topics = () => {
                 src={image}
                 style={{borderRadius: "20%"}}
               />
-            </HStack>
+            </Flex>
           </Stack>
           )}
         </>
