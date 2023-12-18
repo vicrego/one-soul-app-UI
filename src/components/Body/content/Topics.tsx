@@ -153,25 +153,40 @@ const Topics = () => {
           (
           <Stack sx={{width: '100%', px: "1rem" } } gap={3} >
             <Heading as={"h1"}>{title}</Heading>
-            {content?.map((post: any) =>
-              <Text key={post.id}>
-                {post}
-              </Text>
-            )}
+            <Box>
+              {content?.map((post: any) =>
+                <Text key={post.id} marginBottom={3.5} >
+                  {post}
+                </Text>
+              )}
+            </Box>
           </Stack>
           )}
           {type === "theory" &&
           (
-          <Stack sx={{width: '100%', px: "1rem"} }  gap={3} >
+          <Stack sx={{ width: '100%', px: "1rem" } } gap={3}  >
             <Heading as={"h1"}>{title}</Heading>
-            {content?.map((post: any) =>
-              <Text key={post.id}>{content}</Text>
-            )}
+            <Flex sx={{width: '100%', px: "1rem"}}  gap={5} >   
+              <Box marginTop={5}>
+              {content?.map((post: any) =>
+                <Text key={post.id} marginBottom={3.5}>
+                  {post}
+                </Text>
+              )}
+              </Box>
+              <img 
+                margin-left={'auto'}
+                margin-right={'auto'}
+                width={'400rem'}
+                src={image}
+                style={{borderRadius: "20%"}}
+              />
+            </Flex>
           </Stack>
           )}
           {type === "exercise" &&
           (
-          <Stack sx={{ width: '100%', px: "1rem" } } gap={3}  >
+          <Stack sx={{ width: '100%', px: "1rem" }}  >
             <Heading as={"h1"}>{title}</Heading>
             <HStack gap={5}>
               <Box 
@@ -186,7 +201,7 @@ const Topics = () => {
               >
                 <b>Exercise!</b>
                 {content?.map((post: any) =>
-                  <Text textAlign={'start'} key={post.id}>{content}</Text>
+                  <Text textAlign={'start'} key={post.id}>{post}</Text>
                 )}
               </Box>
               <img 
