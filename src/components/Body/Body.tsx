@@ -2,16 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { Link as ChakraLink, LinkProps, /*Button*/ Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue, ButtonGroup, extendTheme, VStack} from '@chakra-ui/react';
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import {getCourse} from '../../api/api';
-import Button from '@mui/material/Button';
+import { getChapter } from '../../api/api';
+import {getTopic} from '../../api/api';
+
+//import Button from '@mui/material/Button';
 import { ButtonProps, styled, CircularProgress } from '@mui/material';
-import { purple, blue, teal } from '@mui/material/colors';
+//import { purple, blue, teal } from '@mui/material/colors';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
 
 
 const Body = () => {
   
   
   const [courses, setCourses] = useState<any[]>();
+  const [chapters, setChapters] = useState<any[]>();
+  const [topics, setTopics] = useState<any[]>();
+  
 
+  /*
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     padding: '25px 0px',
     width: '150px',
@@ -23,6 +35,7 @@ const Body = () => {
       backgroundColor: teal[700],
     },
   }));
+  */
 
   useEffect(() => {
 
@@ -31,12 +44,43 @@ const Body = () => {
         //GET data from /courses API and set them
         const responseCourse = await getCourse();
         setCourses(responseCourse?.data.data);
+        const responseChapter = await getChapter();
+        setChapters(responseChapter?.data.data);
+        const responseTopic = await getTopic();
+        setTopics(responseTopic?.data.data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+/*
+      try {
+        //GET data from /courses API and set them
+        
       } catch (error) {
         console.error('Error fetching user:', error);
       }
     };
+    */
+  }
     fetchData();
   }, []);
+
+  let props = {
+    courses,
+    chapters,
+    topics
+  }
+
+/*
+  useEffect(() => {
+
+    const fetchData = async () => {
+      
+    };
+    fetchData();
+  }, []);
+*/
+
+
   
   
   return (    
@@ -49,15 +93,33 @@ const Body = () => {
     >
       {courses ? (
         <>
-        {courses?.map((course, index) => (
-          
-            <ChakraLink as={ReactRouterLink} 
-              type='button'
-              to="/chapters"
-              state={{courseTitle: course?.attributes?.title}}
-            >
-              <ColorButton variant="contained" size="large">{course?.attributes?.title}</ColorButton>
-            </ChakraLink>
+        {courses?.map((course) => (
+          <ChakraLink as={ReactRouterLink} 
+            type='button'
+            to="/chapters"
+            state={{courseTitle: course?.attributes?.title, props}}
+            key={course.id}
+          >
+            <Card sx={{ maxWidth: 345 }}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image="/static/images/cards/contemplative-reptile.jpg"
+                  alt="green iguana"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                  {course?.attributes?.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Lizards are a widespread group of squamate reptiles, with over 6,000
+                    species, ranging across all continents except Antarctica
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </ChakraLink>
         ))}
         </>
         ) : (

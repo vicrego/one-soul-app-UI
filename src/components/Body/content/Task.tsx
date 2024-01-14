@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
+import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
+
+import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
+
+
 import {getLessonTask} from '../../../api/api';
 //import { Stepper, Step, StepIndicator, StepStatus, StepTitle, StepDescription, StepNumber, StepIcon, StepSeparator, useSteps} from '@chakra-ui/stepper';
 import Button from '@mui/material/Button';
@@ -10,18 +14,26 @@ import {
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendTheme,
 } from '@mui/material/styles';
-import { useLocation } from 'react-router-dom';
+import { ButtonProps, styled } from '@mui/material';
+import { purple, blue, teal } from '@mui/material/colors';
 
 
 const Task = () => {
 
-  
   const location = useLocation();
-  const { chapterTitle } = location.state;
+  const { chapterTitle, courseTitle } = location.state;
   
   const [steps, setSteps] = useState<any[]>();
-  //const [type, setType] = useState();
 
+  const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
+    borderRadius: '1.5rem',
+    color: theme.palette.getContrastText(teal[500]),
+    backgroundColor: teal[500],
+    '&:hover': {
+      backgroundColor: teal[700],
+    },
+  }));
+  
   
   useEffect(() => {
     const fetchData = async () => {
@@ -36,22 +48,19 @@ const Task = () => {
   }, []);
   
 
-  console.log('steps', steps);
-  //console.log('chapterTitle', chapterTitle);
-
 
   const theme = extendTheme();
   const filteredSteps = steps?.filter((step) => step.attributes?.chapter.data.attributes.title === chapterTitle);
   const [activeStep, setActiveStep] = React.useState(0);
-  //const title = filteredSteps && filteredSteps[activeStep]?.attributes?.title;
   const type = filteredSteps && filteredSteps[activeStep]?.attributes?.type;
-  //const image = filteredSteps && `http://localhost:1337${filteredSteps[activeStep]?.attributes?.image.data?.attributes?.url}`;
- 
-  const content = filteredSteps && filteredSteps[activeStep]?.attributes?.content;
+  
+  const content = filteredSteps && filteredSteps[activeStep]?.attributes?.content.split("\\n");
+
+  //const content = filteredSteps && filteredSteps[activeStep]?.attributes?.content;
   const hasCompletedAllSteps = activeStep === filteredSteps?.length;
   const bg = useColorModeValue("gray.200", "gray.700");
    
-  const maxSteps: number = filteredSteps ? filteredSteps.length : 0;
+  const maxSteps: number = filteredSteps ? (filteredSteps.length + 1) : 0;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -108,26 +117,39 @@ const Task = () => {
 
     {hasCompletedAllSteps ? (
       <>
-      <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>
-        <Heading fontSize="xl" textAlign={"center"}>
-          Woohoo! All steps completed! 🎉
-        </Heading>
-      </Box>
+        <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>
+          <Heading fontSize="xl" textAlign={"center"}>
+            Woohoo! All steps completed! 🎉
+          </Heading>
+          <ChakraLink as={ReactRouterLink} 
+            type='button'
+            to="/chapters"
+            state={{courseTitle: courseTitle}}
+          >
+            <ColorButton variant="contained" size="large">
+              Complete
+            </ColorButton>
+          </ChakraLink>    
+        </Box>
       </>
       ) : (
       <>
         {type === "warmUp" &&
         (
-        <Stack sx={{ width: '100%', px: "10%" } } gap={3} >
+        <Stack sx={{ width: '100%', px: "10%" } } >
           <Heading as={"h1"}>Challenge</Heading>
-          <Text p={5}>{content}</Text>
+          {content?.map((post: any, id: any) =>
+            <Text key={id}>{post}</Text>
+          )}
         </Stack>
         )}
         {type === "task" &&
         (
-        <Stack sx={{ width: '100%', px: "10%" } } gap={3} >
+        <Stack sx={{ width: '100%', px: "10%" } } >
           <Heading as={"h1"}>Challenge</Heading>
-          <Text p={5}>{content}</Text>
+          {content?.map((post: any, id: any) =>
+            <Text key={id}>{post}</Text>
+          )}
         </Stack>
         )}
       </>

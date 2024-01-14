@@ -18,8 +18,8 @@ import { purple, blue, teal } from '@mui/material/colors';
 const Topics = () => {
 
   const location = useLocation();
-  const { chapterTitle } = location.state;
-  const [steps, setSteps] = useState<any[]>();
+  const { courseTitle, chapterTitle, props } = location.state;
+  //const [steps, setSteps] = useState<any[]>();
   
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
@@ -29,7 +29,7 @@ const Topics = () => {
       backgroundColor: teal[700],
     },
   }));
-  
+  /*
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,17 +41,19 @@ const Topics = () => {
     };
     fetchData();
   }, []);
-
+*/
 
   const theme = extendTheme();
   
-  const filteredSteps = steps?.filter((step) => step.attributes?.chapter.data.attributes.title === chapterTitle);
-  console.log('filteredSteps',filteredSteps);
+  const filteredSteps = props.topics?.filter((topic) => topic.attributes?.chapter.data.attributes.title === chapterTitle);
   const [activeStep, setActiveStep] = React.useState(0);
   const title = filteredSteps && filteredSteps[activeStep]?.attributes?.title;
   const type = filteredSteps && filteredSteps[activeStep]?.attributes?.type;
-  const image = filteredSteps && `http://localhost:1337${filteredSteps[activeStep]?.attributes?.image.data?.attributes?.url}`;
- 
+  let image = filteredSteps && `http://localhost:1337${filteredSteps[activeStep]?.attributes?.image.data?.attributes?.url}`;
+  if(image === "http://localhost:1337undefined"){
+    image = undefined;
+  };
+  
   const content = filteredSteps && filteredSteps[activeStep]?.attributes?.content.split("\\n");
 
   const hasCompletedAllSteps = activeStep === filteredSteps?.length;
@@ -59,7 +61,7 @@ const Topics = () => {
   const isSmallScreen = useMediaQuery('(max-width: 1090px)');
 
    
-  const maxSteps: number = filteredSteps ? filteredSteps.length : 0;
+  const maxSteps: number = filteredSteps ? (filteredSteps.length + 1) : 0;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -72,16 +74,17 @@ const Topics = () => {
   return (
     
     <Stack 
+      className="topics"
       style={{
       display: "block",
       backgroundColor: "rgba(253, 230, 179)",
-      borderColor: "red", 
-      borderWidth: "2.2px",
-      borderRadius: "1rem",
+      borderRadius: "0.5rem",
       margin: "0.5rem 4rem",
       padding: "1rem",
-      overflow: "auto"
-    }}>
+      overflowY: "auto",
+      }}
+      height="570px"
+    >
       <MobileStepper
         variant="progress"
         steps={maxSteps}
@@ -125,7 +128,7 @@ const Topics = () => {
             <ChakraLink as={ReactRouterLink} 
               type='button'
               to="/task"
-              state={{chapterTitle: chapterTitle}}
+              state={{courseTitle: courseTitle, chapterTitle: chapterTitle}}
             >
               <ColorButton variant="contained" size="large">
                 Challenge!
@@ -140,8 +143,8 @@ const Topics = () => {
           <Stack sx={{width: '100%', px: "1rem" } } gap={3} >
             <Heading as={"h1"}>{title}</Heading>
             <Box>
-              {content?.map((post: any) =>
-                <Text key={post.id} marginBottom={3.5} >
+              {content?.map((post: any, id: any) =>
+                <Text key={id} marginBottom={3.5} >
                   {post}
                 </Text>
               )}
@@ -158,20 +161,22 @@ const Topics = () => {
               flexWrap={"wrap"} 
               gap={5} 
             >
-              <Box width={isSmallScreen ? "100%" : "50%"}>
-                {content?.map((post: any) =>
-                  <Text key={post.id} marginBottom={3.5}>
+              <Box width={isSmallScreen || image == undefined ? "100%" : "50%"}>
+                {content?.map((post: any, id: any) =>
+                  <Text key={id} marginBottom={3.5}>
                     {post}
                   </Text>
                 )}
               </Box>
-              <img 
-                margin-left={'auto'}
-                margin-right={'auto'}
-                width={'400rem'}
-                src={image}
-                style={{borderRadius: "20%"}}
-              />
+              {image !== undefined &&
+                <img 
+                  margin-left={'auto'}
+                  margin-right={'auto'}
+                  width={'400rem'}
+                  src={image}
+                  style={{borderRadius: "20%"}}
+                />
+              }
             </Flex>
           </Stack>
           )}
@@ -197,8 +202,8 @@ const Topics = () => {
                 p={6}
               >
                 <b>Exercise!</b>
-                {content?.map((post: any) =>
-                  <Text textAlign={'start'} key={post.id}>{post}</Text>
+                {content?.map((post: any, id: any) =>
+                  <Text textAlign={'start'} key={id}>{post}</Text>
                 )}
               </Box>
               <img 

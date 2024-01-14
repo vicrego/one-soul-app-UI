@@ -10,10 +10,10 @@ import { purple, blue, teal } from '@mui/material/colors';
 const Chapter = () => {
 
   const location = useLocation();
-  const { courseTitle } = location.state;
+  const { courseTitle, props } = location.state;
   
-  const [chapters, setChapters] = useState<any[]>();
-
+  //const [chapters, setChapters] = useState<any[]>();
+  
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
     color: theme.palette.getContrastText(teal[500]),
@@ -22,28 +22,35 @@ const Chapter = () => {
       backgroundColor: teal[700],
     },
   }));
-
+/*
   useEffect(() => {
 
     const fetchData = async () => {
       try {
         //GET data from /courses API and set them
-        const responseCourse = await getChapter();
-        setChapters(responseCourse?.data.data);
+        const responseChapter = await getChapter();
+        setChapters(responseChapter?.data.data);
       } catch (error) {
         console.error('Error fetching user:', error);
       }
     };
     fetchData();
   }, []);
+
+*/
   
   return (    
-    <VStack p={10} style={{height: "100%"}} gap={2} >
-      {chapters?.filter(chapter => chapter.attributes.course.data.attributes.title === courseTitle).map(filterChapter => (
+    <VStack 
+      p={10} 
+      style={{height: "100%"}} 
+      gap={2}
+    >
+      {props.chapters?.filter(chapter => chapter.attributes.course.data.attributes.title === courseTitle).map(filterChapter => (
         <ChakraLink as={ReactRouterLink} 
           type='button'
           to="/topics"
-          state={{chapterTitle: filterChapter?.attributes?.title}}
+          state={{courseTitle: courseTitle, chapterTitle: filterChapter?.attributes?.title, props: props}}
+          key={filterChapter.id}
         >
           <ColorButton variant="contained" size="large">
             {filterChapter?.attributes?.title}

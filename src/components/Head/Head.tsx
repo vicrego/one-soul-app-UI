@@ -7,8 +7,7 @@ const Head = () => {
     <Box id="head">
       <Box>
         <NavBar/>
-      </Box>
-      <h1>One Soul Academy</h1>
+      </Box> 
     </Box>
   )
 }
