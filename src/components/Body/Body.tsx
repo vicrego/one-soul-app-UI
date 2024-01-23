@@ -81,52 +81,60 @@ const Body = () => {
 */
 
 
-  
-  
-  return (    
-    <Flex 
-      p={10} 
-      justifyContent="center" 
-      flexWrap={'wrap'} 
-      gap={20} 
-      minHeight="100%" 
-    >
-      {courses ? (
-        <>
-        {courses?.map((course) => (
-          <ChakraLink as={ReactRouterLink} 
-            type='button'
-            to="/chapters"
-            state={{courseTitle: course?.attributes?.title, props}}
-            key={course.id}
-          >
-            <Card sx={{ maxWidth: 345 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image="/static/images/cards/contemplative-reptile.jpg"
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                  {course?.attributes?.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </ChakraLink>
-        ))}
-        </>
-        ) : (
-          <CircularProgress />
-        )
-        }
-    </Flex>
+  //console.log('courses',courses)
+  const [onLoaded, setLoaded] = useState<any[]>(false);
+
+  return (  
+    <>  
+      <Flex 
+        p={10} 
+        justifyContent="center" 
+        flexWrap={'wrap'} 
+        gap={20}
+        minHeight="100%" 
+      >
+        {courses && (
+          <>
+            {courses?.map((course) => (
+              <ChakraLink as={ReactRouterLink} 
+                type='button'
+                to="/chapters"
+                state={{courseTitle: course?.attributes?.title, props}}
+                key={course.id}
+              >
+                <Card sx={{ maxWidth: 300 }} >
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={`http://localhost:1337${course?.attributes?.image.data?.attributes?.url}`}
+                      alt="course image"
+                      onLoad={() => setLoaded(true)}
+                    />
+                    {onLoaded && (
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                        {course?.attributes?.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Lizards are a widespread group of squamate reptiles, with over 6,000
+                          species, ranging across all continents except Antarctica
+                        </Typography>
+                      </CardContent>
+                      )
+                    } 
+                  </CardActionArea>
+                </Card>
+              </ChakraLink>
+            ))}
+          </>
+          )
+        } 
+      </Flex>
+      {!onLoaded && (
+        <CircularProgress />
+      )}
+    </>
   )
 }
 
