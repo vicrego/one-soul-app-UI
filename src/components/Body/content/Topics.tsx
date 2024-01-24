@@ -19,7 +19,6 @@ const Topics = () => {
 
   const location = useLocation();
   const { courseTitle, chapterTitle, props } = location.state;
-  //const [steps, setSteps] = useState<any[]>();
   
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
@@ -29,19 +28,6 @@ const Topics = () => {
       backgroundColor: teal[700],
     },
   }));
-  /*
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responseTopic = await getTopic();
-        setSteps(responseTopic?.data.data);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      }
-    };
-    fetchData();
-  }, []);
-*/
 
   const theme = extendTheme();
   
@@ -76,12 +62,12 @@ const Topics = () => {
     <Stack 
       className="topics"
       style={{
-      display: "block",
-      backgroundColor: "rgba(253, 230, 179)",
-      borderRadius: "0.5rem",
-      margin: "0.5rem 4rem",
-      padding: "1rem",
-      overflowY: "auto",
+        display: "block",
+        backgroundColor: "rgba(253, 230, 179)",
+        borderRadius: "0.5rem",
+        margin: "0.5rem 4rem",
+        padding: "1rem",
+        overflowY: "auto",
       }}
       height="570px"
     >
@@ -98,7 +84,7 @@ const Topics = () => {
           backgroundColor: "rgb(138, 97, 130)", 
         }}
         nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps}>
+          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
             Next
             {theme.direction === 'rtl' ? (
               <KeyboardArrowLeft />
@@ -118,7 +104,6 @@ const Topics = () => {
           </Button>
         }
       />
-
       {hasCompletedAllSteps ? (
         <>
           <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>

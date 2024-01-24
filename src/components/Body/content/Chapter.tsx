@@ -5,15 +5,14 @@ import { getChapter } from '../../../api/api';
 import Button from '@mui/material/Button';
 import { ButtonProps, styled } from '@mui/material';
 import { purple, blue, teal } from '@mui/material/colors';
+import Icon from '@mui/material/Icon';
 
 
 const Chapter = () => {
 
   const location = useLocation();
   const { courseTitle, props } = location.state;
-  
-  //const [chapters, setChapters] = useState<any[]>();
-  
+    
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
     color: theme.palette.getContrastText(teal[500]),
@@ -22,22 +21,8 @@ const Chapter = () => {
       backgroundColor: teal[700],
     },
   }));
-/*
-  useEffect(() => {
-
-    const fetchData = async () => {
-      try {
-        //GET data from /courses API and set them
-        const responseChapter = await getChapter();
-        setChapters(responseChapter?.data.data);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-*/
+ 
+  
   
   return (    
     <VStack 
@@ -52,9 +37,19 @@ const Chapter = () => {
           state={{courseTitle: courseTitle, chapterTitle: filterChapter?.attributes?.title, props: props}}
           key={filterChapter.id}
         >
-          <ColorButton variant="contained" size="large">
-            {filterChapter?.attributes?.title}
-          </ColorButton>
+            
+            <ColorButton variant="contained" 
+              endIcon={
+                <img
+                  rel="stylesheet"
+                  src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
+                  type="css/style.css"
+                  width={50}
+              />}
+            >
+              {filterChapter?.attributes?.title}
+            </ColorButton>  
+            
         </ChakraLink>
       ))}      
     </VStack>
