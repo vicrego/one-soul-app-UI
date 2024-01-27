@@ -51,15 +51,7 @@ const Body = () => {
       } catch (error) {
         console.error('Error fetching user:', error);
       }
-/*
-      try {
-        //GET data from /courses API and set them
-        
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      }
-    };
-    */
+
   }
     fetchData();
   }, []);
@@ -70,18 +62,7 @@ const Body = () => {
     topics
   }
 
-/*
-  useEffect(() => {
 
-    const fetchData = async () => {
-      
-    };
-    fetchData();
-  }, []);
-*/
-
-
-  //console.log('courses',courses)
   const [onLoaded, setLoaded] = useState<any[]>(false);
 
   return (  

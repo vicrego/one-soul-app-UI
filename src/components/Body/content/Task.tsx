@@ -71,16 +71,17 @@ const Task = () => {
   };
 
   return (
-    <Stack style={{
-      height: "100%", 
-      display: "block",
-      backgroundColor: "rgba(253, 230, 179)",
-      borderColor: "red", 
-      borderWidth: "2.2px",
-      borderRadius: "1rem",
-      margin: "0.5rem",
-      padding: "0.5rem"
-    }}>
+    <Stack
+      className="topics"
+      style={{
+        display: "block",
+        backgroundColor: "rgba(253, 230, 179)",
+        borderRadius: "0.5rem",
+        margin: "0.5rem 2rem",
+        padding: "1rem",
+        overflowY: "auto",
+        height: "85vh", 
+      }}>
     <MobileStepper
       variant="text"
       steps={maxSteps}
@@ -94,7 +95,7 @@ const Task = () => {
         backgroundColor: "rgb(138, 97, 130)", 
       }}
       nextButton={
-        <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps}>
+        <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
           Next
           {theme.direction === 'rtl' ? (
             <KeyboardArrowLeft />
@@ -133,26 +134,23 @@ const Task = () => {
         </Box>
       </>
       ) : (
-      <>
-        {type === "warmUp" &&
-        (
-        <Stack sx={{ width: '100%', px: "10%" } } >
-          <Heading as={"h1"}>Challenge</Heading>
-          {content?.map((post: any, id: any) =>
-            <Text key={id}>{post}</Text>
-          )}
-        </Stack>
+      <Stack sx={{ width: '100%', px: "10%" } }>
+        <Heading as={"h1"} mb={3}>Challenge</Heading>
+        {type === "warmUp" && (
+          <>
+            {content?.map((post: any, id: any) =>
+              <Text key={id}>{post}</Text>
+            )}
+          </>
         )}
-        {type === "task" &&
-        (
-        <Stack sx={{ width: '100%', px: "10%" } } >
-          <Heading as={"h1"}>Challenge</Heading>
-          {content?.map((post: any, id: any) =>
-            <Text key={id}>{post}</Text>
-          )}
-        </Stack>
+        {type === "task" && (
+          <>
+            {content?.map((post: any, id: any) =>
+              <Text key={id}>{post}</Text>
+            )}
+          </>
         )}
-      </>
+      </Stack>
     )}
   </Stack>
 

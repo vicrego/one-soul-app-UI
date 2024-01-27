@@ -69,7 +69,7 @@ const Topics = () => {
         padding: "1rem",
         overflowY: "auto",
       }}
-      height="570px"
+      height="85vh"
     >
       <MobileStepper
         variant="progress"
@@ -125,8 +125,8 @@ const Topics = () => {
         <>
           {type === "introduction" &&
           (
-          <Stack sx={{width: '100%', px: "1rem" } } gap={3} >
-            <Heading as={"h1"}>{title}</Heading>
+          <Stack sx={{width: '100%', px: "1rem" } }  >
+            <Heading as={"h1"} mb={3}>{title}</Heading>
             <Box>
               {content?.map((post: any, id: any) =>
                 <Text key={id} marginBottom={3.5} >
@@ -138,8 +138,8 @@ const Topics = () => {
           )}
           {type === "theory" &&
           (
-          <Stack sx={{ width: '100%', px: "1rem" } } gap={3}  >
-            <Heading as={"h1"}>{title}</Heading>
+          <Stack sx={{ width: '100%', px: "1rem" } }  >
+            <Heading as={"h1"} gap={3}>{title}</Heading>
             <Flex 
               justifyContent={"center"} 
               sx={{width: '100%', px: "1rem" }} 

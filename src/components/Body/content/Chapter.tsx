@@ -3,7 +3,7 @@ import { Link as ChakraLink, LinkProps, /*Button*/ Box, Flex, HStack, Heading, M
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import { getChapter } from '../../../api/api';
 import Button from '@mui/material/Button';
-import { ButtonProps, styled } from '@mui/material';
+import { ButtonProps, styled, CircularProgress } from '@mui/material';
 import { purple, blue, teal } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
 
@@ -21,8 +21,9 @@ const Chapter = () => {
       backgroundColor: teal[700],
     },
   }));
- 
   
+  const [onLoaded, setLoaded] = useState<any[]>(false);
+
   
   return (    
     <VStack 
@@ -31,13 +32,13 @@ const Chapter = () => {
       gap={2}
     >
       {props.chapters?.filter(chapter => chapter.attributes.course.data.attributes.title === courseTitle).map(filterChapter => (
-        <ChakraLink as={ReactRouterLink} 
-          type='button'
-          to="/topics"
-          state={{courseTitle: courseTitle, chapterTitle: filterChapter?.attributes?.title, props: props}}
-          key={filterChapter.id}
-        >
-            
+        <>
+          <ChakraLink as={ReactRouterLink} 
+            type='button'
+            to="/topics"
+            state={{courseTitle: courseTitle, chapterTitle: filterChapter?.attributes?.title, props: props}}
+            key={filterChapter.id}
+          >
             <ColorButton variant="contained" 
               endIcon={
                 <img
@@ -45,12 +46,22 @@ const Chapter = () => {
                   src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
                   type="css/style.css"
                   width={50}
+                  onLoad={() => setLoaded(true)}
               />}
             >
-              {filterChapter?.attributes?.title}
+              {onLoaded ? (
+                <>
+                  {filterChapter?.attributes?.title}
+                </>
+              ) : (
+                <>
+                  <CircularProgress />
+                </>
+                )
+              }
             </ColorButton>  
-            
-        </ChakraLink>
+          </ChakraLink>
+        </>
       ))}      
     </VStack>
     

@@ -3,9 +3,12 @@
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
+  max-height: 100vh;
+  
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+
