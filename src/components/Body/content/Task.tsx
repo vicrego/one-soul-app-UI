@@ -21,8 +21,11 @@ import { purple, blue, teal } from '@mui/material/colors';
 const Task = () => {
 
   const location = useLocation();
-  const { chapterTitle, courseTitle } = location.state;
+  const { courseTitle, chapterTitle, props } = location.state;
   
+  console.log('courseTitle', courseTitle);
+  console.log('chapterTitle',chapterTitle);
+
   const [steps, setSteps] = useState<any[]>();
 
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
@@ -33,7 +36,7 @@ const Task = () => {
       backgroundColor: teal[700],
     },
   }));
-  
+
   
   useEffect(() => {
     const fetchData = async () => {
@@ -120,12 +123,12 @@ const Task = () => {
       <>
         <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>
           <Heading fontSize="xl" textAlign={"center"}>
-            Woohoo! All steps completed! 🎉
+            Woohoo! 
           </Heading>
           <ChakraLink as={ReactRouterLink} 
             type='button'
             to="/chapters"
-            state={{courseTitle: courseTitle}}
+            state={{courseTitle: courseTitle, props}}
           >
             <ColorButton variant="contained" size="large">
               Complete

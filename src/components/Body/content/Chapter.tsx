@@ -12,7 +12,9 @@ const Chapter = () => {
 
   const location = useLocation();
   const { courseTitle, props } = location.state;
-    
+  console.log("courseTitle",courseTitle);
+  console.log("props",props);
+  
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
     color: theme.palette.getContrastText(teal[500]),
@@ -36,7 +38,7 @@ const Chapter = () => {
           <ChakraLink as={ReactRouterLink} 
             type='button'
             to="/topics"
-            state={{courseTitle: courseTitle, chapterTitle: filterChapter?.attributes?.title, props: props}}
+            state={{courseTitle: courseTitle, chapterTitle: filterChapter?.attributes?.title, props}}
             key={filterChapter.id}
           >
             <ColorButton variant="contained" 

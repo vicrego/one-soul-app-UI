@@ -81,10 +81,10 @@ const Topics = () => {
           borderRadius: "1.5rem", 
           flexGrow: 1,
           padding: "0.3%",
-          backgroundColor: "rgb(138, 97, 130)", 
+          backgroundColor: "rgb(97 117 138)", 
         }}
         nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1} sx={{color: "rgb(239, 247, 255)"}}>
             Next
             {theme.direction === 'rtl' ? (
               <KeyboardArrowLeft />
@@ -94,7 +94,7 @@ const Topics = () => {
           </Button>
         }
         backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0} sx={{color: "rgb(239, 247, 255)"}}>
             {theme.direction === 'rtl' ? (
               <KeyboardArrowRight />
             ) : (
@@ -113,7 +113,7 @@ const Topics = () => {
             <ChakraLink as={ReactRouterLink} 
               type='button'
               to="/task"
-              state={{courseTitle: courseTitle, chapterTitle: chapterTitle}}
+              state={{courseTitle: courseTitle, chapterTitle: chapterTitle, props}}
             >
               <ColorButton variant="contained" size="large">
                 Challenge!
@@ -177,7 +177,7 @@ const Topics = () => {
               <Box 
                 width={isSmallScreen ? "100%" : "50%"}
                 style={{
-                  borderWidth: 5, 
+                  borderWidth: 1.5, 
                   borderStyle: "dotted", 
                   backgroundColor: 'beige', 
                   borderRadius: '1rem', 
