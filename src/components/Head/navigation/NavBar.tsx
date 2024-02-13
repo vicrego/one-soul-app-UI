@@ -1,18 +1,25 @@
 import { HStack, Link as ChakraLink, Box, Flex, Spacer, Button, Center, Stack, ButtonGroup, Heading } from '@chakra-ui/react'
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 
-const NavBar = () => {
+const NavBar = (props: any) => {
   const matches = useMediaQuery('(min-width:500px)');
-
+  //const location = useLocation();
+  
+  //const { props } = location.state;
+  
 
   return (
-    <Flex mx="8" alignItems='center' gap='2'>
+    <Flex mx="8" alignItems='center' gap='2' id="head">
       <Stack justifyContent="center">
         <HStack justifyContent={'center'} gap='6'>   
-          <ChakraLink as={NavLink} to="/">
+          <ChakraLink 
+            as={NavLink} 
+            to="/home" 
+            state={props.props}
+          >
             <Heading as='h4' size='md'>HOME</Heading>
           </ChakraLink>
           <ChakraLink as={NavLink} to="/about">

@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
-
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
-
-
 import {getLessonTask} from '../../../api/api';
-//import { Stepper, Step, StepIndicator, StepStatus, StepTitle, StepDescription, StepNumber, StepIcon, StepSeparator, useSteps} from '@chakra-ui/stepper';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
@@ -16,6 +12,7 @@ import {
 } from '@mui/material/styles';
 import { ButtonProps, styled } from '@mui/material';
 import { purple, blue, teal } from '@mui/material/colors';
+import Layoult from '../../Layoult/Layoult';
 
 
 const Task = () => {
@@ -73,90 +70,93 @@ const Task = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  console.log('filteredSteps',filteredSteps);
+
   return (
-    <Stack
-      className="topics"
-      style={{
-        display: "block",
-        backgroundColor: "rgba(253, 230, 179)",
-        borderRadius: "0.5rem",
-        margin: "0.5rem 2rem",
-        padding: "1rem",
-        overflowY: "auto",
-        height: "85vh", 
-      }}>
-    <MobileStepper
-      variant="text"
-      steps={maxSteps}
-      position="static"
-      activeStep={activeStep}
-      sx={{  
-        flexGrow: 1, 
-        mx: "10%", 
-        padding: "0.3%",
-        borderRadius: "1.5rem", 
-        backgroundColor: "rgb(138, 97, 130)", 
-      }}
-      nextButton={
-        <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-          Next
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowLeft />
-          ) : (
-            <KeyboardArrowRight />
-          )}
-        </Button>
-      }
-      backButton={
-        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowRight />
-          ) : (
-            <KeyboardArrowLeft />
-          )}
-          Back
-        </Button>
-      }
-    />
-
-    {hasCompletedAllSteps ? (
-      <>
-        <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>
-          <Heading fontSize="xl" textAlign={"center"}>
-            Woohoo! 
-          </Heading>
-          <ChakraLink as={ReactRouterLink} 
-            type='button'
-            to="/chapters"
-            state={{courseTitle: courseTitle, props}}
-          >
-            <ColorButton variant="contained" size="large">
-              Complete
-            </ColorButton>
-          </ChakraLink>    
-        </Box>
-      </>
-      ) : (
-      <Stack sx={{ width: '100%', px: "10%" } }>
-        <Heading as={"h1"} mb={3}>Challenge</Heading>
-        {type === "warmUp" && (
-          <>
-            {content?.map((post: any, id: any) =>
-              <Text key={id}>{post}</Text>
+    <Layoult props={props}>
+      <Stack
+        className="topics"
+        style={{
+          display: "block",
+          backgroundColor: "rgba(253, 230, 179)",
+          borderRadius: "0.5rem",
+          margin: "0.5rem 2rem",
+          padding: "1rem",
+          overflowY: "auto",
+          height: "85vh", 
+        }}>
+      <MobileStepper
+        variant="text"
+        steps={maxSteps}
+        position="static"
+        activeStep={activeStep}
+        sx={{  
+          flexGrow: 1, 
+          mx: "10%", 
+          padding: "0.3%",
+          borderRadius: "1.5rem", 
+          backgroundColor: "rgb(138, 97, 130)", 
+        }}
+        nextButton={
+          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+            Next
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowLeft />
+            ) : (
+              <KeyboardArrowRight />
             )}
-          </>
-        )}
-        {type === "task" && (
-          <>
-            {content?.map((post: any, id: any) =>
-              <Text key={id}>{post}</Text>
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowRight />
+            ) : (
+              <KeyboardArrowLeft />
             )}
-          </>
-        )}
-      </Stack>
-    )}
-  </Stack>
+            Back
+          </Button>
+        }
+      />
 
+      {hasCompletedAllSteps ? (
+        <>
+          <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>
+            <Heading fontSize="xl" textAlign={"center"}>
+              Woohoo! 
+            </Heading>
+            <ChakraLink as={ReactRouterLink} 
+              type='button'
+              to="/chapters"
+              state={{courseTitle: courseTitle, props}}
+            >
+              <ColorButton variant="contained" size="large">
+                Complete
+              </ColorButton>
+            </ChakraLink>    
+          </Box>
+        </>
+        ) : (
+        <Stack sx={{ width: '100%', px: "10%" } }>
+          <Heading as={"h1"} mb={3}>Challenge</Heading>
+          {type === "warmUp" && (
+            <>
+              {content?.map((post: any, id: any) =>
+                <Text key={id}>{post}</Text>
+              )}
+            </>
+          )}
+          {type === "task" && (
+            <>
+              {content?.map((post: any, id: any) =>
+                <Text key={id}>{post}</Text>
+              )}
+            </>
+          )}
+        </Stack>
+      )}
+    </Stack>
+  </Layoult>
   )
 }
 

@@ -6,14 +6,13 @@ import Button from '@mui/material/Button';
 import { ButtonProps, styled, CircularProgress } from '@mui/material';
 import { purple, blue, teal } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
+import Layoult from '../../Layoult/Layoult';
 
 
 const Chapter = () => {
 
   const location = useLocation();
   const { courseTitle, props } = location.state;
-  console.log("courseTitle",courseTitle);
-  console.log("props",props);
   
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
@@ -25,48 +24,49 @@ const Chapter = () => {
   }));
   
   const [onLoaded, setLoaded] = useState<any[]>(false);
-
+  console.log("Chapter", props);
   
-  return (    
-    <VStack 
-      p={10} 
-      style={{height: "100%"}} 
-      gap={2}
-    >
-      {props.chapters?.filter(chapter => chapter.attributes.course.data.attributes.title === courseTitle).map(filterChapter => (
-        <>
-          <ChakraLink as={ReactRouterLink} 
-            type='button'
-            to="/topics"
-            state={{courseTitle: courseTitle, chapterTitle: filterChapter?.attributes?.title, props}}
-            key={filterChapter.id}
-          >
-            <ColorButton variant="contained" 
-              endIcon={
-                <img
-                  rel="stylesheet"
-                  src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
-                  type="css/style.css"
-                  width={50}
-                  onLoad={() => setLoaded(true)}
-              />}
+  return ( 
+    <Layoult props={props}>   
+      <VStack 
+        p={10} 
+        style={{height: "100%"}} 
+        gap={2}
+      >
+        {props.chapters?.filter(chapter => chapter.attributes.course.data.attributes.title === courseTitle).map(filterChapter => (
+          <>
+            <ChakraLink as={ReactRouterLink} 
+              type='button'
+              to="/topics"
+              state={{courseTitle: courseTitle, chapterTitle: filterChapter?.attributes?.title, props}}
+              key={filterChapter.id}
             >
-              {onLoaded ? (
-                <>
-                  {filterChapter?.attributes?.title}
-                </>
-              ) : (
-                <>
-                  <CircularProgress />
-                </>
-                )
-              }
-            </ColorButton>  
-          </ChakraLink>
-        </>
-      ))}      
-    </VStack>
-    
+              <ColorButton variant="contained" 
+                endIcon={
+                  <img
+                    rel="stylesheet"
+                    src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
+                    type="css/style.css"
+                    width={50}
+                    onLoad={() => setLoaded(true)}
+                />}
+              >
+                {onLoaded ? (
+                  <>
+                    {filterChapter?.attributes?.title}
+                  </>
+                ) : (
+                  <>
+                    <CircularProgress />
+                  </>
+                  )
+                }
+              </ColorButton>  
+            </ChakraLink>
+          </>
+        ))}      
+      </VStack>
+    </Layoult>
   )
 }
 export default Chapter
