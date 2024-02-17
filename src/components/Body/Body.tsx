@@ -9,7 +9,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import Layoult from '../Layoult/Layoult';
-
+import styles from './Body.module.css';
 
 const Body = (props: any) => {
   
@@ -20,15 +20,18 @@ const Body = (props: any) => {
   const location = useLocation();
   props = location.state;
   }
+
   
   return (  
-    <Layoult props={props}>  
+    <Layoult props={props} >  
       <Flex 
+      
         p={10} 
         justifyContent="center" 
         flexWrap={'wrap'} 
         gap={20}
         minHeight="100%" 
+        
       >
         {props.courses && (
           <>

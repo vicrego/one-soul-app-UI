@@ -16,10 +16,8 @@ import Loading from './components/Loading'
 
 function App() {
 
-  let loa = "loa";
   return (
-    <Box>
-      {/*<NavBar loa={loa} />*/}
+    <Box >
       <Routes>
         <Route path="/" element={<Loading />} />
         <Route path="/home" element={<Body />} />

@@ -30,8 +30,9 @@ const Chapter = () => {
     <Layoult props={props}>   
       <VStack 
         p={10} 
-        style={{height: "100%"}} 
+        style={{height: "92vh"}} 
         gap={2}
+        
       >
         {props.chapters?.filter(chapter => chapter.attributes.course.data.attributes.title === courseTitle).map(filterChapter => (
           <>

@@ -20,7 +20,7 @@ import {
 const theme = extendTheme();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <ChakraProvider>
+  <ChakraProvider >
     <React.StrictMode>
       <BrowserRouter>
         <CssVarsProvider theme={theme}>

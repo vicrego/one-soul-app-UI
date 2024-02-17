@@ -1,5 +1,5 @@
 #root {
-  padding: 0rem;
+  padding: 0rem 0rem;
   text-align: center;
   color: rgb(19, 19, 77);
   background-color: rgb(34, 118, 151);
@@ -14,12 +14,30 @@
 }
 
 #head{
-  background-color: rgb(34, 118, 151);
-  padding: 0.5rem 1rem;
   color: rgb(253, 229, 179);
 }
 
 
+/* BORDER */
+.custom-border {
+  border: solid 2rem;
+  border-image: url("./assets/images/clip-art-vector-gold-pattern-frame-29b487e83e793b102f9ce94f4801ce70.png") 65 stretch;
+}
+
+@media screen and (max-width: 530px) {
+  .custom-border {
+    border: solid 1.2rem 0rem;
+    border-image: url("./assets/images/clip-art-vector-gold-pattern-frame-29b487e83e793b102f9ce94f4801ce70.png") 70 stretch;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .custom-border {
+    border: solid 0;
+  }
+}
+
+/*SCROLL BAR */
 
 .topics::-webkit-scrollbar-track
 {

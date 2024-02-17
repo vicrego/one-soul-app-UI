@@ -32,12 +32,9 @@ const Topics = () => {
 
   const theme = extendTheme();
   
-  //const filteredSteps = props.topics?.filter((topic) => topic.attributes?.chapter.data.attributes.title === chapterTitle);
-  //const filteredSteps = props.chapters?.filter((chapter) => chapter.attributes?.topics.data.filter((data) => data.attributes?.title) === chapterTitle);
   const filteredSteps = props.chapters?.filter((chapter) => chapter.attributes?.title === chapterTitle)[0].attributes.topics;
   
   const [activeStep, setActiveStep] = React.useState(0);
-  console.log("here",filteredSteps?.data[activeStep]);
   
   
   const title = filteredSteps.data[activeStep] && filteredSteps?.data[activeStep].attributes?.title /*: "great"*/;

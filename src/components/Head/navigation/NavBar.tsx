@@ -5,10 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 const NavBar = (props: any) => {
-  const matches = useMediaQuery('(min-width:500px)');
-  //const location = useLocation();
-  
-  //const { props } = location.state;
+  const matches = useMediaQuery('(min-width:530px)');
   
 
   return (
