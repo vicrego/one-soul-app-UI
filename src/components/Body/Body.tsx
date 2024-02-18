@@ -25,13 +25,11 @@ const Body = (props: any) => {
   return (  
     <Layoult props={props} >  
       <Flex 
-      
         p={10} 
         justifyContent="center" 
         flexWrap={'wrap'} 
         gap={20}
         minHeight="100%" 
-        
       >
         {props.courses && (
           <>

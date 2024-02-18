@@ -5,12 +5,19 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 const NavBar = (props: any) => {
-  const matches = useMediaQuery('(min-width:530px)');
+  const logoMediaQuery = useMediaQuery('(min-width:530px)');
+  const headerMediaQuery = useMediaQuery('(min-width:380px)');
   
+  
+  const styles = {
+    container: headerMediaQuery => ({
+      padding: headerMediaQuery ? '1rem 10px' : '10px 30px',
+    })
+  };
 
   return (
-    <Flex mx="8" alignItems='center' gap='2' id="head">
-      <Stack justifyContent="center">
+    <Flex style={styles.container(headerMediaQuery)}  alignItems='center' gap='2' id="head">
+      <Stack justifyContent="center" >
         <HStack justifyContent={'center'} gap='6'>   
           <ChakraLink 
             as={NavLink} 
@@ -25,7 +32,7 @@ const NavBar = (props: any) => {
         </HStack>
       </Stack>
       <Spacer />
-      {matches &&
+      {logoMediaQuery &&
         <Heading size='lg' fontSize='30px' lineHeight='1'>One Soul Academy</Heading>
       }
       <Spacer />
