@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
-import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
+import { useNavigate, Link as ReactRouterLink, redirect, useLocation } from 'react-router-dom';
 import {getTopic} from '../../../api/api';
 //import { Stepper, Step, StepIndicator, StepStatus, StepTitle, StepDescription, StepNumber, StepIcon, StepSeparator, useSteps} from '@chakra-ui/stepper';
 import Button from '@mui/material/Button';
@@ -19,6 +19,8 @@ import Layoult from '../../Layoult/Layoult';
 const Topics = () => {
 
   const location = useLocation();
+  const navigate = useNavigate();
+
   const { courseTitle, chapterTitle, props } = location.state;
   
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
@@ -56,8 +58,6 @@ const Topics = () => {
     image = undefined;
   };
 
-  console.log("filteredSteps Topics", filteredSteps.data)
-  
   const content = filteredSteps.data[activeStep] && filteredSteps?.data[activeStep].attributes?.content.split("\\n");
 
   const hasCompletedAllSteps = activeStep === filteredSteps?.data.length;
@@ -75,6 +75,11 @@ const Topics = () => {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    console.log('activeStep',activeStep)
+    if(activeStep === 0){
+      console.log("AMMAAA",courseTitle);
+      navigate("/chapters", {state:{courseTitle, props}});
+    }
   };
   
   return (
@@ -85,7 +90,7 @@ const Topics = () => {
           display: "block",
           backgroundColor: "rgba(253, 230, 179)",
           borderRadius: "0.5rem",
-          margin: "0.5rem 4rem",
+          margin: "0.5rem 0.5rem",
           padding: "1rem",
           overflowY: "auto",
           height: "85vh"
@@ -114,7 +119,7 @@ const Topics = () => {
             </Button>
           }
           backButton={
-            <Button size="small" onClick={handleBack} disabled={activeStep === 0} sx={{color: "rgb(239, 247, 255)"}}>
+            <Button size="small" onClick={handleBack} sx={{color: "rgb(239, 247, 255)"}}>
               {theme.direction === 'rtl' ? (
                 <KeyboardArrowRight />
               ) : (

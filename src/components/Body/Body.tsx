@@ -1,7 +1,6 @@
 import { Link as ChakraLink, LinkProps, /*Button*/ Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue, ButtonGroup, extendTheme, VStack} from '@chakra-ui/react';
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 //import Button from '@mui/material/Button';
-import { ButtonProps, styled, CircularProgress } from '@mui/material';
 //import { purple, blue, teal } from '@mui/material/colors';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -9,20 +8,22 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import Layoult from '../Layoult/Layoult';
-import styles from './Body.module.css';
+import { useState } from 'react';
 
 const Body = (props: any) => {
-  
   /*Check if props comes from Loading component. If it doesn't, 
   then it comes from Home Link, therefore useLocation is used to handle
   the props */ 
   if(!props.loading){
-  const location = useLocation();
-  props = location.state;
+    const location = useLocation();
+    props = location.state;
+    //props = props.props;
+    console.log("props Body", props)
   }
-
   
-  return (  
+  const [imageLoaded, setImageLoaded] = useState(false);
+  
+  return ( 
     <Layoult props={props} >  
       <Flex 
         p={10} 
@@ -31,8 +32,8 @@ const Body = (props: any) => {
         gap={20}
         minHeight="100%" 
       >
-        {props.courses && (
-          <>
+        {/*{props.courses && (
+          <>*/}
             {props.courses?.map((course) => (
               <ChakraLink as={ReactRouterLink} 
                 type='button'
@@ -47,9 +48,9 @@ const Body = (props: any) => {
                       height="140"
                       image={`http://localhost:1337${course?.attributes?.image.data?.attributes?.url}`}
                       alt="course image"
-                      //onLoad={() => setLoaded(true)}
+                      onLoad={() => setImageLoaded(true)}
                     />
-                    {/*{onLoaded && (*/}
+                    {imageLoaded && (
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                         {course?.attributes?.title}
@@ -59,19 +60,17 @@ const Body = (props: any) => {
                           species, ranging across all continents except Antarctica
                         </Typography>
                       </CardContent>
-                    {/*  )
-                    }*/} 
+                    
+                    )} 
                   </CardActionArea>
                 </Card>
               </ChakraLink>
             ))}
+          {/*
           </>
           )
-        } 
+        } */}
       </Flex>
-      {/*!onLoaded && (
-        <CircularProgress />
-      )*/}
     </Layoult>
   )
 }

@@ -1,0 +1,16 @@
+
+
+/* BORDER */
+@media screen and (min-width: 394px) {
+  .custom-border {
+    border: solid 3rem;
+    border-image: url("./assets/images/clip-art-vector-gold-pattern-frame-29b487e83e793b102f9ce94f4801ce70.png") 65 stretch;
+  }
+}
+
+@media screen and (min-width: 0px) {
+  .custom-border {
+    border: solid 1.2rem 0rem;
+    border-image: url("./assets/images/clip-art-vector-gold-pattern-frame-29b487e83e793b102f9ce94f4801ce70.png") 70 stretch;
+  }
+}

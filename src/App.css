@@ -19,7 +19,7 @@
 
 
 /* BORDER */
-@media screen and (min-width: 380px) {
+@media screen and (min-width: 394px) {
   .custom-border {
     border: solid 3rem;
     border-image: url("./assets/images/clip-art-vector-gold-pattern-frame-29b487e83e793b102f9ce94f4801ce70.png") 65 stretch;

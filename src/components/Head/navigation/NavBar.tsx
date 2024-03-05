@@ -6,15 +6,15 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 const NavBar = (props: any) => {
   const logoMediaQuery = useMediaQuery('(min-width:530px)');
-  const headerMediaQuery = useMediaQuery('(min-width:380px)');
-  
+  const headerMediaQuery = useMediaQuery('(min-width:394px)');
+  //const headerMediaQueryLarge = ;
   
   const styles = {
     container: headerMediaQuery => ({
-      padding: headerMediaQuery ? '1rem 10px' : '10px 30px',
+      padding: headerMediaQuery ? '3px 10px' : '10px 30px',
     })
   };
-
+  console.log("props Navbar", props)
   return (
     <Flex style={styles.container(headerMediaQuery)}  alignItems='center' gap='2' id="head">
       <Stack justifyContent="center" >

@@ -24,8 +24,6 @@ const Chapter = () => {
   }));
   
   const [onLoaded, setLoaded] = useState<any[]>(false);
-  console.log("Chapter", props);
-  
   return ( 
     <Layoult props={props}>   
       <VStack 
@@ -67,6 +65,13 @@ const Chapter = () => {
           </>
         ))}      
       </VStack>
+      <ChakraLink as={ReactRouterLink} 
+        type='button'
+        to="/home"
+        state={props}
+      >      
+        <Heading>Back</Heading>
+      </ChakraLink>
     </Layoult>
   )
 }

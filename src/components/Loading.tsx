@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import Body from './Body/Body';
 import { getChapter, getCourse, getTopic } from '../api/api';
-import Head from './Head/Head';
-import NavBar from './Head/navigation/NavBar';
-
+import { CircularProgress, createTheme } from '@mui/material';
+import { yellow } from '@mui/material/colors';
 
 
 const Loading = () => {
 
-  const [courses, setCourses] = useState<any[]>();
+  const [courses, setCourses] = useState();
   const [chapters, setChapters] = useState<any[]>();
   const [topics, setTopics] = useState<any[]>();
   
-  /*
-  const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
-    padding: '25px 0px',
-    width: '150px',
-    border: '1px solid',
-    borderRadius: '1.5rem',
-    color: theme.palette.getContrastText(teal[500]),
-    backgroundColor: teal[500],
-    '&:hover': {
-      backgroundColor: teal[700],
-    },
-  }));
-  */
+  const [onLoaded, setLoaded] = useState(false);
+  
+  
 
   useEffect(() => {
 
@@ -38,6 +27,7 @@ const Loading = () => {
         const responseTopic = await getTopic();
         console.log('responseTopic',responseTopic)
         setTopics(responseTopic?.data.data);
+        console.log("her2")
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -46,14 +36,35 @@ const Loading = () => {
     fetchData();
   }, []);
   
-  const [onLoaded, setLoaded] = useState<any[]>(false);
-  console.log(courses);
-
+  useEffect(() => {
+    if(courses !== undefined){
+      console.log("here")
+      setLoaded(true);
+    }
+  });
 
   
+  
+
+  const centerElement = {
+    margin: "auto",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100vh"
+  };
+  
+
+  const primary = yellow[500];
+
   return (
     <>
-      <Body courses={courses} chapters={chapters} topics={topics} loading/>
+      {onLoaded ? (
+        <Body courses={courses} chapters={chapters} topics={topics} loading/>
+      ) : (
+        <CircularProgress style={centerElement} />
+      )
+      }
     </>
   )
 }
