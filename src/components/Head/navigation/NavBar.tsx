@@ -26,7 +26,11 @@ const NavBar = (props: any) => {
           >
             <Heading as='h4' size='md'>HOME</Heading>
           </ChakraLink>
-          <ChakraLink as={NavLink} to="/about">
+          <ChakraLink 
+            as={NavLink} 
+            to="/about"
+            state={props.props}
+          >
             <Heading as='h4' size='md'>ABOUT</Heading>
           </ChakraLink>
         </HStack>
@@ -37,11 +41,18 @@ const NavBar = (props: any) => {
       }
       <Spacer />
       <ButtonGroup position="static" gap='2'>
-        <ChakraLink as={NavLink} to="/signup">
+        <ChakraLink as={NavLink} 
+          to="/signup"
+          state={props.props}
+        >
           <Button colorScheme='teal'>Sign Up</Button>
         </ChakraLink>
-        <ChakraLink as={NavLink} to="/signin">
-          <Button colorScheme='teal'>Log in</Button>
+        <ChakraLink 
+          as={NavLink} 
+          to="/signin"
+          state={props.props}
+        >
+          <Button colorScheme='teal'>Sign in</Button>
         </ChakraLink>
       </ButtonGroup>
     </Flex>
