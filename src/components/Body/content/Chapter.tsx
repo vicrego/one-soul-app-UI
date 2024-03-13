@@ -3,12 +3,15 @@ import { Link as ChakraLink, LinkProps, /*Button*/ Box, Flex, HStack, Heading, M
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import { getChapter } from '../../../api/api';
 import Button from '@mui/material/Button';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import { ButtonProps, styled, CircularProgress } from '@mui/material';
 import { purple, blue, teal } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
 import Layoult from '../../Layoult/Layoult';
+import { createTheme } from '@mui/material/styles';
 
-
+  
 const Chapter = () => {
 
   const location = useLocation();
@@ -24,46 +27,78 @@ const Chapter = () => {
   }));
   
   const [onLoaded, setLoaded] = useState<any[]>(false);
+
+  const [currentTabIndex, setCurrentTabIndex] = useState(0);
+ 
+  const handleTabChange = (e, tabIndex) => {
+    setCurrentTabIndex(tabIndex);
+  };
+  
+
+  
+  const StyledTab = styled(Tab)({
+    "&.Mui-selected": {
+      color: "#C0C0C0"
+    }
+  });
+  
+
   return ( 
     <Layoult props={props}>   
       <VStack 
         p={10} 
         style={{height: "92vh"}} 
         gap={2}
-        
       >
-        {props.chapters?.filter(chapter => chapter.attributes.course.data.attributes.title === courseTitle).map(filterChapter => (
+        <Tabs indicatorColor="secondary" value={currentTabIndex} onChange={handleTabChange}  centered>
+          <StyledTab sx={{ color: '#FDE5B3' }} label="Chapters" />
+          <StyledTab sx={{ color: '#FDE5B3' }} label="Challenge" />
+        </Tabs>
+        {currentTabIndex === 0 && (
           <>
-            <ChakraLink as={ReactRouterLink} 
-              type='button'
-              to="/topics"
-              state={{courseTitle: courseTitle, chapterTitle: filterChapter?.attributes?.title, props}}
-              key={filterChapter.id}
-            >
-              <ColorButton variant="contained" 
-                endIcon={
-                  <img
-                    rel="stylesheet"
-                    src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
-                    type="css/style.css"
-                    width={50}
-                    onLoad={() => setLoaded(true)}
-                />}
+            {props.chapters?.filter(chapter => chapter.attributes.course.data.attributes.title === courseTitle).map(filterChapter => (
+            <>
+              <ChakraLink as={ReactRouterLink} 
+                type='button'
+                to="/topics"
+                state={{courseTitle: courseTitle, chapterTitle: filterChapter?.attributes?.title, props}}
+                key={filterChapter.id}
               >
-                {onLoaded ? (
-                  <>
-                    {filterChapter?.attributes?.title}
-                  </>
-                ) : (
-                  <>
-                    <CircularProgress />
-                  </>
-                  )
-                }
-              </ColorButton>  
-            </ChakraLink>
-          </>
-        ))}      
+                <ColorButton variant="contained" 
+                  endIcon={
+                    <img
+                      rel="stylesheet"
+                      src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
+                      type="css/style.css"
+                      width={50}
+                      onLoad={() => setLoaded(true)}
+                  />}
+                >
+                  {onLoaded ? (
+                    <>
+                      {filterChapter?.attributes?.title}
+                    </>
+                  ) : (
+                    <>
+                      <CircularProgress />
+                    </>
+                    )
+                  }
+                </ColorButton>  
+              </ChakraLink>
+            </>
+            ))} 
+            </>
+        )}
+          
+          {/* TAB 2 Contents */}
+          {currentTabIndex === 1 && (
+          <Box sx={{ p: 3 }}>
+            Tab 2 Content
+          </Box>
+        )}
+          
+             
       </VStack>
       <ChakraLink as={ReactRouterLink} 
         type='button'
