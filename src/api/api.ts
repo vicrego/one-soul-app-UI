@@ -50,3 +50,14 @@ export async function getPracticeTask() {
     console.error(error);
   }
 }
+
+
+export async function getChallengeLevel() {
+  try {
+    const response = await axios.get('/challenge-levels?populate=*');
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}

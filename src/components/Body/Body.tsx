@@ -18,7 +18,6 @@ const Body = (props: any) => {
     const location = useLocation();
     props = location.state;
   }
-  
   const [imageLoaded, setImageLoaded] = useState(false);
   
   return ( 

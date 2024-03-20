@@ -13,6 +13,7 @@ import Task from './components/Body/content/Task'
 import { useState, useEffect } from 'react'
 import { getChapter, getCourse, getTopic } from './api/api'
 import Loading from './components/Loading'
+import Challenge from './components/Body/content/Challenge'
 
 function App() {
 
@@ -25,8 +26,9 @@ function App() {
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/chapters" element={<Chapter />} />
+        <Route path="/challenges" element={<Challenge />} />
         <Route path="/topics" element={<Topics />} />
-        <Route path="/task" element={<Task />} />
+        <Route path="/tasks" element={<Task />} />
       </Routes>
     </Box>
   )

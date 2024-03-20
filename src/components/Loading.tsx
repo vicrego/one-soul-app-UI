@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import Body from './Body/Body';
-import { getChapter, getCourse, getTopic } from '../api/api';
+import { getChapter, getCourse, getTopic, getChallengeLevel } from '../api/api';
 import { CircularProgress, createTheme } from '@mui/material';
 import { yellow } from '@mui/material/colors';
 
 
 const Loading = () => {
 
-  const [courses, setCourses] = useState();
+  const [courses, setCourses] = useState<any[]>();
   const [chapters, setChapters] = useState<any[]>();
   const [topics, setTopics] = useState<any[]>();
-  
+  const [challengeLevels, setChallengeLevels] = useState<any[]>();
+
   const [onLoaded, setLoaded] = useState(false);
   
   
 
   useEffect(() => {
-
     const fetchData = async () => {
       try {
         //GET data from /courses API and set them
@@ -25,25 +25,24 @@ const Loading = () => {
         const responseChapter = await getChapter();
         setChapters(responseChapter?.data.data);
         const responseTopic = await getTopic();
-        console.log('responseTopic',responseTopic)
         setTopics(responseTopic?.data.data);
-        console.log("her2")
+
+        const responseChallengeLevel = await getChallengeLevel();
+        setChallengeLevels(responseChallengeLevel?.data.data);
+        
       } catch (error) {
         console.error('Error fetching user:', error);
       }
-
-  }
-    fetchData();
+    }
+      fetchData();
   }, []);
   
   useEffect(() => {
     if(courses !== undefined){
-      console.log("here")
       setLoaded(true);
     }
   });
 
-  
   
 
   const centerElement = {
@@ -60,7 +59,7 @@ const Loading = () => {
   return (
     <>
       {onLoaded ? (
-        <Body courses={courses} chapters={chapters} topics={topics} loading/>
+        <Body courses={courses} chapters={chapters} topics={topics} challengeLevels={challengeLevels} loading/>
       ) : (
         <CircularProgress style={centerElement} />
       )

@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
-import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
+import { Link as ReactRouterLink, useNavigate, useLocation } from 'react-router-dom';
 import {getLessonTask} from '../../../api/api';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { MobileStepper } from '@mui/material';
+import { ButtonProps, styled, MobileStepper } from '@mui/material';
 import {
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendTheme,
 } from '@mui/material/styles';
-import { ButtonProps, styled } from '@mui/material';
 import { purple, blue, teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
 
@@ -18,11 +17,10 @@ import Layoult from '../../Layoult/Layoult';
 const Task = () => {
 
   const location = useLocation();
+  const navigate = useNavigate();
+
   const { courseTitle, chapterTitle, props } = location.state;
   
-  console.log('courseTitle', courseTitle);
-  console.log('chapterTitle',chapterTitle);
-
   const [steps, setSteps] = useState<any[]>();
 
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
@@ -68,10 +66,12 @@ const Task = () => {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    if(activeStep === 0){
+      navigate("/topics", {state:{chapterTitle, props}});
+    }
   };
 
-  console.log('filteredSteps',filteredSteps);
-
+  
   return (
     <Layoult props={props}>
       <Stack
@@ -108,7 +108,7 @@ const Task = () => {
           </Button>
         }
         backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+          <Button size="small" onClick={handleBack} >
             {theme.direction === 'rtl' ? (
               <KeyboardArrowRight />
             ) : (
@@ -149,7 +149,7 @@ const Task = () => {
           {type === "task" && (
             <>
               {content?.map((post: any, id: any) =>
-                <Text key={id}>{post}</Text>
+                <Text key={id}>Hey {post}</Text>
               )}
             </>
           )}

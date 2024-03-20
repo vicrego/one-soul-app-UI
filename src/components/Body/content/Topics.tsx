@@ -43,7 +43,6 @@ const Topics = () => {
   const type = filteredSteps.data[activeStep] && filteredSteps.data && filteredSteps?.data[activeStep].attributes?.type;
   
   
-  //console.log("image", props.topics.map((data)=> data.attributes.image).map((data) => data.data?.id));
   
   
   
@@ -75,9 +74,7 @@ const Topics = () => {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    console.log('activeStep',activeStep)
     if(activeStep === 0){
-      console.log("AMMAAA",courseTitle);
       navigate("/chapters", {state:{courseTitle, props}});
     }
   };
@@ -137,7 +134,7 @@ const Topics = () => {
               </Heading>
               <ChakraLink as={ReactRouterLink} 
                 type='button'
-                to="/task"
+                to="/tasks"
                 state={{courseTitle: courseTitle, chapterTitle: chapterTitle, props}}
               >
                 <ColorButton variant="contained" size="large">
