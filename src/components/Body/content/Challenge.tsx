@@ -7,9 +7,12 @@ import {
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendTheme,
 } from '@mui/material/styles';
+
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { ButtonProps, styled, MobileStepper} from '@mui/material';
+
+import { purple, blue, teal } from '@mui/material/colors';
+import { ButtonProps, styled, MobileStepper, useMediaQuery} from '@mui/material';
 
 
 const Challenge = () => {
@@ -17,9 +20,9 @@ const Challenge = () => {
   const navigate = useNavigate();
 
 
-  const { courseTitle, props } = location.state;
-  const [steps, setSteps] = useState<any[]>();
-
+  const { courseTitle, challengeLevelTitle, props } = location.state;
+  
+  
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
     color: theme.palette.getContrastText(teal[500]),
@@ -28,18 +31,47 @@ const Challenge = () => {
       backgroundColor: teal[700],
     },
   }));
-
-
-  const filteredSteps = steps?.filter((step) => step.attributes?.chapter.data.attributes.title === chapterTitle);
-  const [activeStep, setActiveStep] = React.useState(0);
-  const type = filteredSteps && filteredSteps[activeStep]?.attributes?.type;
-  
   const theme = extendTheme();
   
-  const hasCompletedAllSteps = activeStep === filteredSteps?.length;
-  const bg = useColorModeValue("gray.200", "gray.700");
+  console.log("props", props)
 
-  const maxSteps: number = filteredSteps ? (filteredSteps.length + 1) : 0;
+  console.log("challengeLevelTitle", challengeLevelTitle);
+
+
+  const filteredSteps = props.challengeLevels?.filter((challengeLevel) => challengeLevel.attributes?.title === challengeLevelTitle)[0].attributes.challenges;
+  console.log("filteredSteps",filteredSteps);
+  const [activeStep, setActiveStep] = React.useState(0);
+  
+  
+  const title = filteredSteps.data[activeStep] && filteredSteps?.data[activeStep].attributes?.title /*: "great"*/;
+  const type = filteredSteps.data[activeStep] && filteredSteps.data && filteredSteps?.data[activeStep].attributes?.type;
+  
+  
+  
+  
+  
+  //let image = filteredSteps && `http://localhost:1337${filteredSteps?.data[activeStep].attributes?.image.data?.attributes?.url}`;
+  //let image = filteredSteps && `http://localhost:1337${filteredSteps[activeStep]?.attributes?.image.data?.attributes?.url}`;
+  let image = props.topics[activeStep].attributes;
+
+  //[activeStep].data.attributes.image.map((data) => data.data?.id
+  //console.log("here", image)
+  
+  if(image === "http://localhost:1337undefined"){
+    image = undefined;
+  };
+
+  const content = filteredSteps.data[activeStep] && filteredSteps?.data[activeStep].attributes?.content.split("\\n");
+
+  const hasCompletedAllSteps = activeStep === filteredSteps?.data.length;
+  
+  const bg = useColorModeValue("gray.200", "gray.700");
+  const isSmallScreen = useMediaQuery('(max-width: 1090px)');
+
+  const maxSteps: number = filteredSteps.data ? (filteredSteps?.data.length + 1) : 0;
+
+  
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -47,10 +79,10 @@ const Challenge = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     if(activeStep === 0){
-      navigate("/topics", {state:{chapterTitle, props}});
+      navigate("/chapters", {state:{courseTitle, props}});
     }
   };
-
+  
   
   
   return (
@@ -65,41 +97,41 @@ const Challenge = () => {
           padding: "1rem",
           overflowY: "auto",
           height: "85vh", 
-        }}>
-          <MobileStepper
-            variant="text"
-            steps={maxSteps}
-            position="static"
-            activeStep={activeStep}
-            sx={{  
-              flexGrow: 1, 
-              mx: "10%", 
-              padding: "0.3%",
-              borderRadius: "1.5rem", 
-              backgroundColor: "rgb(138, 97, 130)", 
-            }}
-            nextButton={
-              <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-                Next
-                {theme.direction === 'rtl' ? (
-                  <KeyboardArrowLeft />
-                ) : (
-                  <KeyboardArrowRight />
-                )}
-              </Button>
-            }
-            backButton={
-              <Button size="small" onClick={handleBack} >
-                {theme.direction === 'rtl' ? (
-                  <KeyboardArrowRight />
-                ) : (
-                  <KeyboardArrowLeft />
-                )}
-                Back
-              </Button>
-            }
-          />
-          {hasCompletedAllSteps ? (
+      }}>
+        <MobileStepper
+          variant="text"
+          steps={maxSteps}
+          position="static"
+          activeStep={activeStep}
+          sx={{  
+            flexGrow: 1, 
+            mx: "10%", 
+            padding: "0.3%",
+            borderRadius: "1.5rem", 
+            backgroundColor: "rgb(138, 97, 130)", 
+          }}
+          nextButton={
+            <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+              Next
+              {theme.direction === 'rtl' ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={handleBack} >
+              {theme.direction === 'rtl' ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+              Back
+            </Button>
+          }
+        />
+        {hasCompletedAllSteps ? (
         <>
           <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>
             <Heading fontSize="xl" textAlign={"center"}>
@@ -118,21 +150,12 @@ const Challenge = () => {
         </>
         ) : (
           <Stack sx={{ width: '100%', px: "10%" } }>
-            <Heading as={"h1"} mb={3}>Challenge</Heading>
-            {type === "warmUp" && (
+            <Heading as={"h1"} mb={3}>{title}</Heading>
               <>
                 {content?.map((post: any, id: any) =>
                   <Text key={id}>{post}</Text>
                 )}
               </>
-            )}
-            {type === "task" && (
-              <>
-                {content?.map((post: any, id: any) =>
-                  <Text key={id}>Hey {post}</Text>
-                )}
-              </>
-            )}
           </Stack>
         )}
       </Stack>

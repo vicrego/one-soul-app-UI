@@ -61,3 +61,13 @@ export async function getChallengeLevel() {
     console.error(error);
   }
 }
+
+export async function getChallenge() {
+  try {
+    const response = await axios.get('/challenges?populate=*');
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}

@@ -109,7 +109,7 @@ const Chapter = () => {
                   class="button-19" 
                   type='button'
                   to="/challenges"
-                  state={{courseTitle: courseTitle, props}}
+                  state={{courseTitle: courseTitle, challengeLevelTitle: filterChallengeLevel?.attributes?.title, props}}
                 >
                   {filterChallengeLevel?.attributes?.title}
                 </ChakraLink> 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Body from './Body/Body';
-import { getChapter, getCourse, getTopic, getChallengeLevel } from '../api/api';
+import { getChapter, getCourse, getTopic, getChallengeLevel, getChallenge } from '../api/api';
 import { CircularProgress, createTheme } from '@mui/material';
 import { yellow } from '@mui/material/colors';
 
@@ -11,6 +11,7 @@ const Loading = () => {
   const [chapters, setChapters] = useState<any[]>();
   const [topics, setTopics] = useState<any[]>();
   const [challengeLevels, setChallengeLevels] = useState<any[]>();
+  const [challenges, setChallenge] = useState<any[]>();
 
   const [onLoaded, setLoaded] = useState(false);
   
@@ -30,6 +31,10 @@ const Loading = () => {
         const responseChallengeLevel = await getChallengeLevel();
         setChallengeLevels(responseChallengeLevel?.data.data);
         
+        const responseChallenge = await getChallenge();
+        setChallenge(responseChallenge?.data.data);
+        
+
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -59,7 +64,7 @@ const Loading = () => {
   return (
     <>
       {onLoaded ? (
-        <Body courses={courses} chapters={chapters} topics={topics} challengeLevels={challengeLevels} loading/>
+        <Body courses={courses} chapters={chapters} topics={topics} challengeLevels={challengeLevels} challenges={challenges} loading/>
       ) : (
         <CircularProgress style={centerElement} />
       )
