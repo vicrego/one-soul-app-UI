@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
 import { useNavigate, Link as ReactRouterLink, redirect, useLocation } from 'react-router-dom';
-import {getTopic} from '../../../api/api';
 //import { Stepper, Step, StepIndicator, StepStatus, StepTitle, StepDescription, StepNumber, StepIcon, StepSeparator, useSteps} from '@chakra-ui/stepper';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
@@ -12,7 +11,7 @@ import {
   experimental_extendTheme as extendTheme,
 } from '@mui/material/styles';
 import { ButtonProps, styled } from '@mui/material';
-import { purple, blue, teal } from '@mui/material/colors';
+import { teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
 
 
@@ -34,7 +33,7 @@ const Topics = () => {
 
   const theme = extendTheme();
   
-  const filteredSteps = props.chapters?.filter((chapter) => chapter.attributes?.title === chapterTitle)[0].attributes.topics;
+  const filteredSteps = props.chaptersTopics?.filter((chapter) => chapter.attributes?.title === chapterTitle)[0].attributes.topics;
   
   const [activeStep, setActiveStep] = React.useState(0);
   
@@ -42,16 +41,7 @@ const Topics = () => {
   const title = filteredSteps.data[activeStep] && filteredSteps?.data[activeStep].attributes?.title /*: "great"*/;
   const type = filteredSteps.data[activeStep] && filteredSteps.data && filteredSteps?.data[activeStep].attributes?.type;
   
-  
-  
-  
-  
-  //let image = filteredSteps && `http://localhost:1337${filteredSteps?.data[activeStep].attributes?.image.data?.attributes?.url}`;
-  //let image = filteredSteps && `http://localhost:1337${filteredSteps[activeStep]?.attributes?.image.data?.attributes?.url}`;
-  let image = props.topics[activeStep].attributes;
-
-  //[activeStep].data.attributes.image.map((data) => data.data?.id
-  //console.log("here", image)
+  let image = filteredSteps.data[activeStep]?.attributes?.image.data?.attributes?.url || undefined;
   
   if(image === "http://localhost:1337undefined"){
     image = undefined;
@@ -65,8 +55,6 @@ const Topics = () => {
   const isSmallScreen = useMediaQuery('(max-width: 1090px)');
 
   const maxSteps: number = filteredSteps.data ? (filteredSteps?.data.length + 1) : 0;
-
-  
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -164,7 +152,7 @@ const Topics = () => {
               <Heading as={"h1"} gap={3}>{title}</Heading>
               <Flex 
                 justifyContent={"center"} 
-                sx={{width: '100%', px: "1rem" }} 
+                sx={{ px: "1rem" }} 
                 flexWrap={"wrap"} 
                 gap={5} 
               >
@@ -180,7 +168,7 @@ const Topics = () => {
                     margin-left={'auto'}
                     margin-right={'auto'}
                     width={'400rem'}
-                    src={image}
+                    src={"http://localhost:1337" + image}
                     style={{borderRadius: "20%"}}
                   />
                 }
@@ -217,7 +205,7 @@ const Topics = () => {
                   margin-left={'auto'}
                   margin-right={'auto'}
                   width={'400rem'}
-                  src={image}
+                  src={"http://localhost:1337" + image}
                   style={{borderRadius: "20%"}}
                 />
               </Flex>

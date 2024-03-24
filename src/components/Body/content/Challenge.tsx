@@ -10,18 +10,15 @@ import {
 
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-
-import { purple, blue, teal } from '@mui/material/colors';
-import { ButtonProps, styled, MobileStepper, useMediaQuery} from '@mui/material';
+import { teal } from '@mui/material/colors';
+import { ButtonProps, styled, MobileStepper } from '@mui/material';
 
 
 const Challenge = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-
   const { courseTitle, challengeLevelTitle, props } = location.state;
-  
   
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
@@ -32,45 +29,18 @@ const Challenge = () => {
     },
   }));
   const theme = extendTheme();
-  
-  console.log("props", props)
-
-  console.log("challengeLevelTitle", challengeLevelTitle);
-
 
   const filteredSteps = props.challengeLevels?.filter((challengeLevel) => challengeLevel.attributes?.title === challengeLevelTitle)[0].attributes.challenges;
-  console.log("filteredSteps",filteredSteps);
   const [activeStep, setActiveStep] = React.useState(0);
   
-  
   const title = filteredSteps.data[activeStep] && filteredSteps?.data[activeStep].attributes?.title /*: "great"*/;
-  const type = filteredSteps.data[activeStep] && filteredSteps.data && filteredSteps?.data[activeStep].attributes?.type;
-  
-  
-  
-  
-  
-  //let image = filteredSteps && `http://localhost:1337${filteredSteps?.data[activeStep].attributes?.image.data?.attributes?.url}`;
-  //let image = filteredSteps && `http://localhost:1337${filteredSteps[activeStep]?.attributes?.image.data?.attributes?.url}`;
-  let image = props.topics[activeStep].attributes;
-
-  //[activeStep].data.attributes.image.map((data) => data.data?.id
-  //console.log("here", image)
-  
-  if(image === "http://localhost:1337undefined"){
-    image = undefined;
-  };
-
   const content = filteredSteps.data[activeStep] && filteredSteps?.data[activeStep].attributes?.content.split("\\n");
 
   const hasCompletedAllSteps = activeStep === filteredSteps?.data.length;
   
   const bg = useColorModeValue("gray.200", "gray.700");
-  const isSmallScreen = useMediaQuery('(max-width: 1090px)');
-
-  const maxSteps: number = filteredSteps.data ? (filteredSteps?.data.length + 1) : 0;
-
   
+  const maxSteps: number = filteredSteps.data ? (filteredSteps?.data.length + 1) : 0;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

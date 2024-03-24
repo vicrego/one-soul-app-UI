@@ -14,8 +14,11 @@ export async function getCourse() {
 export async function getChapter() {
   try {
     const response = await axios.get('/chapters?populate=*');
-    console.log(response);
-    return response;
+    const responseImage = await axios.get('/chapters?populate[topics][populate]=*');
+    const responseArray = [response, responseImage];
+    
+    console.log("responseArray", responseArray);
+    return responseArray;
   } catch (error) {
     console.error(error);
   }

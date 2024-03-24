@@ -6,8 +6,12 @@ const Layoult = ({ children, ...props }: { children: React.ReactNode }) => {
   
  
   return (
-    <Box className="custom-border" >
-      <Box>
+    <Box
+      minHeight="99vh" 
+      className="custom-border"  
+    >
+      <Box  
+      >
         <NavBar  props={props.props} />
         {children}
       </Box>

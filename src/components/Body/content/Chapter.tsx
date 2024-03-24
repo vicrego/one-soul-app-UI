@@ -22,17 +22,6 @@ const Chapter = () => {
       backgroundColor: teal[700],
     },
   }));
-  /*
-  const ChallengeButton = styled(Button)<ButtonProps>(({ theme }) => ({
-    borderRadius: '5rem',
-    height: "5rem",
-    backgroundColor: "red",
-    '&:hover': {
-      backgroundColor: teal[700],
-    }
-
-  }));
-*/
 
   const [onLoaded, setLoaded] = useState<any[]>(false);
 
@@ -41,17 +30,13 @@ const Chapter = () => {
   const handleTabChange = (e, tabIndex) => {
     setCurrentTabIndex(tabIndex);
   };
-  
-
-  
+    
   const StyledTab = styled(Tab)({
     "&.Mui-selected": {
       color: "#C0C0C0"
     }
   });
   
-  console.log("props here", props)
-
   return ( 
     <Layoult props={props}>   
       <Box 
@@ -106,7 +91,7 @@ const Chapter = () => {
             {props.challengeLevels?.filter(challengeLevel => challengeLevel.attributes.course.data.attributes.title === courseTitle).map(filterChallengeLevel => (
               <VStack >
                 <ChakraLink as={ReactRouterLink} 
-                  class="button-19" 
+                  class="button-83" 
                   type='button'
                   to="/challenges"
                   state={{courseTitle: courseTitle, challengeLevelTitle: filterChallengeLevel?.attributes?.title, props}}
@@ -120,13 +105,14 @@ const Chapter = () => {
           
              
       </Box>
-      <ChakraLink as={ReactRouterLink} 
-        type='button'
-        to="/home"
-        state={props}
-      >      
-        <Heading>Back</Heading>
-      </ChakraLink>
+        <ChakraLink as={ReactRouterLink}
+          class="button-19"
+          type='button'
+          to="/home"
+          state={props}
+        >      
+          <Heading>Back</Heading>
+        </ChakraLink>
     </Layoult>
   )
 }
