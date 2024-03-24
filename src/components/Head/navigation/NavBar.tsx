@@ -5,7 +5,11 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 const NavBar = (props: any) => {
-  const logoMediaQuery = useMediaQuery('(min-width:530px)');
+  const isSmallLogoWidth = useMediaQuery('(max-width:530px)');
+  const logoMediaQueryWidth = useMediaQuery('(max-width:625px)');
+  
+  //const logoMediaQueryHeight = useMediaQuery('(max-height:530px)');
+  
   const headerMediaQuery = useMediaQuery('(min-width:394px)');
   
   const styles = {
@@ -34,8 +38,8 @@ const NavBar = (props: any) => {
         </HStack>
       </Stack>
       <Spacer />
-      {logoMediaQuery &&
-        <Heading size='lg' fontSize='30px' lineHeight='1'>One Soul Academy</Heading>
+      {!isSmallLogoWidth &&
+        <Heading size='lg' fontSize={logoMediaQueryWidth ? '12px' : '25px'} lineHeight='1'>One Soul Academy</Heading>
       }
       <Spacer />
       <ButtonGroup position="static" gap='2'>

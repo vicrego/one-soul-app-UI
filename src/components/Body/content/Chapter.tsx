@@ -4,7 +4,7 @@ import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { ButtonProps, styled, CircularProgress } from '@mui/material';
+import { ButtonProps, styled, CircularProgress, useMediaQuery } from '@mui/material';
 import { teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
 
@@ -36,13 +36,18 @@ const Chapter = () => {
       color: "#C0C0C0"
     }
   });
+
+  const isSmallHeight = useMediaQuery('(max-height: 592px)');
+  const isMediumHeight = useMediaQuery('(max-height: 789px)');
+
   
   return ( 
     <Layoult props={props}>   
       <Box 
-        p={10} 
-        style={{height: "92vh"}} 
+        p={5} 
         gap={2}
+        height={isSmallHeight ? "60vh" : "100vh"}
+        maxHeight={isMediumHeight ? "75vh" : "80vh" }
       >
         <Tabs indicatorColor="secondary" value={currentTabIndex} onChange={handleTabChange}  centered>
           <StyledTab sx={{ color: '#FDE5B3' }} label="Chapters" />

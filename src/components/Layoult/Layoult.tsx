@@ -7,7 +7,9 @@ const Layoult = ({ children, ...props }: { children: React.ReactNode }) => {
  
   return (
     <Box
-      minHeight="99vh" 
+      minHeight="99vh"
+      maxHeight="99vh" 
+       
       className="custom-border"  
     >
       <Box  
