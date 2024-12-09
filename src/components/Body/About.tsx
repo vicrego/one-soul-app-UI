@@ -1,5 +1,4 @@
-import { Box, Heading, Spacer, Text } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Text } from '@chakra-ui/react'
 import Layoult from '../Layoult/Layoult';
 import { useLocation } from 'react-router-dom';
 

@@ -69,7 +69,8 @@ const Body = (props: any) => {
         gap={20} 
         maxHeight="78vh"
         height={isMediumHeight ? "76vh" : "87vh"}
-        overflowY={isSmallWidth ? "none" : "auto"}
+        //overflowY={isSmallWidth ? "none" : "auto"}
+        overflowY={"auto"}
       >
         {props.props.courses?.map((course: any) => (
           <Box

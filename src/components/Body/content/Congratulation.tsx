@@ -1,4 +1,3 @@
-import React from 'react'
 
 const Congratulation = () => {
   return (
@@ -6,4 +5,4 @@ const Congratulation = () => {
   )
 }
 
-export default Congratulation
+export default Congratulation;

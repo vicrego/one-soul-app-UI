@@ -24,15 +24,15 @@ const Chapter = () => {
     //color: theme.palette.getContrastText(teal[500]),
     backgroundColor: purple[900],
     '&:hover': {
-      backgroundColor: purple[0],
+      backgroundColor: "purple",
     },
   }));
 
-  const [onLoaded, setLoaded] = useState<any[]>(true); //THIS SHOULD BE FALSE ONCE WE HAVE THE IMAGE ICON FOR BUTTONS
+  const [onLoaded, setLoaded] = useState<boolean>(true); //THIS SHOULD BE FALSE ONCE WE HAVE THE IMAGE ICON FOR BUTTONS
 
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
  
-  const handleTabChange = (e, tabIndex: any) => {
+  const handleTabChange = (e: any, tabIndex: any) => {
     setCurrentTabIndex(tabIndex);
   };
     
@@ -74,7 +74,7 @@ const Chapter = () => {
                     <img
                       rel="stylesheet"
                       //src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
-                      type="css/style.css"
+                     //type="css/style.css"
                       width={50}
                       onLoad={() => setLoaded(true)}
                   />}

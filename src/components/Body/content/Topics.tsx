@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
 import { useNavigate, Link as ReactRouterLink, redirect, useLocation } from 'react-router-dom';
 //import { Stepper, Step, StepIndicator, StepStatus, StepTitle, StepDescription, StepNumber, StepIcon, StepSeparator, useSteps} from '@chakra-ui/stepper';
@@ -11,7 +11,6 @@ import {
   experimental_extendTheme as extendTheme,
 } from '@mui/material/styles';
 import { ButtonProps, styled } from '@mui/material';
-import { teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
 import { TypeAnimation } from 'react-type-animation';
 import Background from '../../../assets/images/topics/social-development-1.jpeg';

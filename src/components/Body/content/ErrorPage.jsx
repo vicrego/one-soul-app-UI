@@ -1,4 +1,4 @@
-import { useRouteError, useMatchError  } from "react-router-dom";
+import { useMatchError  } from "react-router-dom";
 
 export default function ErrorPage() {
   const error = useMatchError();

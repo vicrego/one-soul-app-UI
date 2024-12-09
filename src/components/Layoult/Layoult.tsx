@@ -2,8 +2,15 @@ import React from 'react'
 import NavBar from '../Head/navigation/NavBar'
 import { Box } from '@chakra-ui/react'
 
-const Layoult = ({ children, ...props }: { children: React.ReactNode }) => {
-  
+
+interface MyComponentProps {
+  children: React.ReactNode;
+  props: any
+}
+
+
+const Layoult: React.FC<MyComponentProps> = ({ children, ...props }: { children: React.ReactNode }) => {
+ 
   return (
     
     <Box 
