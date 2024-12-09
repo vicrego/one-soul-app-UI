@@ -1,33 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { Link as ChakraLink, LinkProps, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue, ButtonGroup, extendTheme, VStack} from '@chakra-ui/react';
+import { useState } from 'react';
+import { Link as ChakraLink, Box, Heading, VStack} from '@chakra-ui/react';
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { ButtonProps, styled, CircularProgress, useMediaQuery } from '@mui/material';
-import { teal } from '@mui/material/colors';
+import { purple, teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
 
   
 const Chapter = () => {
 
+  //HERE ONLY CHAPTER IS BEING PASSED. I THINK I SHOULD PASS THE ENTIRE PROPS. THEREFORE
+  //I NEED TO SORT OUT A WAY TO CREATE AN ARRAY WITH ALL CATEGORIES INTO ONE, AND PASS AS THE FULL PROP
+
   const location = useLocation();
-  const { courseTitle, props } = location.state;
+  const {  courseName, props } = location.state;
+  console.log("props", props.props)
+  console.log("courseTitle", courseName)
   
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
-    borderRadius: '1.5rem',
-    color: theme.palette.getContrastText(teal[500]),
-    backgroundColor: teal[500],
+    borderRadius: '1rem',
+    //color: theme.palette.getContrastText(teal[500]),
+    backgroundColor: purple[900],
     '&:hover': {
-      backgroundColor: teal[700],
+      backgroundColor: purple[0],
     },
   }));
 
-  const [onLoaded, setLoaded] = useState<any[]>(false);
+  const [onLoaded, setLoaded] = useState<any[]>(true); //THIS SHOULD BE FALSE ONCE WE HAVE THE IMAGE ICON FOR BUTTONS
 
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
  
-  const handleTabChange = (e, tabIndex) => {
+  const handleTabChange = (e, tabIndex: any) => {
     setCurrentTabIndex(tabIndex);
   };
     
@@ -40,7 +45,7 @@ const Chapter = () => {
   const isSmallHeight = useMediaQuery('(max-height: 592px)');
   const isMediumHeight = useMediaQuery('(max-height: 789px)');
 
-  
+
   return ( 
     <Layoult props={props}>   
       <Box 
@@ -49,33 +54,35 @@ const Chapter = () => {
         height={isSmallHeight ? "60vh" : "100vh"}
         maxHeight={isMediumHeight ? "75vh" : "80vh" }
       >
+
         <Tabs indicatorColor="secondary" value={currentTabIndex} onChange={handleTabChange}  centered>
           <StyledTab sx={{ color: '#FDE5B3' }} label="Chapters" />
           <StyledTab sx={{ color: '#FDE5B3' }} label="Challenge" />
         </Tabs>
         {currentTabIndex === 0 && (
-          <VStack p={5}>
-            {props.chapters?.filter(chapter => chapter.attributes.course.data.attributes.title === courseTitle).map(filterChapter => (
+          <VStack p={5}> 
+            {props.props.chapters?.filter((chapter: any) => chapter.course_name === courseName).map((filterChapter: any) => (
             <>
               <ChakraLink as={ReactRouterLink} 
                 type='button'
                 to="/topics"
-                state={{courseTitle: courseTitle, chapterTitle: filterChapter?.attributes?.title, props}}
+                state={{courseName: courseName, chapterName: filterChapter.chapter_name, props}}
                 key={filterChapter.id}
               >
                 <ColorButton variant="contained" 
                   endIcon={
                     <img
                       rel="stylesheet"
-                      src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
+                      //src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
                       type="css/style.css"
                       width={50}
                       onLoad={() => setLoaded(true)}
                   />}
-                >
+                  //sx={{backgroundColor: "blue"}}
+                > 
                   {onLoaded ? (
                     <>
-                      {filterChapter?.attributes?.title}
+                      {filterChapter?.chapter_name}
                     </>
                   ) : (
                     <>
@@ -93,25 +100,25 @@ const Chapter = () => {
           {/* TAB 2 Contents */}
         {currentTabIndex === 1 && (
           <VStack sx={{ p: 3 }}>
-            {props.challengeLevels?.filter(challengeLevel => challengeLevel.attributes.course.data.attributes.title === courseTitle).map(filterChallengeLevel => (
+            {props.props.challenges?.filter((challenge: any) => challenge.course_name === courseName).map((filterChallenge: any) => (
               <VStack >
                 <ChakraLink as={ReactRouterLink} 
-                  class="button-83" 
+                  className="button-83" 
                   type='button'
                   to="/challenges"
-                  state={{courseTitle: courseTitle, challengeLevelTitle: filterChallengeLevel?.attributes?.title, props}}
+                  state={{courseName: courseName, challengeDifficulty: filterChallenge?.difficulty_level, props}}
                 >
-                  {filterChallengeLevel?.attributes?.title}
+                  {filterChallenge?.challenge_name}
                 </ChakraLink> 
               </VStack>
             ))} 
           </VStack>
         )}
-          
+      
              
       </Box>
         <ChakraLink as={ReactRouterLink}
-          class="button-19"
+          className="button-19"
           type='button'
           to="/home"
           state={props}

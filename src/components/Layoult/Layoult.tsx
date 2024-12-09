@@ -4,19 +4,14 @@ import { Box } from '@chakra-ui/react'
 
 const Layoult = ({ children, ...props }: { children: React.ReactNode }) => {
   
- 
   return (
-    <Box
+    
+    <Box 
       minHeight="99vh"
       maxHeight="99vh" 
-       
-      className="custom-border"  
-    >
-      <Box  
-      >
-        <NavBar  props={props.props} />
-        {children}
-      </Box>
+      className="custom-border">
+      <NavBar props={{props/*.props*/, loading: false}} />
+      {children}
     </Box>
   )
 }

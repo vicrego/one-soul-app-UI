@@ -4,7 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 
-const NavBar = (props: any) => {
+const NavBar = ({props}: any) => {
   const isSmallLogoWidth = useMediaQuery('(max-width:530px)');
   const logoMediaQueryWidth = useMediaQuery('(max-width:625px)');
   
@@ -13,7 +13,7 @@ const NavBar = (props: any) => {
   const headerMediaQuery = useMediaQuery('(min-width:394px)');
   
   const styles = {
-    container: headerMediaQuery => ({
+    container: (headerMediaQuery : any) => ({
       padding: headerMediaQuery ? '3px 10px' : '10px 30px',
     })
   };
@@ -24,22 +24,22 @@ const NavBar = (props: any) => {
           <ChakraLink 
             as={NavLink} 
             to="/home" 
-            state={props.props}
+            state={props.props.props}
           >
-            <Heading as='h4' size='md'>HOME</Heading>
+            <Heading as='h4' size='md' _hover={{ color: "white" }}>HOME</Heading>
           </ChakraLink>
           <ChakraLink 
             as={NavLink} 
             to="/about"
             state={props.props}
           >
-            <Heading as='h4' size='md'>ABOUT</Heading>
+            <Heading as='h4' size='md' _hover={{ color: "white" }}>ABOUT</Heading>
           </ChakraLink>
         </HStack>
       </Stack>
       <Spacer />
       {!isSmallLogoWidth &&
-        <Heading size='lg' fontSize={logoMediaQueryWidth ? '12px' : '25px'} lineHeight='1'>One Soul Academy</Heading>
+        <Heading size='lg' fontSize={logoMediaQueryWidth ? '12px' : '25px'} lineHeight='1'>OneSoul Academy</Heading>
       }
       <Spacer />
       <ButtonGroup position="static" gap='2'>
@@ -47,14 +47,14 @@ const NavBar = (props: any) => {
           to="/signup"
           state={props.props}
         >
-          <Button colorScheme='teal'>Sign Up</Button>
+          <Button colorScheme='teal' _hover={{ color: "white" }}>Sign Up</Button>
         </ChakraLink>
         <ChakraLink 
           as={NavLink} 
           to="/signin"
           state={props.props}
         >
-          <Button colorScheme='teal'>Sign in</Button>
+          <Button colorScheme='teal' _hover={{ color: "white" }}>Sign in</Button>
         </ChakraLink>
       </ButtonGroup>
     </Flex>

@@ -9,13 +9,17 @@ import NavBar from './components/Head/navigation/NavBar'
 import About from './components/Body/About'
 import Topics from './components/Body/content/Topics'
 import Chapter from './components/Body/content/Chapter'
-import Task from './components/Body/content/Task'
+import Task from './components/Body/content/Challenge_Chapter'
 import { useState, useEffect } from 'react'
 import { getChapter, getCourse, getTopic } from './api/api'
 import Loading from './components/Loading'
-import Challenge from './components/Body/content/Challenge'
+import Challenge from './components/Body/content/Challenge_Free'
+import Challenge_Chapter from './components/Body/content/Challenge_Chapter'
+import Challenge_Free from './components/Body/content/Challenge_Free'
+
 
 function App() {
+
 
   return (
     <Box >
@@ -26,9 +30,12 @@ function App() {
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/chapters" element={<Chapter />} />
-        <Route path="/challenges" element={<Challenge />} />
+        <Route path="/challenges" element={<Challenge_Free />} />
         <Route path="/topics" element={<Topics />} />
-        <Route path="/tasks" element={<Task />} />
+        <Route path="/tasks" element={<Challenge_Chapter />} />
+
+
+
       </Routes>
     </Box>
   )

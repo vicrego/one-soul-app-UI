@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 const About = () => {
   const location = useLocation();
   let props = location.state;
+  console.log("about", props)
 
   const styleAbout = 
   {
@@ -13,7 +14,7 @@ const About = () => {
   };
 
   return (
-    <Layoult props={props} >  
+    <Layoult props={props.props} >  
       <Box style={styleAbout} >
         <Text><span style={{fontSize: "1.5rem", fontWeight: "bold"}}>Welcome to our One Soul Academy! </span>
         We help you to turn self-development into practical exercises.

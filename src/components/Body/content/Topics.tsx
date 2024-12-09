@@ -13,6 +13,8 @@ import {
 import { ButtonProps, styled } from '@mui/material';
 import { teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
+import { TypeAnimation } from 'react-type-animation';
+import Background from '../../../assets/images/topics/social-development-1.jpeg';
 
 
 const Topics = () => {
@@ -20,41 +22,53 @@ const Topics = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { courseTitle, chapterTitle, props } = location.state;
-  
+  const { courseName, chapterName, props, challengeChapter } = location.state;
+
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
-    color: theme.palette.getContrastText(teal[500]),
-    backgroundColor: teal[500],
+    //color: theme.palette.getContrastText(teal[500]),
+    backgroundColor: "purple"
+    /*backgroundColor: teal[500],
     '&:hover': {
       backgroundColor: teal[700],
-    },
+    },*/
   }));
 
   const theme = extendTheme();
   
-  const filteredSteps = props.chaptersTopics?.filter((chapter) => chapter.attributes?.title === chapterTitle)[0].attributes.topics;
+  const filteredSteps = props.props.topics?.filter((topic: any) => topic.chapter_name === chapterName);
+  console.log("filteredSteps", filteredSteps)
+  const [activeStep, setActiveStep] = React.useState(0); 
   
-  const [activeStep, setActiveStep] = React.useState(0);
+
+
+  const title = filteredSteps[activeStep] && filteredSteps[activeStep].topic_name; /*: "great"*/
+  console.log("title",title)
+  const type = filteredSteps[activeStep] && filteredSteps && filteredSteps[activeStep].topic_type;
+  console.log("type",type)
   
-  
-  const title = filteredSteps.data[activeStep] && filteredSteps?.data[activeStep].attributes?.title /*: "great"*/;
-  const type = filteredSteps.data[activeStep] && filteredSteps.data && filteredSteps?.data[activeStep].attributes?.type;
-  
-  let image = filteredSteps.data[activeStep]?.attributes?.image.data?.attributes?.url || undefined;
+  let image = /*filteredSteps.data[activeStep]?.attributes?.image.data?.attributes?.url ||*/ undefined; // undefined, as we still need to database our images
   
   if(image === "http://localhost:1337undefined"){
     image = undefined;
   };
 
-  const content = filteredSteps.data[activeStep] && filteredSteps?.data[activeStep].attributes?.content.split("\\n");
+  const content = filteredSteps[activeStep] && filteredSteps[activeStep].content.split("\\n");
+  console.log("content",content)
+  
 
-  const hasCompletedAllSteps = activeStep === filteredSteps?.data.length;
+  const hasCompletedAllSteps = activeStep === filteredSteps?.length;
   
   const bg = useColorModeValue("gray.200", "gray.700");
   const isSmallScreen = useMediaQuery('(max-width: 1090px)');
 
-  const maxSteps: number = filteredSteps.data ? (filteredSteps?.data.length + 1) : 0;
+  const maxSteps: number = filteredSteps ? (filteredSteps?.length + 1) : 0;
+
+  useEffect(() => {
+    if(challengeChapter){
+      setActiveStep(maxSteps - 2);
+    }
+  }, [])
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -63,27 +77,35 @@ const Topics = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     if(activeStep === 0){
-      navigate("/chapters", {state:{courseTitle, props}});
+      navigate("/chapters", {state:{courseName, props}});
     }
   };
   
+
+
+
+
   return (
     <Layoult props={props}>
       <Stack 
         className="topics"
         style={{
           display: "block",
-          backgroundColor: "rgba(253, 230, 179)",
+          //backgroundColor: "rgba(253, 230, 179)",
           borderRadius: "0.5rem",
-          margin: "0.5rem 0.5rem",
-          padding: "1rem",
+          //margin: "0.5rem 0.5rem",
+          //padding: "0.5rem",
           overflowY: "auto",
-          height: "85vh"
+          height: "85vh",
+          //height: "50vh",
+          //background: `url(${Background})`,
+          //backgroundRepeat: "no-repeat",
+          //backgroundSize: "cover"
         }}
       >
         <MobileStepper
           variant="progress"
-          steps={maxSteps}
+          steps={maxSteps}          
           position="static"
           activeStep={activeStep}
           sx={{ 
@@ -116,14 +138,41 @@ const Topics = () => {
         />
         {hasCompletedAllSteps ? (
           <>
-            <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>
+            <Box 
+              sx={{  
+                p: isSmallScreen ? 10 : 20, 
+                rounded: "md", 
+                //borderRadius: "1rem",
+                background: `url(${Background})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: isSmallScreen ? "100%" : "50%",
+                //alignContent: "center",
+                //height: isSmallScreen ? "" : "35vh",
+                //backgroundSize: "50rem",
+                backgroundPositionX: "center"
+                
+             }}>
               <Heading fontSize="xl" textAlign={"center"}>
-                Woohoo! All steps completed! 🎉
+                <TypeAnimation
+                
+                  sequence={[
+                    'Congratulations! \n All steps were completed.', // Types 'One'
+                    1000, // Waits 1s
+                    () => {
+                      console.log('Sequence completed');
+                    },
+                  ]}
+                  wrapper="span"
+                  cursor={false}
+                  //repeat={Infinity}
+                  //speed={75}
+                  style={{ whiteSpace: 'pre-line', fontSize: isSmallScreen ? '1.2em' : '1.5em', display: 'block', color: 'white' }}
+                />
               </Heading>
               <ChakraLink as={ReactRouterLink} 
                 type='button'
                 to="/tasks"
-                state={{courseTitle: courseTitle, chapterTitle: chapterTitle, props}}
+                state={{courseName: courseName, chapterName: chapterName, props}}
               >
                 <ColorButton variant="contained" size="large">
                   Challenge!
@@ -148,7 +197,7 @@ const Topics = () => {
             )}
             {type === "theory" &&
             (
-            <Stack sx={{ width: '100%', px: "1rem" } }  >
+            <Stack sx={{ width: '100%', px: "1rem", bg:"rgba(253, 230, 179)", borderRadius: "1rem" } }  >
               <Heading as={"h1"} gap={3}>{title}</Heading>
               <Flex 
                 justifyContent={"center"} 
@@ -178,7 +227,7 @@ const Topics = () => {
             {type === "exercise" &&
             (
             <Stack sx={{ width: '100%', px: "1rem" }}  >
-              <Heading as={"h1"}>{title}</Heading>
+              <Heading as={"h1"} sx={{color: "white"}}>{title}</Heading>
               <Flex 
                 style={{alignItems:"flex-start"}} 
                 justifyContent={"center"} 

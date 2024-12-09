@@ -3,6 +3,11 @@
   text-align: center;
   color: rgb(19, 19, 77);
   background-color: rgb(34, 118, 151);
+  background-image: url("./assets/images/futuristic-background.jpg");
+  height: 100vh; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  background-size: cover; 
 }
 
 :root {
@@ -17,20 +22,24 @@
   color: rgb(253, 229, 179);
 }
 
+.custom-border {
+  padding: 1.4rem
+}
 
 /* BORDER */
+/*
 @media screen and (min-width: 394px) {
   .custom-border {
-    border: solid 3rem;
+    border: solid 1rem;
     border-image: url("./assets/images/clip-art-vector-gold-pattern-frame-29b487e83e793b102f9ce94f4801ce70.png") 65 stretch;
 
   }
-}
+}*/
 
 @media screen and (min-width: 0px) {
   .custom-border {
     border: solid 1.2rem 0rem;
-    border-image: url("./assets/images/clip-art-vector-gold-pattern-frame-29b487e83e793b102f9ce94f4801ce70.png") 70 stretch;
+    /*border-image: url("./assets/images/clip-art-vector-gold-pattern-frame-29b487e83e793b102f9ce94f4801ce70.png") 70 stretch;*/
   }
 }
 
@@ -70,7 +79,7 @@
 
 .button-19 {
   appearance: button;
-  background-color: hsla(0, 92%, 54%, 0.329);
+  background-color: hsla(0, 60%, 39%, 0.329);
   border: solid transparent;
   border-radius: 16px;
   border-width: 0 0 4px;
@@ -101,7 +110,8 @@
 
 .button-19:after {
   background-clip: padding-box;
-  background-color: hsla(56, 76%, 40%, 0.788);
+  /*background-color: hsla(56, 76%, 40%, 0.788);*/
+  background-color: hsla(243, 72%, 24%, 0.788);
   border: solid transparent;
   border-radius: 16px;
   border-width: 0 0 4px;

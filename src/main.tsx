@@ -24,7 +24,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
       <BrowserRouter>
         <CssVarsProvider theme={theme}>
-          <App/>
+          <App />
         </CssVarsProvider>
       </BrowserRouter>
     </React.StrictMode>
