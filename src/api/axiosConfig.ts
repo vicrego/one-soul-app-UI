@@ -13,7 +13,7 @@ const instance = axios.create({
   
 });
 */
-
+/*
 const instanceMongo = axios.create({
   baseURL: 'http://localhost:5050/record',
   timeout: 5000,
@@ -24,10 +24,10 @@ const instanceMongo = axios.create({
     'Access-Control-Allow-Origin': '*', // You can specify specific origins instead of '*'
   },
 });
-
+*/
 const instanceNeon = axios.create({
-  baseURL: 'http://localhost:5050/',
-  //baseURL: 'https://one-soul-server.onrender.com/',
+  //baseURL: 'http://localhost:5050/',
+  baseURL: 'https://one-soul-server.onrender.com/',
   timeout: 5000,
   //headers: {'X-Custom-Header': 'foobar'}
   
@@ -39,4 +39,4 @@ const instanceNeon = axios.create({
 
 
 
-export default {instanceMongo, instanceNeon};
+export default {/*instanceMongo,*/ instanceNeon};
