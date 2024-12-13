@@ -8,16 +8,14 @@ interface MyComponentProps {
   props: any
 }
 
-
 const Layoult: React.FC<MyComponentProps> = ({ children, ...props }: { children: React.ReactNode }) => {
  
   return (
-    
     <Box 
       minHeight="99vh"
       maxHeight="99vh" 
       className="custom-border">
-      <NavBar props={{props/*.props*/, loading: false}} />
+      <NavBar props={{props, loading: false}} />
       {children}
     </Box>
   )

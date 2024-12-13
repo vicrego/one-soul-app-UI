@@ -19,10 +19,7 @@ const Challenge_Free = () => {
   const navigate = useNavigate();
 
   const { courseTitle, challengeDifficulty, props } = location.state;
-  console.log("props", props)
-  console.log("challengeDifficulty",challengeDifficulty)
-//  console.log("challengeLevelTitle",challengeLevelTitle)
-  
+
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
     color: theme.palette.getContrastText(teal[500]),

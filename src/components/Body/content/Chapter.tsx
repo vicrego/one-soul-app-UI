@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as ChakraLink, Box, Heading, VStack} from '@chakra-ui/react';
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import Button from '@mui/material/Button';
@@ -8,20 +8,17 @@ import { ButtonProps, styled, CircularProgress, useMediaQuery } from '@mui/mater
 import { purple, teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
 
-  
 const Chapter = () => {
 
   //HERE ONLY CHAPTER IS BEING PASSED. I THINK I SHOULD PASS THE ENTIRE PROPS. THEREFORE
   //I NEED TO SORT OUT A WAY TO CREATE AN ARRAY WITH ALL CATEGORIES INTO ONE, AND PASS AS THE FULL PROP
 
   const location = useLocation();
-  const {  courseName, props } = location.state;
-  console.log("props", props.props)
-  console.log("courseTitle", courseName)
+  const { courseName, props } = location.state;
   
+
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1rem',
-    //color: theme.palette.getContrastText(teal[500]),
     backgroundColor: purple[900],
     '&:hover': {
       backgroundColor: "purple",
@@ -46,6 +43,18 @@ const Chapter = () => {
   const isMediumHeight = useMediaQuery('(max-height: 789px)');
 
 
+  const [propsTest, setPropsTest] = useState<any>();
+
+  useEffect(() => {
+    const data = localStorage.getItem("props");
+    const propsTest = data !== null ? JSON.parse(data) : null;
+    setPropsTest(propsTest);
+    console.log("data: ", propsTest); 
+
+  }, [props])
+
+
+
   return ( 
     <Layoult props={props}>   
       <Box 
@@ -54,14 +63,13 @@ const Chapter = () => {
         height={isSmallHeight ? "60vh" : "100vh"}
         maxHeight={isMediumHeight ? "75vh" : "80vh" }
       >
-
         <Tabs indicatorColor="secondary" value={currentTabIndex} onChange={handleTabChange}  centered>
           <StyledTab sx={{ color: '#FDE5B3' }} label="Chapters" />
           <StyledTab sx={{ color: '#FDE5B3' }} label="Challenge" />
         </Tabs>
         {currentTabIndex === 0 && (
           <VStack p={5}> 
-            {props.props.chapters?.filter((chapter: any) => chapter.course_name === courseName).map((filterChapter: any) => (
+            {propsTest?.chapters?.filter((chapter: any) => chapter.course_name === courseName).map((filterChapter: any) => (
             <>
               <ChakraLink as={ReactRouterLink} 
                 type='button'
@@ -114,8 +122,6 @@ const Chapter = () => {
             ))} 
           </VStack>
         )}
-      
-             
       </Box>
         <ChakraLink as={ReactRouterLink}
           className="button-19"

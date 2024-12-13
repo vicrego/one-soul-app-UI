@@ -5,11 +5,7 @@ import './index.css'
 import { ChakraProvider } from '@chakra-ui/react'
 import {
   BrowserRouter,
-  createBrowserRouter,
-  RouterProvider,
 } from "react-router-dom";
-import SignUp from './components/auth/SignIn'
-import SignIn from './components/auth/SignUp'
 
 import {
   Experimental_CssVarsProvider as CssVarsProvider,

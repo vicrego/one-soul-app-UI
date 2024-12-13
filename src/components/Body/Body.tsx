@@ -1,4 +1,4 @@
-import { Link as ChakraLink, LinkProps, /*Button*/ Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue, ButtonGroup, extendTheme, VStack} from '@chakra-ui/react';
+import { Link as ChakraLink, LinkProps, /*Button*/ Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue, ButtonGroup, extendTheme, VStack, Button} from '@chakra-ui/react';
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -6,7 +6,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, useMediaQuery } from '@mui/material';
 import Layoult from '../Layoult/Layoult';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { yellow } from '@mui/material/colors';
+import Chapter from './content/Chapter';
+
 
 
 const Body = (props: any) => {
@@ -17,10 +20,15 @@ const Body = (props: any) => {
   the props */ 
   console.log("props",props)
 
+
+
+
+/*
   if(!props.loading === true){
     const location = useLocation();
     props = location.state;
   }
+    */
   const [imageLoaded, setImageLoaded] = useState(false);
 
 
@@ -28,8 +36,33 @@ const Body = (props: any) => {
   const isMediumHeight = useMediaQuery('(max-height: 500px)');
 
   const [message, setMessage] = useState("");
+
+
+
   
-  
+  const [propsTest, setPropsTest] = useState<any>();
+/*
+  useEffect(() => {
+    // Retrieve count from local storage on component mount
+    const storedCount = localStorage.getItem(props);
+    if (props) {
+      setCount(parseInt(storedCount));
+    }
+  }, []);
+*/
+
+
+  useEffect(() => {
+    const data = localStorage.getItem("props");
+    const propsTest = data !== null ? JSON.parse(data) : null;
+    setPropsTest(propsTest);
+    console.log("data: ", propsTest); 
+
+  }, [props])
+
+
+  console.log("propsTest",propsTest)
+
   //console.log("props",props.courses)
   // Fetching message from backend on mount
   /*useEffect(() => {
@@ -59,6 +92,8 @@ const Body = (props: any) => {
     return;
   }, []);
 */
+const [isComponentVisible, setIsComponentVisible] = useState(false);
+
 
   return ( 
     <Layoult props={props} >  
@@ -69,20 +104,28 @@ const Body = (props: any) => {
         gap={20} 
         maxHeight="78vh"
         height={isMediumHeight ? "76vh" : "87vh"}
-        //overflowY={isSmallWidth ? "none" : "auto"}
-        overflowY={"auto"}
+        overflowY={isMediumHeight ? "hidden" : "auto"}
       >
-        {props.props.courses?.map((course: any) => (
+        {propsTest?.courses?.map((course: any) => (
           <Box
             width={isMediumHeight ? "180px" : "16rem"}     
           >
+
             <ChakraLink as={ReactRouterLink} 
               type='button'
               to="/chapters"
+              
               state={{courseName: course.course_name, props}}
               key={course.course_id}
             >
-              <Card sx={{ maxWidth: 300 }} >
+              <Card 
+                sx={{ 
+                  maxWidth: 300, 
+                  backgroundColor: "#4a148c",     
+                  "&:hover": {
+                    background: "purple"
+                  }, 
+                }} >
                 <CardActionArea>
                   <CardMedia
                     component="img"
@@ -92,7 +135,7 @@ const Body = (props: any) => {
                     onLoad={() => setImageLoaded(true)}
                   />
                   <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
+                      <Typography gutterBottom variant="h5" component="div" sx={{color: "white"}}>
                       {course.course_name}
                       </Typography>     
                     </CardContent>

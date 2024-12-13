@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
 import { useNavigate, Link as ReactRouterLink, redirect, useLocation } from 'react-router-dom';
 //import { Stepper, Step, StepIndicator, StepStatus, StepTitle, StepDescription, StepNumber, StepIcon, StepSeparator, useSteps} from '@chakra-ui/stepper';
@@ -33,9 +33,21 @@ const Topics = () => {
     },*/
   }));
 
+
+  //const [propsTest, setPropsTest] = useState<any>();
+
+  //useEffect(() => {
+    const data = localStorage.getItem("props");
+    const propsTest = data !== null ? JSON.parse(data) : null;
+    console.log("data",data)
+    //setPropsTest(propsTest);
+
+  //}, [])
+
+  console.log(propsTest)
   const theme = extendTheme();
   
-  const filteredSteps = props.props.topics?.filter((topic: any) => topic.chapter_name === chapterName);
+  const filteredSteps = propsTest.topics?.filter((topic: any) => topic.chapter_name === chapterName);
   console.log("filteredSteps", filteredSteps)
   const [activeStep, setActiveStep] = React.useState(0); 
   

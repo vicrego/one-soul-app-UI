@@ -15,22 +15,22 @@ import Challenge_Free from './components/Body/content/Challenge_Free'
 
 function App() {
 
-
   return (
     <Box >
       <Routes>
+
+        {/* No Account  */}
+        <Route path="/signUp" element={<SignUp />} />
+        <Route path="/signIn" element={<SignIn />} />
+          
+        {/*With Account */}
         <Route path="/" element={<Loading />} />
         <Route path="/home" element={<Body />} />
         <Route path="/about" element={<About />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/signIn" element={<SignIn />} />
         <Route path="/chapters" element={<Chapter />} />
         <Route path="/challenges" element={<Challenge_Free />} />
         <Route path="/topics" element={<Topics />} />
         <Route path="/tasks" element={<Challenge_Chapter />} />
-
-
-
       </Routes>
     </Box>
   )
