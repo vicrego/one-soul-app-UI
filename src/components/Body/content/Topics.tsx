@@ -37,10 +37,10 @@ const Topics = () => {
   //const [propsTest, setPropsTest] = useState<any>();
 
   //useEffect(() => {
-    const data = localStorage.getItem("props");
-    const propsTest = data !== null ? JSON.parse(data) : null;
-    console.log("data",data)
-    //setPropsTest(propsTest);
+  const data = localStorage.getItem("props");
+  const propsTest = data !== null ? JSON.parse(data) : null;
+  console.log("data",data)
+  //setPropsTest(propsTest);
 
   //}, [])
 
