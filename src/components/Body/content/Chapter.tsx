@@ -4,7 +4,7 @@ import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { ButtonProps, styled, CircularProgress, useMediaQuery } from '@mui/material';
+import { ButtonProps, styled, CircularProgress, useMediaQuery, Typography } from '@mui/material';
 import { purple, teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
 
@@ -64,8 +64,8 @@ const Chapter = () => {
         maxHeight={isMediumHeight ? "75vh" : "80vh" }
       >
         <Tabs indicatorColor="secondary" value={currentTabIndex} onChange={handleTabChange}  centered>
-          <StyledTab sx={{ color: '#FDE5B3' }} label="Chapters" />
-          <StyledTab sx={{ color: '#FDE5B3' }} label="Challenge" />
+          <StyledTab sx={{color: "white", fontFamily: "mono"}} label="Chapters" />
+          <StyledTab sx={{color: "white", fontFamily: "mono"}} label="Challenge" />
         </Tabs>
         {currentTabIndex === 0 && (
           <VStack p={5}> 
@@ -90,7 +90,7 @@ const Chapter = () => {
                 > 
                   {onLoaded ? (
                     <>
-                      {filterChapter?.chapter_name}
+                      <Typography sx={{color: "white", fontFamily: "mono"}}>{filterChapter?.chapter_name}</Typography>
                     </>
                   ) : (
                     <>
@@ -114,9 +114,10 @@ const Chapter = () => {
                   className="button-83" 
                   type='button'
                   to="/challenges"
+                  sx={{width: "100px"}}
                   state={{courseName: courseName, challengeDifficulty: filterChallenge?.difficulty_level, props}}
                 >
-                  {filterChallenge?.challenge_name}
+                  <Typography sx={{color: "black", fontFamily: "mono"}}>{filterChallenge?.challenge_name}</Typography>
                 </ChakraLink> 
               </VStack>
             ))} 

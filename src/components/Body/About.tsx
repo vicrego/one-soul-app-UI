@@ -15,7 +15,7 @@ const About = () => {
   return (
     <Layoult props={props.props} >  
       <Box style={styleAbout} >
-        <Text><span style={{fontSize: "1.5rem", fontWeight: "bold"}}>Welcome to our One Soul Academy! </span>
+        <Text sx={{color: "white"}}><span style={{fontSize: "1.5rem", fontWeight: "bold"}}>Welcome to our One Soul Academy! </span>
         We help you to turn self-development into practical exercises.
         True learning comes from experience, here in One Soul Academy we designed to give you just that.
         With our app, you'll be able to explore a range of self-development exercises and put them into practice 

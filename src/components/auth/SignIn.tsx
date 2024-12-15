@@ -26,7 +26,7 @@ const SignIn = () => {
           >
             {(props: FormikProps<Values>) => (
               <form onSubmit={props.handleSubmit}>
-                <Stack spacing={1}>
+                <Stack spacing={1} sx={{color: "white", fontFamily: "mono"}}>
                   <Text mb='8px'>User Name: </Text>
                   <Input name="userName" />
                   <Text mb='8px'>Email: </Text>
@@ -39,7 +39,7 @@ const SignIn = () => {
             )}
           </Formik>
         </Stack>
-        <Box>
+        <Box sx={{color: "white", fontFamily: "mono"}}>
           <Text>Don't have an account?</Text>
           <ChakraLink
             as={NavLink}

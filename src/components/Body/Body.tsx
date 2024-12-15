@@ -18,9 +18,6 @@ const Body = (props: any) => {
   /*Check if props comes from Loading component. If it doesn't, 
   then it comes from Home Link, therefore useLocation is used to handle
   the props */ 
-  console.log("props",props)
-
-
 
 
 /*
@@ -32,14 +29,11 @@ const Body = (props: any) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
 
-  const isSmallWidth = useMediaQuery('(max-width: 393px)');
+  //const isSmallWidth = useMediaQuery('(max-width: 393px)');
   const isMediumHeight = useMediaQuery('(max-height: 500px)');
 
-  const [message, setMessage] = useState("");
-
-
-
-  
+  //const [message, setMessage] = useState("");
+ 
   const [propsTest, setPropsTest] = useState<any>();
 /*
   useEffect(() => {
@@ -56,12 +50,7 @@ const Body = (props: any) => {
     const data = localStorage.getItem("props");
     const propsTest = data !== null ? JSON.parse(data) : null;
     setPropsTest(propsTest);
-    console.log("data: ", propsTest); 
-
   }, [props])
-
-
-  console.log("propsTest",propsTest)
 
   //console.log("props",props.courses)
   // Fetching message from backend on mount
@@ -104,7 +93,7 @@ const [isComponentVisible, setIsComponentVisible] = useState(false);
         gap={20} 
         maxHeight="78vh"
         height={isMediumHeight ? "76vh" : "87vh"}
-        overflowY={isMediumHeight ? "hidden" : "auto"}
+        overflowY={/*isMediumHeight ? "hidden" :*/ "auto"}
       >
         {propsTest?.courses?.map((course: any) => (
           <Box
@@ -135,7 +124,7 @@ const [isComponentVisible, setIsComponentVisible] = useState(false);
                     onLoad={() => setImageLoaded(true)}
                   />
                   <CardContent>
-                      <Typography gutterBottom variant="h5" component="div" sx={{color: "white"}}>
+                      <Typography gutterBottom variant="h5" component="div" sx={{color: "white", fontFamily: "mono"}}>
                       {course.course_name}
                       </Typography>     
                     </CardContent>

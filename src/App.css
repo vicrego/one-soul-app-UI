@@ -2,8 +2,9 @@
   padding: 0rem 0rem;
   text-align: center;
   color: rgb(19, 19, 77);
-  background-color: rgb(34, 118, 151);
-  background-image: url("./assets/images/futuristic-background.jpg");
+  background-color: rgb(53, 34, 151);
+  background-image: linear-gradient(rgb(7, 1, 18), rgb(58, 28, 167));
+  /*background-image: url("./assets/images/futuristic-background.jpg");*/
   height: 100vh; 
   background-position: center; 
   background-repeat: no-repeat; 

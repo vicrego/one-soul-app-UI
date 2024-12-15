@@ -25,21 +25,22 @@ const NavBar = ({props}: any) => {
             as={NavLink} 
             to="/home" 
             state={props.props.props}
+            
           >
-            <Heading as='h4' size='md' _hover={{ color: "white" }}>HOME</Heading>
+            <Heading as='h4' size='md' sx={{color: "white", fontFamily: "mono"}}  _hover={{ color: "white" }}>HOME</Heading>
           </ChakraLink>
           <ChakraLink 
             as={NavLink} 
             to="/about"
             state={props.props}
           >
-            <Heading as='h4' size='md' _hover={{ color: "white" }}>ABOUT</Heading>
+            <Heading as='h4' size='md' sx={{color: "white", fontFamily: "mono"}} _hover={{ color: "white" }}>ABOUT</Heading>
           </ChakraLink>
         </HStack>
       </Stack>
       <Spacer />
       {!isSmallLogoWidth &&
-        <Heading size='lg' fontSize={logoMediaQueryWidth ? '12px' : '25px'} lineHeight='1'>OneSoul Academy</Heading>
+        <Heading size='lg' sx={{color: "white", fontFamily: "mono"}} fontSize={logoMediaQueryWidth ? '12px' : '25px'} lineHeight='1'>OneSoul Academy</Heading>
       }
       <Spacer />
       <ButtonGroup position="static" gap='2'>
@@ -47,14 +48,14 @@ const NavBar = ({props}: any) => {
           to="/signup"
           state={props.props}
         >
-          <Button colorScheme='teal' _hover={{ color: "white" }}>Sign Up</Button>
+          <Button colorScheme='teal' sx={{color: "white", fontFamily: "mono"}} _hover={{ color: "white" }}>Sign Up</Button>
         </ChakraLink>
         <ChakraLink 
           as={NavLink} 
           to="/signin"
           state={props.props}
         >
-          <Button colorScheme='teal' _hover={{ color: "white" }}>Sign in</Button>
+          <Button colorScheme='teal' sx={{color: "white", fontFamily: "mono"}} _hover={{ color: "white" }}>Sign in</Button>
         </ChakraLink>
       </ButtonGroup>
     </Flex>
