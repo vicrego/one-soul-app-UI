@@ -69,7 +69,7 @@ const Chapter = () => {
         </Tabs>
         {currentTabIndex === 0 && (
           <VStack p={5}> 
-            {propsTest?.chapters?.filter((chapter: any) => chapter.course_name === courseName).map((filterChapter: any) => (
+            {props?.props.chapters?.filter((chapter: any) => chapter.course_name === courseName).map((filterChapter: any) => (
             <>
               <ChakraLink as={ReactRouterLink} 
                 type='button'

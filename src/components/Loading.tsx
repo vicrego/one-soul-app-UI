@@ -41,7 +41,7 @@ const Loading = () => {
         setCategories(categories);
 
         // Save count to local storage whenever it changes
-        localStorage.setItem('props', JSON.stringify(categories));
+        //localStorage.setItem('props', JSON.stringify(categories));
       
       } catch (error) {
         console.error('Error fetching user:', error);

@@ -20,12 +20,12 @@ const Body = (props: any) => {
   the props */ 
 
 
-/*
+
   if(!props.loading === true){
     const location = useLocation();
     props = location.state;
   }
-    */
+    
   const [imageLoaded, setImageLoaded] = useState(false);
 
 
@@ -45,13 +45,13 @@ const Body = (props: any) => {
   }, []);
 */
 
-
+/*
   useEffect(() => {
     const data = localStorage.getItem("props");
     const propsTest = data !== null ? JSON.parse(data) : null;
     setPropsTest(propsTest);
   }, [props])
-
+*/
   //console.log("props",props.courses)
   // Fetching message from backend on mount
   /*useEffect(() => {
@@ -95,7 +95,7 @@ const [isComponentVisible, setIsComponentVisible] = useState(false);
         height={isMediumHeight ? "76vh" : "87vh"}
         overflowY={/*isMediumHeight ? "hidden" :*/ "auto"}
       >
-        {propsTest?.courses?.map((course: any) => (
+        {props?.props.courses?.map((course: any) => (
           <Box
             width={isMediumHeight ? "180px" : "16rem"}     
           >

@@ -31,12 +31,10 @@ const Challenge_Free = () => {
   const theme = extendTheme();
 
   const filteredSteps = props.props.challengesFree?.filter((challenge: any) => challenge.difficulty_level === challengeDifficulty);
-  console.log("filteredSteps",filteredSteps)
   const [activeStep, setActiveStep] = React.useState(0);
   
   const title = filteredSteps?.[activeStep] && filteredSteps?.[activeStep].challenge_name; /*: "great"*/;
   const content = filteredSteps?.[activeStep] && filteredSteps?.[activeStep].challenge_content?.split("\\n");
-  console.log("content",content)
   
   const hasCompletedAllSteps = activeStep === filteredSteps?.length;
   

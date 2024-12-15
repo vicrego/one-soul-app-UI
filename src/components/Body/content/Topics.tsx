@@ -37,17 +37,17 @@ const Topics = () => {
   //const [propsTest, setPropsTest] = useState<any>();
 
   //useEffect(() => {
-  const data = localStorage.getItem("props");
-  const propsTest = data !== null ? JSON.parse(data) : null;
-  console.log("data",data)
+  //const data = localStorage.getItem("props");
+  //const propsTest = data !== null ? JSON.parse(data) : null;
+  //console.log("data",data)
   //setPropsTest(propsTest);
 
   //}, [])
 
-  console.log(propsTest)
+  //console.log(propsTest)
   const theme = extendTheme();
   
-  const filteredSteps = propsTest.topics?.filter((topic: any) => topic.chapter_name === chapterName);
+  const filteredSteps = props?.props.topics?.filter((topic: any) => topic.chapter_name === chapterName);
   console.log("filteredSteps", filteredSteps)
   const [activeStep, setActiveStep] = React.useState(0); 
   
@@ -65,8 +65,6 @@ const Topics = () => {
   };
 
   const content = filteredSteps[activeStep] && filteredSteps[activeStep].content.split("\\n");
-  console.log("content",content)
-  
 
   const hasCompletedAllSteps = activeStep === filteredSteps?.length;
   
