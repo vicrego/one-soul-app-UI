@@ -14,8 +14,8 @@ const instanceMongo = axios.create({
 });
 */
 const instanceNeon = axios.create({
-  baseURL: 'http://localhost:5050/', //DEVELOPMENT 
-  //baseURL: 'https://one-soul-server.onrender.com/', //PRODUCTION
+  //baseURL: 'http://localhost:5050/', //DEVELOPMENT 
+  baseURL: 'https://one-soul-server.onrender.com/', //PRODUCTION
   timeout: 5000,
   //headers: {'X-Custom-Header': 'foobar'}
   
