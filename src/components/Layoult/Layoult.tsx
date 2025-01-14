@@ -9,7 +9,6 @@ interface MyComponentProps {
 }
 
 const Layoult: React.FC<MyComponentProps> = ({ children, ...props }: { children: React.ReactNode }) => {
- 
   return (
     <Box 
       minHeight="99vh"

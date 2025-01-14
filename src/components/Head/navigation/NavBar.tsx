@@ -24,8 +24,7 @@ const NavBar = ({props}: any) => {
           <ChakraLink 
             as={NavLink} 
             to="/home" 
-            state={props.props.props}
-            
+            state={props.props} 
           >
             <Heading as='h4' size='md' sx={{color: "white", fontFamily: "mono"}}  _hover={{ color: "white" }}>HOME</Heading>
           </ChakraLink>
@@ -43,6 +42,7 @@ const NavBar = ({props}: any) => {
         <Heading size='lg' sx={{color: "white", fontFamily: "mono"}} fontSize={logoMediaQueryWidth ? '12px' : '25px'} lineHeight='1'>OneSoul Academy</Heading>
       }
       <Spacer />
+{/*
       <ButtonGroup position="static" gap='2'>
         <ChakraLink as={NavLink} 
           to="/signup"
@@ -58,6 +58,7 @@ const NavBar = ({props}: any) => {
           <Button colorScheme='teal' sx={{color: "white", fontFamily: "mono"}} _hover={{ color: "white" }}>Sign in</Button>
         </ChakraLink>
       </ButtonGroup>
+      */}
     </Flex>
   )
 }

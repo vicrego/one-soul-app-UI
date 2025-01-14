@@ -18,9 +18,7 @@ const Body = (props: any) => {
   /*Check if props comes from Loading component. If it doesn't, 
   then it comes from Home Link, therefore useLocation is used to handle
   the props */ 
-
-
-
+  
   if(!props.loading === true){
     const location = useLocation();
     props = location.state;
@@ -34,7 +32,7 @@ const Body = (props: any) => {
 
   //const [message, setMessage] = useState("");
  
-  const [propsTest, setPropsTest] = useState<any>();
+  //const [propsTest, setPropsTest] = useState<any>();
 /*
   useEffect(() => {
     // Retrieve count from local storage on component mount
@@ -85,7 +83,7 @@ const [isComponentVisible, setIsComponentVisible] = useState(false);
 
 
   return ( 
-    <Layoult props={props} >  
+    <Layoult props={props.props} >  
       <Flex 
         p={10} 
         justifyContent="center" 

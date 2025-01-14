@@ -18,7 +18,9 @@ const Challenge_Free = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { courseTitle, challengeDifficulty, props } = location.state;
+  const { courseName, challengeDifficulty, props } = location.state;
+
+  console.log("courseName",courseName)
 
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
@@ -40,7 +42,7 @@ const Challenge_Free = () => {
   
   const bg = useColorModeValue("gray.200", "gray.700");
   
-  const maxSteps: number = filteredSteps.data ? (filteredSteps?.data.length + 1) : 0;
+  const maxSteps: number = filteredSteps ? (filteredSteps.length + 1) : 0;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -49,14 +51,12 @@ const Challenge_Free = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     if(activeStep === 0){
-      navigate("/chapters", {state:{courseTitle, props}});
+      navigate("/chapters", {state:{courseName, props, challenge_Free: true}});
     }
   };
   
-  
-  
   return (
-    <Layoult props={props}>   
+    <Layoult props={props.props}>   
       <Stack
         className="challenges"
         style={{
@@ -110,7 +110,7 @@ const Challenge_Free = () => {
             <ChakraLink as={ReactRouterLink} 
               type='button'
               to="/chapters"
-              state={{courseTitle: courseTitle, props}}
+              state={{courseName: courseName, props, challenge_Free: true}}
             >
               <ColorButton variant="contained" size="large">
                 Complete

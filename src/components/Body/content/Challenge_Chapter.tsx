@@ -20,10 +20,7 @@ const Challenge_Chapter = () => {
   const navigate = useNavigate();
 
   const { courseName, chapterName, props } = location.state;
-  console.log("props",props)
-  console.log("chapterTitle",chapterName)
-  const [steps, setSteps] = useState<any[]>();
-
+  
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
     color: theme.palette.getContrastText(teal[500]),
@@ -75,7 +72,7 @@ const Challenge_Chapter = () => {
 
   
   return (
-    <Layoult props={props}>
+    <Layoult props={props.props}>
       <Stack
         className="topics"
         style={{
@@ -130,7 +127,7 @@ const Challenge_Chapter = () => {
             <ChakraLink as={ReactRouterLink} 
               type='button'
               to="/chapters"
-              state={{courseTitle: courseName, props}}
+              state={{courseName: courseName, props: props}}
             >
               <ColorButton variant="contained" size="large">
                 Complete

@@ -9,7 +9,6 @@ import { getChallenges, getChallengesChapter, getChallengesFree, getChapter, get
 const Loading = () => {
 
   const [onLoaded, setLoaded] = useState(false); //THIS MUST BE SET TO FALSE
-  
   const [categories, setCategories] = useState<any>();
 
   useEffect(() => {
@@ -33,8 +32,6 @@ const Loading = () => {
         
         const getChallengesRes = await getChallenges();
         const challenges = getChallengesRes?.data;
-
-        
         
         let categories = {courses: [...courses], chapters: [...chapters], topics: [...topics], challengesChapter: [...challengesChapter], challengesFree: [...challengesFree], challenges: [...challenges]};
         

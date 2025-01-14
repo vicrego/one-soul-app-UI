@@ -90,12 +90,8 @@ const Topics = () => {
     }
   };
   
-
-
-
-
   return (
-    <Layoult props={props}>
+    <Layoult props={props.props}>
       <Stack 
         className="topics"
         style={{
