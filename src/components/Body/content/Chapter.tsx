@@ -149,7 +149,8 @@ const Chapter = () => {
           </VStack>
         )}
       </Box>
-        <ChakraLink as={ReactRouterLink}
+        <ChakraLink 
+          as={ReactRouterLink}
           className="button-19"
           type='button'
           to="/home"

@@ -79,20 +79,36 @@ type AuthContextPropsType = {
   children: ReactNode;
 };
 
-const AuthContext: Context<AuthContextType | null> =
-  createContext<AuthContextType | null>(null);
+const AuthContext: Context<AuthContextType | null> = createContext<AuthContextType | null>(null);
 
 
-  export const AuthProvider = ({ children }: AuthContextPropsType) => {
+export const AuthProvider = ({ children }: AuthContextPropsType) => {
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const logUserIn = () => {
+    //onsole.log("user",user)
     // For the example I just set a prop. But you'll need to do more here
-    setIsAuthenticated(true);
+    axios({
+      method: "GET",
+      /*data: {
+        token: "hey",
+      },*/
+      withCredentials: true,
+      url: "http://localhost:5050/auth/protected",
+    }).then((res) => {
+      console.log("prot res",res);
+      if(res.status === 200){
+        setIsAuthenticated(true);
+        navigate("/");    
+      }
+    })
+
+
+      
     // Redirect to homepage
-    navigate("/about");
+    //navigate("/about");
   };
 
 /*
@@ -142,7 +158,6 @@ export const useAuth = () => {
       "useAuth must be used within an AuthProvider. Make sure you are rendering AuthProvider at the top level of your application."
     );
   }
-
   return context;
 };
 

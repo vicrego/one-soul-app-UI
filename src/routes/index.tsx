@@ -9,45 +9,8 @@ import Chapter from "../components/Body/content/Chapter";
 import Topics from "../components/Body/content/Topics";
 import Challenge_Free from "../components/Body/content/Challenge_Free";
 import Challenge_Chapter from "../components/Body/content/Challenge_Chapter";
-/*
-const Routes = () => {
-  const { token } = useAuth();
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: token ? <ProtectedRoute /> : <Navigate to="/signIn" replace />,
-      children: token && [
-        {
-          path: "/",
-          element: <div>User Home Page</div>,
-        },
-        {
-          path: "/profile",
-          element: <div>User Profile</div>,
-        },
-        {
-          path: "/logout",
-          element: <div>Logout</div>,
-        },
-      ],
-    },
-    {
-      path: "/signUp",
-      element: <SignUp />,
-    },
-    {
-      path: "/signIn",
-      element: <SignIn />,
-    },
-  ]);
-
-  
-    return <RouterProvider router={router} />;
-  };
-  
-  export default Routes;
-*/
+import Logout from "../components/auth/Logout";
+import Body from "../components/Body/Body";
 
 
 const MyRoutes = () => {
@@ -56,14 +19,14 @@ const MyRoutes = () => {
       <Route path="/signIn" element={<SignIn />} />
       <Route path="/signUp" element={<SignUp />} />
 
-      {/* Protected Routes (Correct way) */}
-      <Route element={<ProtectedRoute />}> {/* Use ProtectedRoute as a parent Route */}
+      {/* Protected Routes */}
+      <Route element={<ProtectedRoute />}> 
         <Route path="/" element={<Loading />} />
-        <Route path="/home" element={<Loading />} />
+        <Route path="/home" element={<Body />} />
         <Route path="/about" element={<About />} />
         <Route path="/chapters" element={<Chapter />} />
         <Route path="/topics" element={<Topics />} />
-        
+        <Route path="/logout" element={<Logout />} />  
         <Route path="/challenges" element={<Challenge_Free />} />
         <Route path="/tasks" element={<Challenge_Chapter />} />
 

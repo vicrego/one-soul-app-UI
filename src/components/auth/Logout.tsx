@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Input, Link as ChakraLink, Text, InputGroup, Stack, useToast, FormErrorMessage, FormLabel, FormControl, VStack, InputRightElement } from '@chakra-ui/react'
+import { Box, Button, Heading, Input, Link as ChakraLink, Text, InputGroup, Stack, useToast, FormErrorMessage, FormLabel, FormControl, VStack, InputRightElement, useDisclosure } from '@chakra-ui/react'
 import { Formik, FormikProps, FormikHelpers as FormikActions, Form, FormikHelpers, ErrorMessage, Field } from 'formik'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
@@ -9,9 +9,10 @@ import { useAuth } from '../../provider/authProvider'
 import { toaster } from '../ui/toaster'
 import { color } from 'framer-motion'
 import { lightGreen, red } from '@mui/material/colors'
+//import { PasswordStrengthMeter } from '../ui/password-input'
 
 
-const SignIn = () => {
+const Logout = () => {
 
   type Values = {
     username: string;  
@@ -19,15 +20,16 @@ const SignIn = () => {
   }
   const navigate = useNavigate();
 
-
-  //const { setUser } = useContext(AuthContext); // Get setUser from AuthContext
-  const [status, setStatus] = useState<any>();
-  let [user, setUser] = useState(null);
-  const [show, setShow] = React.useState(false)
-  const handleClick = () => setShow(!show)
-
   const { logUserIn } = useAuth();
 
+  //const { setUser } = useContext(AuthContext); // Get setUser from AuthContext
+
+
+
+  const [status, setStatus] = useState<any>();
+  const [show, setShow] = React.useState(false)
+  const handleClick = () => setShow(!show)
+  
 
   const toast = useToast();
 
@@ -42,15 +44,6 @@ const SignIn = () => {
 
   function login(event: any) {
     //event.preventDefault();
-
-/*
-    const { mutate, isPending } = useMutation({
-      mutationFn: (data: LoginRequest) => {
-        const config = { withCredentials: true };
-        return apiClient.post<UserInterface | LoginFailure>("/login", data, config);
-      },
-    });
-  */
     axios({
       method: "POST",
       data: {
@@ -67,8 +60,6 @@ const SignIn = () => {
         duration: 9000,
         isClosable: true,
       })*/
-     //console.log("req", res)
-      setUser(res.data.user);
       setStatus(res.status)
       if (res.status === 200) {
         setStatus({
@@ -78,6 +69,7 @@ const SignIn = () => {
       }
       // Set other status if you like
       logUserIn();
+      navigate("/");
       console.log(res.data);
     }).catch(err => {
       if (err.response.status === 400) {
@@ -95,14 +87,13 @@ const SignIn = () => {
     });
   }
 
-  useEffect(() => {
-    logUserIn();
-  }, [])
 
   return (
+    <Layoult>
       <Stack className={styles.styleForm} sx={{color: "white", fontFamily: "mono", alignItems: "center"}}>
-        <Stack>
-          <Heading sx={{margin: 10}}>Sign In</Heading>
+       
+       <Stack>
+          <Heading sx={{margin: 10}}>Logout</Heading>
           <Box bg="white" p={6} w={"300px"} rounded="md">
             <Formik
             initialValues={{ username: "", password: "" }}
@@ -155,6 +146,7 @@ const SignIn = () => {
                         </Text>
                       </Box>
                     )}
+                    {console.log("status",status)}
                     
                     <Button
                       type="submit"
@@ -176,15 +168,16 @@ const SignIn = () => {
         </Stack>
         <Box>
           <Text>Don't have an account?</Text>
-          <ChakraLink
+          {/*<ChakraLink
             as={NavLink}
             to="/signUp"
           >
             Sign Up
-          </ChakraLink>
+          </ChakraLink>*/}
         </Box>
       </Stack>
+      </Layoult>
   )
 }
 
-export default SignIn
+export default Logout

@@ -1,11 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../provider/authProvider";
+import axios from "axios";
 
 export const ProtectedRoute = () => {
   const context = useAuth();
-  console.log("isAuthenticated",context)
-  //console.log("token protected", token)
-
+  console.log("context", context.isAuthenticated);
   // Check if the user is authenticated
   if (!context.isAuthenticated) {
     // If not authenticated, redirect to the login page
