@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link as ChakraLink, Box, Heading, VStack, Center} from '@chakra-ui/react';
+import { Link as ChakraLink, Box, Heading, VStack, Center, filter, Text} from '@chakra-ui/react';
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { ButtonProps, styled, CircularProgress, useMediaQuery, Typography } from '@mui/material';
-import { purple, teal } from '@mui/material/colors';
+import { purple, red, teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
 import { color } from 'framer-motion';
 
@@ -40,7 +40,7 @@ const Chapter = () => {
     
   const StyledTab = styled(Tab)({
     "&.Mui-selected": {
-      color: "#C0C0C0"
+      color: "#C0C0C0",
     }
   });
 
@@ -134,14 +134,13 @@ const Chapter = () => {
                   <Typography 
                       sx={{ 
                         color: "black", 
-                        fontFamily: "mono", 
                         textAlign: "center",
                         "&:hover": {
                           color: "white",
                         }, 
                       }}
                   >
-                    {filterChallenge?.challenge_name}
+                    <Text>{filterChallenge?.challenge_name}</Text>
                   </Typography>
                 </ChakraLink> 
               </Box>

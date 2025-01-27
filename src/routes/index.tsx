@@ -1,7 +1,6 @@
 import { createBrowserRouter, Navigate, Route, RouterProvider, Routes } from "react-router-dom";
 import SignIn from "../components/auth/SignIn";
 import SignUp from "../components/auth/SignUp";
-import { useAuth } from "../provider/authProvider";
 import Loading from "../components/Loading";
 import About from "../components/Body/About";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -18,7 +17,6 @@ const MyRoutes = () => {
     <Routes>
       <Route path="/signIn" element={<SignIn />} />
       <Route path="/signUp" element={<SignUp />} />
-
       {/* Protected Routes */}
       <Route element={<ProtectedRoute />}> 
         <Route path="/" element={<Loading />} />
@@ -29,8 +27,6 @@ const MyRoutes = () => {
         <Route path="/logout" element={<Logout />} />  
         <Route path="/challenges" element={<Challenge_Free />} />
         <Route path="/tasks" element={<Challenge_Chapter />} />
-
-        {/* Add more protected routes here */}
       </Route>
     </Routes>
   );

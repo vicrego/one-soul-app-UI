@@ -1,8 +1,10 @@
-import { HStack, Link as ChakraLink, Flex, Spacer, Button, Stack, ButtonGroup, Heading, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, Box, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogCloseButton, AlertDialogBody, AlertDialogFooter, Center } from '@chakra-ui/react'
+import { HStack, Link as ChakraLink, Flex, Spacer, Button, Stack, ButtonGroup, Heading, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, Box, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogCloseButton, AlertDialogBody, AlertDialogFooter, Center, WrapItem, Avatar, Menu, MenuButton, MenuList, MenuDivider, MenuItem, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { Navigate, NavLink, redirect, useLocation, useNavigate } from 'react-router-dom'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import axios from 'axios';
+import { useAuth } from '../../../provider/authProvider';
+import { purple } from '@mui/material/colors';
 
 
 const NavBar = ({props}: any) => {
@@ -11,6 +13,10 @@ const NavBar = ({props}: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
   const navigate = useNavigate();
+  const { userData } = useAuth();
+  console.log("userData Nav", userData?.data?.username);
+
+  const userName = userData?.data?.username;
   //const logoMediaQueryHeight = useMediaQuery('(max-height:530px)');
   
   const headerMediaQuery = useMediaQuery('(min-width:394px)');
@@ -28,6 +34,7 @@ const NavBar = ({props}: any) => {
       withCredentials: true,
       url: "http://localhost:5050/auth/logout",
     }).then((res) => {
+      localStorage.removeItem("userId");
       navigate("/signIn");
     })/*.catch(err => {
       if (err.response.status === 400) {
@@ -47,40 +54,67 @@ const NavBar = ({props}: any) => {
 
 
   return (
-    <Box>
-    <Flex style={styles.container(headerMediaQuery)}  alignItems='center' gap='2' id="head">
-      <Stack justifyContent="center" >
-        <HStack justifyContent={'center'} gap='6'>   
+    <Flex style={styles.container(headerMediaQuery)} sx={{position: "sticky", zIndex: 2}} alignItems='center'>
+      <Stack>
+        <HStack spacing={7}>   
           <ChakraLink 
             as={NavLink} 
             to="/home" 
             state={props.props} 
           >
-            <Heading as='h4' size='md' sx={{color: "white", fontFamily: "mono"}}  _hover={{ color: "white" }}>HOME</Heading>
+            <Heading as='h4' size='md' sx={{color: "white"}}  _hover={{ color: "white" }}>
+              <Text>HOME</Text>
+            </Heading>
           </ChakraLink>
           <ChakraLink 
             as={NavLink} 
             to="/about"
             state={props.props}
           >
-            <Heading as='h4' size='md' sx={{color: "white", fontFamily: "mono"}} _hover={{ color: "white" }}>ABOUT</Heading>
+            <Heading as='h4' size='md' sx={{color: "white"}} _hover={{ color: "white" }}>
+              ABOUT
+            </Heading>
           </ChakraLink>
         </HStack>
       </Stack>
       <Spacer />
       {!isSmallLogoWidth &&
-        <Heading size='lg' sx={{color: "white", fontFamily: "mono"}} fontSize={logoMediaQueryWidth ? '12px' : '25px'} lineHeight='1'>OneSoul Academy</Heading>
+        <Heading size='lg' sx={{color: "white"}} fontSize={logoMediaQueryWidth ? '20px' : '25px'} lineHeight='1'>OneSoul Academy</Heading>
       }
       <Spacer />
-      <ButtonGroup position="static" gap='2'>
-        {/*<ChakraLink as={NavLink} 
-            to="/logout"
-            state={props.props}
-        >*/}
-            <Button onClick={onOpen} colorScheme='teal' sx={{color: "white", fontFamily: "mono"}} _hover={{ color: "white" }}>Logout</Button>
-          {/*</ChakraLink>  */}
-      </ButtonGroup>
-
+      <HStack marginRight={8}>
+        <Menu>
+          <MenuButton 
+            as={Button}     
+            minW={0}
+          >
+          <Avatar sx={{backgroundColor: "purple", p: "2"}} name={userName} />
+          </MenuButton>
+          <MenuList alignItems={'center'} sx={{backgroundColor: "white", p: 3, borderRadius: 6, w: 300}}>
+            <br />
+            <Center>
+              <Avatar
+                sx={{width: "150px"}}                
+                src={'https://avatars.dicebear.com/api/male/usern§ame.svg'}
+              />
+            </Center>
+            <br />
+            <Center>
+              <p>{userName}</p>
+            </Center>
+            <br />
+            <MenuDivider />
+            <VStack p={3}>
+              <MenuItem>Account Settings</MenuItem>
+              <MenuItem>
+                <ButtonGroup position="static" gap='2'>
+                  <Button onClick={onOpen} colorScheme='teal' >Logout</Button>
+                </ButtonGroup>
+              </MenuItem>
+            </VStack>
+          </MenuList>
+        </Menu>
+      </HStack>
       <AlertDialog
         motionPreset='slideInBottom'
         leastDestructiveRef={cancelRef}
@@ -89,7 +123,6 @@ const NavBar = ({props}: any) => {
         isCentered
       >
         <AlertDialogOverlay />
-
         <AlertDialogContent sx={{backgroundColor: "rgba(17, 37, 124, 0.5)"}}>
     
           <Box sx={{backgroundColor: "white", w: 280, p: "17px 30px", marginTop: "100px", alignSelf: "center", textAlign: "center"}} >
@@ -111,26 +144,7 @@ const NavBar = ({props}: any) => {
 
         </AlertDialogContent>
       </AlertDialog>
-
-{/*
-      <ButtonGroup position="static" gap='2'>
-        <ChakraLink as={NavLink} 
-          to="/signup"
-          state={props.props}
-        >
-          <Button colorScheme='teal' sx={{color: "white", fontFamily: "mono"}} _hover={{ color: "white" }}>Sign Up</Button>
-        </ChakraLink>
-        <ChakraLink 
-          as={NavLink} 
-          to="/signin"
-          state={props.props}
-        >
-          <Button colorScheme='teal' sx={{color: "white", fontFamily: "mono"}} _hover={{ color: "white" }}>Sign in</Button>
-        </ChakraLink>
-      </ButtonGroup>
-      */}
     </Flex>
-    </Box>
   )
 }
 

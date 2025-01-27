@@ -14,14 +14,12 @@
 
 :root {
 	background-color: rgb(34, 118, 151);
+  
 }
 
 *{
   margin: 0;
-}
-
-#head{
-  color: rgb(253, 229, 179);
+  font-family: mono;
 }
 
 .custom-border {

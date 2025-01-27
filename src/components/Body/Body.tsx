@@ -7,8 +7,9 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea, useMediaQuery } from '@mui/material';
 import Layoult from '../Layoult/Layoult';
 import { useEffect, useMemo, useState } from 'react';
-import { yellow } from '@mui/material/colors';
+import { red, yellow } from '@mui/material/colors';
 import Chapter from './content/Chapter';
+import { useAuth } from '../../provider/authProvider';
 
 
 
@@ -18,6 +19,10 @@ const Body = (props: any) => {
   /*Check if props comes from Loading component. If it doesn't, 
   then it comes from Home Link, therefore useLocation is used to handle
   the props */ 
+
+  const { userData } = useAuth();
+  //const user = userData;
+  console.log("userData", userData);
   
   if(!props.loading === true){
     const location = useLocation();
@@ -29,6 +34,8 @@ const Body = (props: any) => {
 
   //const isSmallWidth = useMediaQuery('(max-width: 393px)');
   const isMediumHeight = useMediaQuery('(max-height: 500px)');
+
+  
 
   //const [message, setMessage] = useState("");
  
@@ -93,15 +100,13 @@ const [isComponentVisible, setIsComponentVisible] = useState(false);
         height={isMediumHeight ? "76vh" : "87vh"}
         overflowY={/*isMediumHeight ? "hidden" :*/ "auto"}
       >
-        {props?.props.courses?.map((course: any) => (
+        {props?.props.courses?.map((course: any, i: any) => (
           <Box
             width={isMediumHeight ? "180px" : "16rem"}     
           >
-
             <ChakraLink as={ReactRouterLink} 
               type='button'
-              to="/chapters"
-              
+              to="/chapters"  
               state={{courseName: course.course_name, props}}
               key={course.course_id}
             >
@@ -122,8 +127,8 @@ const [isComponentVisible, setIsComponentVisible] = useState(false);
                     onLoad={() => setImageLoaded(true)}
                   />
                   <CardContent>
-                      <Typography gutterBottom variant="h5" component="div" sx={{color: "white", fontFamily: "mono"}}>
-                      {course.course_name}
+                      <Typography gutterBottom variant="h5" component="div" sx={{color: "white"}}>
+                        <Text>{course.course_name}</Text>
                       </Typography>     
                     </CardContent>
                   {/*imageLoaded && (

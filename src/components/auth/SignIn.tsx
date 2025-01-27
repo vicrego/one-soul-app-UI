@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Input, Link as ChakraLink, Text, InputGroup, Stack, useToast, FormErrorMessage, FormLabel, FormControl, VStack, InputRightElement } from '@chakra-ui/react'
+import { Box, Button, Heading, Input, Link as ChakraLink, Text, InputGroup, Stack, useToast, FormErrorMessage, FormLabel, FormControl, VStack, InputRightElement, Checkbox } from '@chakra-ui/react'
 import { Formik, FormikProps, FormikHelpers as FormikActions, Form, FormikHelpers, ErrorMessage, Field } from 'formik'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
@@ -13,44 +13,31 @@ import { lightGreen, red } from '@mui/material/colors'
 
 const SignIn = () => {
 
-  type Values = {
-    username: string;  
-    password: string;
-  }
-  const navigate = useNavigate();
-
-
-  //const { setUser } = useContext(AuthContext); // Get setUser from AuthContext
   const [status, setStatus] = useState<any>();
-  let [user, setUser] = useState(null);
-  const [show, setShow] = React.useState(false)
+  const [userId, setUserId] = useState("");
+  const [show, setShow] = React.useState(false);
+  const [hasUserId, setHasUserId] = useState(false);
   const handleClick = () => setShow(!show)
-
+  let userLocal = localStorage.getItem("userId");
+    
   const { logUserIn } = useAuth();
-
-
+  
+  useEffect(() => {
+    if(userLocal){
+      setUserId(userLocal);
+      logUserIn(userId);
+    } else {
+      console.log("userLocal",userLocal);
+      setHasUserId(false);
+    }
+  }, [userId]);
+  
   const toast = useToast();
-
-
-
-
 
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  
-
   function login(event: any) {
-    //event.preventDefault();
-
-/*
-    const { mutate, isPending } = useMutation({
-      mutationFn: (data: LoginRequest) => {
-        const config = { withCredentials: true };
-        return apiClient.post<UserInterface | LoginFailure>("/login", data, config);
-      },
-    });
-  */
     axios({
       method: "POST",
       data: {
@@ -67,8 +54,9 @@ const SignIn = () => {
         duration: 9000,
         isClosable: true,
       })*/
-     //console.log("req", res)
-      setUser(res.data.user);
+      
+      setUserId(res.data.userId);
+      localStorage.setItem("userId", res.data.userId);
       setStatus(res.status)
       if (res.status === 200) {
         setStatus({
@@ -76,115 +64,129 @@ const SignIn = () => {
           msg: "Message has been sent! Thanks!"
         })
       }
-      // Set other status if you like
-      logUserIn();
-      console.log(res.data);
+    
+      logUserIn(userId);
+    //logUserIn();
     }).catch(err => {
+      if (err.response === undefined) {
+        setStatus({
+          sent: false,
+          msg: `Error! Something unusual has happened. Please try again later.`
+        });
+      }
       if (err.response.status === 400) {
         setStatus({
           sent: false,
           msg: `Username or Password is wrong. Please try again.`
         });
-      };
+      } 
       if (err.response.status === 404) {
         setStatus({
           sent: false,
           msg: `Error! Request failed with status code ${err.response.status}. Please try again later.`
         });
-      }
+      } 
     });
   }
-
-  useEffect(() => {
-    logUserIn();
-  }, [])
-
   return (
-      <Stack className={styles.styleForm} sx={{color: "white", fontFamily: "mono", alignItems: "center"}}>
-        <Stack>
-          <Heading sx={{margin: 10}}>Sign In</Heading>
-          <Box bg="white" p={6} w={"300px"} rounded="md">
-            <Formik
-            initialValues={{ username: "", password: "" }}
-            onSubmit={(value: any, actions: any) => {
-              console.log("actions", actions.setErrors)
-              login(value);
-              actions.resetForm();
-            }}
-            >
-            {({ isSubmitting }) => (
-              <Form>
-                <VStack>
-                  <FormControl>
-                    <FormLabel htmlFor="username" sx={{color: "black"}}>Username</FormLabel>
-                    <Input  
-                      placeholder="username"
-                      sx={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
-                      variant="subtle"
-                      onChange={(e: any) => {
-                        setLoginUsername(e.target.value);
-                      }} 
-                      name="username" 
-                    />
-                    <FormLabel htmlFor="password" sx={{color: "black"}}>Password</FormLabel>
-                    <InputGroup margin={'auto'} style={{alignItems: 'center'}} >
-                      <Input 
-                        placeholder='password'
+    <Box>
+      { ((useAuth().isAuthenticated === false) || userLocal === null) &&     
+      (
+        <Stack className={styles.styleForm} sx={{color: "white", fontFamily: "mono", alignItems: "center"}}>
+          <Stack>
+            <Heading sx={{margin: 10}}>Sign In</Heading>
+            <Box bg="white" p={6} w={"300px"} rounded="md">
+              <Formik
+              initialValues={{ username: "", password: ""/*, rememberMe: false*/ }}
+              onSubmit={(value: any, actions: any) => {
+                login(value);
+                actions.resetForm();
+              }}
+              >
+              {({ isSubmitting }) => (
+                <Form>
+                  <VStack>
+                    <FormControl>
+                      <FormLabel htmlFor="username" sx={{color: "black"}}>Username</FormLabel>
+                      <Input  
+                        placeholder="username"
                         sx={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
+                        variant="subtle"
                         onChange={(e: any) => {
-                          setLoginPassword(e.target.value);
+                          setLoginUsername(e.target.value);
                         }} 
-                        type={show ? 'text' : 'password'}
-                        name="password" 
-                        variant="filled"
+                        name="username" 
                       />
-                      <InputRightElement width='4.5rem' style={{height: "100%", textAlign: "center"}}>
-                        <Button onClick={handleClick} style={{backgroundColor: "white", color: "gray", padding: 3, borderRadius: 10}}>
-                          {show ? 'Hide' : 'Show'}
-                        </Button>
-                      </InputRightElement>
-                    </InputGroup>   
-                    {status && status.msg && (
-                      <Box w={200}>
-                        <Text style={{color: 'red', marginTop: "15px", fontSize: 10}}
-                          className={`alert ${
-                            status.sent ? "alert-success" : "alert-error"
-                          }`}
-                        >
-                          {status.msg}
-                        </Text>
+                      <FormLabel htmlFor="password" sx={{color: "black"}}>Password</FormLabel>
+                      <InputGroup margin={'auto'} style={{alignItems: 'center'}} >
+                        <Input 
+                          placeholder='password'
+                          sx={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
+                          onChange={(e: any) => {
+                            setLoginPassword(e.target.value);
+                          }} 
+                          type={show ? 'text' : 'password'}
+                          name="password" 
+                          variant="filled"
+                        />
+                        <InputRightElement width='4.5rem' style={{height: "100%", textAlign: "center"}}>
+                          <Button onClick={handleClick} style={{backgroundColor: "white", color: "gray", padding: 3, borderRadius: 10}}>
+                            {show ? 'Hide' : 'Show'}
+                          </Button>
+                        </InputRightElement>
+                      </InputGroup>   
+                      {status && status.msg && (
+                        <Box w={200}>
+                          <Text style={{color: 'red', marginTop: "15px", fontSize: 10}}
+                            className={`alert ${
+                              status.sent ? "alert-success" : "alert-error"
+                            }`}
+                          >
+                            {status.msg}
+                          </Text>
+                        </Box>
+                      )}
+                      {/*<Checkbox
+                        //as={Checkbox}
+                        id="rememberMe"
+                        name="rememberMe"
+                        colorScheme="purple"
+                        style={{color: "black"}}
+                      >
+                        Remember me?
+                      </Checkbox>
+                      */}  
+                      <Button
+                        type="submit"
+                        className="button-19"
+                        sx={{display: "block", marginTop: "20px"}}
+                        disabled={isSubmitting}
+                      >
+                        Submit 
+                      </Button>
+                      <Box sx={{textColor: "black"}}>
+                        {isSubmitting && <span style={{color: "black"}}>Sending...</span>}
                       </Box>
-                    )}
-                    
-                    <Button
-                      type="submit"
-                      className="button-19"
-                      sx={{display: "block", marginTop: "20px"}}
-                      disabled={isSubmitting}
-                    >
-                      Submit 
-                    </Button>
-                    <Box sx={{textColor: "black"}}>
-                      {isSubmitting && <span style={{color: "black"}}>Sending...</span>}
-                    </Box>
-                  </FormControl>
-                </VStack>
-              </Form>
-              )}
-            </Formik>
+                    </FormControl>
+                  </VStack>
+                </Form>
+                )}
+              </Formik>
+            </Box>
+          </Stack>
+          <Box>
+            <Text>Don't have an account?</Text>
+            <ChakraLink
+              as={NavLink}
+              to="/signUp"
+            >
+              Sign Up
+            </ChakraLink>
           </Box>
         </Stack>
-        <Box>
-          <Text>Don't have an account?</Text>
-          <ChakraLink
-            as={NavLink}
-            to="/signUp"
-          >
-            Sign Up
-          </ChakraLink>
-        </Box>
-      </Stack>
-  )
+      )}
+    </Box>
+    )
 }
 
 export default SignIn
