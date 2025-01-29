@@ -16,7 +16,6 @@ const SignIn = () => {
   const [status, setStatus] = useState<any>();
   const [userId, setUserId] = useState("");
   const [show, setShow] = React.useState(false);
-  const [hasUserId, setHasUserId] = useState(false);
   const handleClick = () => setShow(!show)
   let userLocal = localStorage.getItem("userId");
     
@@ -28,7 +27,6 @@ const SignIn = () => {
       logUserIn(userId);
     } else {
       console.log("userLocal",userLocal);
-      setHasUserId(false);
     }
   }, [userId]);
   
@@ -37,7 +35,7 @@ const SignIn = () => {
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  function login(event: any) {
+  function login() {
     axios({
       method: "POST",
       data: {
