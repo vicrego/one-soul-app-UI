@@ -18,9 +18,7 @@ const Challenge_Free = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { courseName, challengeDifficulty, props } = location.state;
-
-  console.log("courseName",courseName)
+  const { courseId, challengeDifficulty, props } = location.state;
 
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
@@ -51,7 +49,7 @@ const Challenge_Free = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     if(activeStep === 0){
-      navigate("/chapters", {state:{courseName, props, challenge_Free: true}});
+      navigate("/chapters", {state:{courseId, props, challenge_Free: true}});
     }
   };
   
@@ -110,7 +108,7 @@ const Challenge_Free = () => {
             <ChakraLink as={ReactRouterLink} 
               type='button'
               to="/chapters"
-              state={{courseName: courseName, props, challenge_Free: true}}
+              state={{courseId: courseId, props, challenge_Free: true}}
             >
               <ColorButton variant="contained" size="large">
                 Complete

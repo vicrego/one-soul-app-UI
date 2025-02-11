@@ -1,10 +1,11 @@
-import { Box, Button, Link as ChakraLink, Checkbox, Flex, Heading, Image, Input, Spacer, Stack, Text } from '@chakra-ui/react'
-import { Formik, FormikProps } from 'formik'
+import { Box, Button, Link as ChakraLink, Checkbox, Flex, Heading, Image, Input, InputGroup, InputRightElement, Spacer, Stack, Text } from '@chakra-ui/react'
+import { Form, Formik, FormikProps } from 'formik'
 import React, { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import style from "./styles.module.css"
 import SignUpImage from '../../assets/images/Signup-Image.jpg'
 import axios from 'axios'
+import { useAuth } from '../../provider/authProvider'
 
 const SignUp = () => {
   //const location = useLocation();
@@ -17,11 +18,14 @@ const SignUp = () => {
     password: string;
   }
 
-
+  
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  
+  const [loginPassword, setLoginPassword] = useState("");
+  const [show, setShow] = React.useState(false);
+  const handleClick = () => setShow(!show)
+  const { logUserIn } = useAuth();
 
   function register() {
     axios({
@@ -34,8 +38,11 @@ const SignUp = () => {
       withCredentials: true,
       url: "http://localhost:5050/auth/register",
     }).then((res) => {
-      console.log(res.data);
-
+      const userId = res.data.userId;
+      console.log(userId);
+      localStorage.setItem("userId", res.data.userId);
+      
+      logUserIn(userId);
     }).catch((err) => {
       console.log("err", err)
     });
@@ -100,17 +107,16 @@ const SignUp = () => {
       <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
         <Flex p={8} flex={1} align={'center'} justify={'center'}>
           <Stack spacing={4} w={'full'} maxW={'md'}>
-            <Heading fontSize={'2xl'}>Sign in to your account</Heading>
+            <Heading fontSize={'2xl'}>Sign Up</Heading>
             <Formik
               initialValues={{ username: "", email: "", password: "" }}
               onSubmit={console.log}
             >
             {(props: FormikProps<Values>) => (
-              <form onSubmit={props.handleSubmit}>
-                <Stack spacing={1}>
-                  <Text mb='8px'>First Name: </Text>
+              <Form onSubmit={props.handleSubmit}>
+                <Stack spacing={1} >
                   <Input  
-                    color={"black"}
+                    sx={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
                     placeholder="username"                 
                     onChange={(e) => {
                       console.log("username", e.target.value)
@@ -119,7 +125,7 @@ const SignUp = () => {
                     name="username" 
                   />
                   <Input  
-                    color={"black"}
+                    sx={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
                     placeholder="email"                 
                     onChange={(e) => {
                       console.log("email", e.target.value)
@@ -127,17 +133,35 @@ const SignUp = () => {
                     }} 
                     name="email" 
                   />
-                  <Input mb='8px'
-                    color={"black"}
-                    placeholder="password"
-                    onChange={(e) => {
-                      console.log("pass", e.target.value)
-                      setRegisterPassword(e.target.value);
-                    }}
-                  />
-                  <Button type="submit" onClick={register}>Submit</Button>
+
+                  <InputGroup margin={'auto'} style={{alignItems: 'center'}} >
+                    <Input 
+                      placeholder='password'
+                      sx={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px", w: "100%"}}
+                      onChange={(e: any) => {
+                        setLoginPassword(e.target.value);
+                      }} 
+                      type={show ? 'text' : 'password'}
+                      name="password" 
+                      variant="filled"
+                    />
+                    <InputRightElement width='4.5rem' style={{height: "100%", textAlign: "center"}}>
+                      <Button onClick={handleClick} style={{backgroundColor: "purple", color: "white", padding: 3, borderRadius: 10}}>
+                        {show ? 'Hide' : 'Show'}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>   
+
+                  <Button
+                    type="submit"
+                    className="button-19"
+                    sx={{alignSelf: "center", marginTop: "20px"}}
+                    onClick={register}
+                  >
+                    Submit
+                  </Button>
                 </Stack>
-              </form>
+              </Form>
             )}
             </Formik>
 
@@ -167,10 +191,7 @@ const SignUp = () => {
           <Image
             alt={'Login Image'}
             objectFit={'cover'}
-            src={
-              SignUpImage
-              //'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80'
-            }
+            src={SignUpImage}
           />
         </Flex>
       </Stack>

@@ -14,8 +14,7 @@ const NavBar = ({props}: any) => {
   const cancelRef = React.useRef()
   const navigate = useNavigate();
   const { userData } = useAuth();
-  console.log("userData Nav", userData?.data?.username);
-
+  
   const userName = userData?.data?.username;
   //const logoMediaQueryHeight = useMediaQuery('(max-height:530px)');
   
@@ -33,8 +32,7 @@ const NavBar = ({props}: any) => {
       method: "POST",
       withCredentials: true,
       url: "http://localhost:5050/auth/logout",
-    }).then((res) => {
-      localStorage.removeItem("userId");
+    }).then(() => {
       navigate("/signIn");
     })/*.catch(err => {
       if (err.response.status === 400) {

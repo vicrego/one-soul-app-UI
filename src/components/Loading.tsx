@@ -34,7 +34,7 @@ const Loading = () => {
         const challenges = getChallengesRes?.data;
         
         let categories = {courses: [...courses], chapters: [...chapters], topics: [...topics], challengesChapter: [...challengesChapter], challengesFree: [...challengesFree], challenges: [...challenges]};
-        
+        console.log("categories", categories)
         setCategories(categories);
 
         // Save count to local storage whenever it changes

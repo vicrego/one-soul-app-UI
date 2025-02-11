@@ -21,8 +21,8 @@ const Topics = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { courseName, chapterName, props, challengeChapter } = location.state;
-
+  const { courseId, chapterId, chapterOrder, props, challengeChapter } = location.state;
+  
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
     //color: theme.palette.getContrastText(teal[500]),
@@ -45,18 +45,17 @@ const Topics = () => {
   //}, [])
 
   //console.log(propsTest)
+
   const theme = extendTheme();
+
+  const filteredSteps = props?.props.topics?.filter((topic: any) => topic.chapter_id === chapterId);
   
-  const filteredSteps = props?.props.topics?.filter((topic: any) => topic.chapter_name === chapterName);
-  console.log("filteredSteps", filteredSteps)
   const [activeStep, setActiveStep] = React.useState(0); 
   
 
 
   const title = filteredSteps[activeStep] && filteredSteps[activeStep].topic_name; /*: "great"*/
-  console.log("title",title)
   const type = filteredSteps[activeStep] && filteredSteps && filteredSteps[activeStep].topic_type;
-  console.log("type",type)
   
   let image = /*filteredSteps.data[activeStep]?.attributes?.image.data?.attributes?.url ||*/ undefined; // undefined, as we still need to database our images
   
@@ -86,7 +85,7 @@ const Topics = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     if(activeStep === 0){
-      navigate("/chapters", {state:{courseName, props}});
+      navigate("/chapters", {state:{courseId, props}});
     }
   };
   
@@ -163,9 +162,6 @@ const Topics = () => {
                   sequence={[
                     'Congratulations! \n All steps were completed.', // Types 'One'
                     1000, // Waits 1s
-                    () => {
-                      console.log('Sequence completed');
-                    },
                   ]}
                   wrapper="span"
                   cursor={false}
@@ -177,7 +173,7 @@ const Topics = () => {
               <ChakraLink as={ReactRouterLink} 
                 type='button'
                 to="/tasks"
-                state={{courseName: courseName, chapterName: chapterName, props}}
+                state={{courseId: courseId, chapterId: chapterId, chapterOrder: chapterOrder, props}}
               >
                 <ColorButton variant="contained" size="large">
                   Challenge!

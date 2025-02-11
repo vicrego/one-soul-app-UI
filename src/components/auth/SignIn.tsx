@@ -17,17 +17,17 @@ const SignIn = () => {
   const [userId, setUserId] = useState("");
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show)
-  let userLocal = localStorage.getItem("userId");
     
   const { logUserIn } = useAuth();
   
   useEffect(() => {
-    if(userLocal){
+    logUserIn(userId);
+    /*if(userLocal){
       setUserId(userLocal);
       logUserIn(userId);
     } else {
       console.log("userLocal",userLocal);
-    }
+    }*/
   }, [userId]);
   
   const toast = useToast();
@@ -52,9 +52,12 @@ const SignIn = () => {
         duration: 9000,
         isClosable: true,
       })*/
-      
       setUserId(res.data.userId);
-      localStorage.setItem("userId", res.data.userId);
+      /*if(userId === ""){
+        console.log("Missing Id")
+      } else {
+        
+      }*/
       setStatus(res.status)
       if (res.status === 200) {
         setStatus({
@@ -63,8 +66,7 @@ const SignIn = () => {
         })
       }
     
-      logUserIn(userId);
-    //logUserIn();
+      logUserIn(res.data.userId);
     }).catch(err => {
       if (err.response === undefined) {
         setStatus({
@@ -86,9 +88,10 @@ const SignIn = () => {
       } 
     });
   }
+  
   return (
     <Box>
-      { ((useAuth().isAuthenticated === false) || userLocal === null) &&     
+      { ((useAuth().isAuthenticated === false)) &&     
       (
         <Stack className={styles.styleForm} sx={{color: "white", fontFamily: "mono", alignItems: "center"}}>
           <Stack>
@@ -97,7 +100,7 @@ const SignIn = () => {
               <Formik
               initialValues={{ username: "", password: ""/*, rememberMe: false*/ }}
               onSubmit={(value: any, actions: any) => {
-                login(value);
+                login();
                 actions.resetForm();
               }}
               >

@@ -8,6 +8,8 @@ import { ButtonProps, styled, CircularProgress, useMediaQuery, Typography } from
 import { purple, red, teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
 import { color } from 'framer-motion';
+import axios from 'axios';
+import { useAuth } from '../../../provider/authProvider';
 
 const Chapter = () => {
 
@@ -15,12 +17,10 @@ const Chapter = () => {
   //I NEED TO SORT OUT A WAY TO CREATE AN ARRAY WITH ALL CATEGORIES INTO ONE, AND PASS AS THE FULL PROP
 
   const location = useLocation();
-  const { courseName, props, challenge_Free } = location.state;
-
-  console.log("props Chapter", props.props.chapters);
-  console.log("courseName",courseName);
-  console.log("challenge_Free",challenge_Free);
-
+  
+  const { courseId, props, challenge_Free } = location.state;
+  console.log("props", props)
+  
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1rem',
     backgroundColor: purple[900],
@@ -30,9 +30,8 @@ const Chapter = () => {
   }));
 
   const [onLoaded, setLoaded] = useState<boolean>(true); //THIS SHOULD BE FALSE ONCE WE HAVE THE IMAGE ICON FOR BUTTONS
-
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
-
+  const [chapterProgress, setChapterProgress] = useState<number>(0); 
 
   const handleTabChange = (e: any, tabIndex: any) => {
     setCurrentTabIndex(tabIndex);
@@ -47,17 +46,70 @@ const Chapter = () => {
   const isSmallHeight = useMediaQuery('(max-height: 592px)');
   const isMediumHeight = useMediaQuery('(max-height: 789px)');
 
-  const [propsTest, setPropsTest] = useState<any>();
-
   useEffect(() => {
     if(challenge_Free){
       setCurrentTabIndex(1);
-    }  
-    const data = localStorage.getItem("props");
-    const propsTest = data !== null ? JSON.parse(data) : null;
-    setPropsTest(propsTest);
-    console.log("data: ", propsTest); 
+    }
+    //const data = localStorage.getItem("props");
   }, [props])
+
+  useEffect(() => {
+    progress();
+  }, []);
+
+  function progress() {
+    
+    axios({
+      method: "GET",
+      
+      withCredentials: true,
+      url: "http://localhost:5050/auth/getUserProgress",
+    }).then((res) => {
+      console.log("res",res)
+      const chapterProgress = res.data.chapter_progress + 1;
+      setChapterProgress(chapterProgress);
+      /*toast({
+        title: 'Account created.',
+        description: "We've created your account for you.",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })*/
+     
+      /*setUserId(res.data.userId);
+      localStorage.setItem("userId", res.data.userId);
+      setStatus(res.status)
+      if (res.status === 200) {
+        setStatus({
+          sent: true,
+          msg: "Message has been sent! Thanks!"
+        })
+      }
+    
+      logUserIn(userId);*/
+    //logUserIn();
+    }).catch(err => {
+      if (err.response === undefined) {
+        setStatus({
+          sent: false,
+          msg: `Error! Something unusual has happened. Please try again later.`
+        });
+      }
+      if (err.response.status === 400) {
+        setStatus({
+          sent: false,
+          msg: `Username or Password is wrong. Please try again.`
+        });
+      } 
+      if (err.response.status === 404) {
+        setStatus({
+          sent: false,
+          msg: `Error! Request failed with status code ${err.response.status}. Please try again later.`
+        });
+      } 
+    });
+  }
+  
 
   return ( 
     <Layoult props={props.props}>   
@@ -75,14 +127,11 @@ const Chapter = () => {
         {/* TAB 1 Contents */}
         {currentTabIndex === 0 && (
           <VStack p={5}> 
-            {props?.props.chapters?.filter((chapter: any) => chapter.course_name === courseName).map((filterChapter: any) => (
+            {props?.props.chapters?.filter((chapter: any) => chapter.course_id === courseId).map((filterChapter: any) => (
             <>
-              <ChakraLink as={ReactRouterLink} 
-                type='button'
-                to="/topics"
-                state={{courseName: courseName, chapterName: filterChapter.chapter_name, props}}
-                key={filterChapter.id}
-              >
+              {console.log("filter chapter_id", filterChapter)}
+              {console.log("filter chapterProgress", chapterProgress)}
+              
                 <ColorButton variant="contained" 
                   endIcon={
                     <img
@@ -90,13 +139,22 @@ const Chapter = () => {
                       //src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
                      //type="css/style.css"
                       width={50}
+                      
                       onLoad={() => setLoaded(true)}
                   />}
+                  disabled={ filterChapter.chapter_order > chapterProgress }
                   //sx={{backgroundColor: "blue"}}
                 > 
+                 <ChakraLink as={ReactRouterLink} 
+                type='button'
+                to="/topics"
+                state={{courseId: courseId, chapterId: filterChapter.chapter_id, chapterOrder: filterChapter.chapter_order, props}}
+                key={filterChapter.id}
+                
+              >
                   {onLoaded ? (
                     <>
-                      <Typography sx={{color: "white", fontFamily: "mono"}}>{filterChapter?.chapter_name}</Typography>
+                      <Typography  sx={{color: "white", fontFamily: "mono"}}>{filterChapter?.chapter_name}</Typography>
                     </>
                   ) : (
                     <>
@@ -104,8 +162,9 @@ const Chapter = () => {
                     </>
                     )
                   }
+                  </ChakraLink>
                 </ColorButton>  
-              </ChakraLink>
+              
             </>
             ))} 
           </VStack>
@@ -114,7 +173,7 @@ const Chapter = () => {
           {/* TAB 2 Contents */}
         {currentTabIndex === 1 && (
           <VStack sx={{ p: 3 }}>
-            {props.props.challenges?.filter((challenge: any) => challenge.course_name === courseName).map((filterChallenge: any) => (
+            {props.props.challenges?.filter((challenge: any) => challenge.course_id === courseId).map((filterChallenge: any) => (
               <Box 
                 sx={{
                   backgroundColor: "white", 
@@ -129,7 +188,7 @@ const Chapter = () => {
                   type='button'
                   to="/challenges"   
                   sx={{width: "200px"}}
-                  state={{ courseName: courseName, challengeDifficulty: filterChallenge?.difficulty_level, props}}
+                  state={{ courseId: courseId, challengeDifficulty: filterChallenge?.difficulty_level, props}}
                 >
                   <Typography 
                       sx={{ 

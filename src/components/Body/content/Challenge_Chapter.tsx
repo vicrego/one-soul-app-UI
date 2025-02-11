@@ -12,6 +12,7 @@ import {
 } from '@mui/material/styles';
 import { purple, blue, teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
+import axios from 'axios';
 
 
 const Challenge_Chapter = () => {
@@ -19,8 +20,7 @@ const Challenge_Chapter = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { courseName, chapterName, props } = location.state;
-  
+  const { courseId, chapterId, chapterOrder, chapterName, props } = location.state;
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
     color: theme.palette.getContrastText(teal[500]),
@@ -29,21 +29,6 @@ const Challenge_Chapter = () => {
       backgroundColor: teal[700],
     },
   }));
-
-  /*
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responseTopic = await getLessonTask();
-        setSteps(responseTopic?.data.data);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      }
-    };
-    fetchData();
-  }, []);
-  */
-
 
   const theme = extendTheme();
   const filteredSteps = props.props?.challengesChapter.filter((challenge: any) => challenge.chapter_name === chapterName);
@@ -66,10 +51,129 @@ const Challenge_Chapter = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     if(activeStep === 0){
-      navigate("/topics", {state:{chapterName, props, courseName, challengeChapter: true}});
+      navigate("/topics", {state:{chapterId, props, courseId, challengeChapter: true}});
     }
   };
 
+  //const [chapterProgress, setChapterProgress] = useState(0);
+
+  /*
+  useEffect(() => {
+    axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:5050/auth/getUserProgress",
+      params: { course_id: courseId }  // Send course_id to identify the user's progress
+    })
+    .then((res) => {
+      console.log("res data challenge",res)
+      setChapterProgress(res.data.chapter_progress);  // Update state with fetched data
+    })
+    .catch(err => {
+      console.error("Error fetching progress:", err);
+    });
+  }, [courseId])
+  */
+
+  
+
+  // Fetch user's current progress on mount
+
+
+  /*
+
+    1 - We get chapterProgress from database
+    2 - If chapter Order (chapter user opened) is less than chapterProgress, there's no update on the 
+    database. If chapter Order is higher than chapterProgress, we add 1 to chapterPRrogress.
+
+  */
+  useEffect(() => {
+    axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:5050/auth/getUserProgress",
+      params: { course_id: courseId }
+    })
+    .then((res) => {
+      const currentProgress = res.data.chapter_progress;
+      if ((currentProgress < chapterOrder)) {
+        userProgress(currentProgress);
+      } else {
+        console.log("currentProgress > chapterOrder")
+      }
+    })
+    .catch((err) => {
+      console.log("err", err)
+    });
+  }, [courseId]); 
+
+  
+  function userProgress(currentProgress: number) {
+    const updatedProgress = currentProgress + 1;  
+    axios({
+      method: "PUT",
+      data: {
+        courseId: courseId,
+        chapterProgress: updatedProgress,
+      },
+      withCredentials: true,
+      url: "http://localhost:5050/auth/userProgressCounter",
+    })
+    .then((res) => {
+      console.log("")
+    })
+    .catch((err) => {
+      console.log("Error updating progress:", err);
+    });
+  }
+
+
+  /*
+  useEffect(() => {
+    let chapterProgress = 0;
+    axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:5050/auth/getUserProgress",
+      params: { course_id: courseId }  // Send course_id to identify the user's progress
+    })
+    .then((res) => {
+      chapterProgress = res.data.chapter_progress;  // Update state with fetched data
+    })
+    .catch(err => {
+      console.error("Error fetching progress:", err);
+    });
+    console.log("chapterProgress", chapterProgress);
+    console.log("chapterId", chapterId);
+    
+    if(chapterProgress < chapterId){
+      
+      userProgress(chapterProgress);
+    } else {
+      console.log("chapterProgress is > chapterId")}
+
+  }, [])
+
+  function userProgress(chapterProgress: number) {
+    console.log("chapterId", chapterId);
+    chapterProgress = chapterProgress ++;
+    console.log("chapter_progress", chapterProgress);
+    
+      axios({
+        method: "PUT",
+        data: {
+          courseId: courseId,
+          chapterProgress: chapterProgress,
+        },
+        withCredentials: true,
+        url: "http://localhost:5050/auth/userProgressCounter",
+      }).then((res) => {
+        const {chapter_progress, course_id} = res.data; 
+      }).catch(err => {
+        console.log("err cat", err)   
+      });
+  }
+  */
   
   return (
     <Layoult props={props.props}>
@@ -127,7 +231,7 @@ const Challenge_Chapter = () => {
             <ChakraLink as={ReactRouterLink} 
               type='button'
               to="/chapters"
-              state={{courseName: courseName, props: props}}
+              state={{courseId: courseId, props: props}}
             >
               <ColorButton variant="contained" size="large">
                 Complete

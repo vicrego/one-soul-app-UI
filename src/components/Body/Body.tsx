@@ -15,13 +15,12 @@ import { useAuth } from '../../provider/authProvider';
 
 const Body = (props: any) => {
 
-  //props.courses?.map((hey: any) => {console.log("hey",hey)})
   /*Check if props comes from Loading component. If it doesn't, 
   then it comes from Home Link, therefore useLocation is used to handle
   the props */ 
+  
 
   const { userData } = useAuth();
-  //const user = userData;
   console.log("userData", userData);
   
   if(!props.loading === true){
@@ -30,64 +29,8 @@ const Body = (props: any) => {
   }
     
   const [imageLoaded, setImageLoaded] = useState(false);
-
-
-  //const isSmallWidth = useMediaQuery('(max-width: 393px)');
   const isMediumHeight = useMediaQuery('(max-height: 500px)');
-
-  
-
-  //const [message, setMessage] = useState("");
- 
-  //const [propsTest, setPropsTest] = useState<any>();
-/*
-  useEffect(() => {
-    // Retrieve count from local storage on component mount
-    const storedCount = localStorage.getItem(props);
-    if (props) {
-      setCount(parseInt(storedCount));
-    }
-  }, []);
-*/
-
-/*
-  useEffect(() => {
-    const data = localStorage.getItem("props");
-    const propsTest = data !== null ? JSON.parse(data) : null;
-    setPropsTest(propsTest);
-  }, [props])
-*/
-  //console.log("props",props.courses)
-  // Fetching message from backend on mount
-  /*useEffect(() => {
-    fetch("http://localhost:5050")
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message));
-  }, []);
-  const [records, setRecords] = useState<any>([]);
-*/
-
-/*
-  useEffect(() => {
-    console.log("here")
-    async function getRecords() {
-      const response = await fetch(`http://localhost:5050/record`);
-
-      if (!response.ok) {
-        const message = `An error occurred: ${response.statusText}`;
-        console.error(message);
-        return;
-      }
-      const records = await response.json();
-      console.log(records)
-      setRecords(records);
-    }
-    getRecords();
-    return;
-  }, []);
-*/
-const [isComponentVisible, setIsComponentVisible] = useState(false);
-
+  const [isComponentVisible, setIsComponentVisible] = useState(false);
 
   return ( 
     <Layoult props={props.props} >  
@@ -107,7 +50,7 @@ const [isComponentVisible, setIsComponentVisible] = useState(false);
             <ChakraLink as={ReactRouterLink} 
               type='button'
               to="/chapters"  
-              state={{courseName: course.course_name, props}}
+              state={{courseId: course.course_id, props}}
               key={course.course_id}
             >
               <Card 

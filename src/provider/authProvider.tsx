@@ -65,7 +65,6 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
   };
 */
   const logUserIn = (userId: any) => {
-    console.log("userinfo auth", userId)
     axios({
       method: "POST",
       data: {
@@ -74,7 +73,6 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
       withCredentials: true,
       url: "http://localhost:5050/auth/user",
     }).then((res) => {
-      console.log("prot res",res);
       setUserData(res);
       /*if(res.status === 200){
         setIsAuthenticated(true);
@@ -86,6 +84,7 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
         }
       }).catch((err) => {
         if(err.response.status === 401){
+          console.log(err)
           setIsAuthenticated(false);
       };
     });
@@ -132,7 +131,6 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  console.log("context", context)
   if (!context) {
     throw new Error(
       "useAuth must be used within an AuthProvider. Make sure you are rendering AuthProvider at the top level of your application."

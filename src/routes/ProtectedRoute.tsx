@@ -4,7 +4,6 @@ import axios from "axios";
 
 export const ProtectedRoute = () => {
   const context = useAuth();
-  console.log("context", context.isAuthenticated);
   // Check if the user is authenticated
   if (!context.isAuthenticated) {
     // If not authenticated, redirect to the login page
