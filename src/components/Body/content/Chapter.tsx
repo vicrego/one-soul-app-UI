@@ -19,7 +19,6 @@ const Chapter = () => {
   const location = useLocation();
   
   const { courseId, props, challenge_Free } = location.state;
-  console.log("props", props)
   
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1rem',
@@ -65,7 +64,6 @@ const Chapter = () => {
       withCredentials: true,
       url: "http://localhost:5050/auth/getUserProgress",
     }).then((res) => {
-      console.log("res",res)
       const chapterProgress = res.data.chapter_progress + 1;
       setChapterProgress(chapterProgress);
       /*toast({
@@ -129,42 +127,40 @@ const Chapter = () => {
           <VStack p={5}> 
             {props?.props.chapters?.filter((chapter: any) => chapter.course_id === courseId).map((filterChapter: any) => (
             <>
-              {console.log("filter chapter_id", filterChapter)}
-              {console.log("filter chapterProgress", chapterProgress)}
-              
-                <ColorButton variant="contained" 
-                  endIcon={
-                    <img
-                      rel="stylesheet"
-                      //src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
-                     //type="css/style.css"
-                      width={50}
-                      
-                      onLoad={() => setLoaded(true)}
-                  />}
-                  disabled={ filterChapter.chapter_order > chapterProgress }
-                  //sx={{backgroundColor: "blue"}}
-                > 
-                 <ChakraLink as={ReactRouterLink} 
+              <ChakraLink as={ReactRouterLink} 
                 type='button'
                 to="/topics"
                 state={{courseId: courseId, chapterId: filterChapter.chapter_id, chapterOrder: filterChapter.chapter_order, props}}
-                key={filterChapter.id}
-                
+                key={filterChapter.id} 
+                pointerEvents={filterChapter.chapter_order > chapterProgress ? "none" : "auto"}
+                //_disabled={ filterChapter.chapter_order > chapterProgress } 
               >
-                  {onLoaded ? (
-                    <>
-                      <Typography  sx={{color: "white", fontFamily: "mono"}}>{filterChapter?.chapter_name}</Typography>
-                    </>
-                  ) : (
-                    <>
-                      <CircularProgress />
-                    </>
-                    )
-                  }
-                  </ChakraLink>
-                </ColorButton>  
-              
+              <ColorButton variant="contained" 
+                endIcon={
+                  <img
+                    rel="stylesheet"
+                    //src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
+                    //type="css/style.css"
+                    width={50}
+                    
+                    onLoad={() => setLoaded(true)}
+                />}
+                disabled={ filterChapter.chapter_order > chapterProgress }
+                //sx={{backgroundColor: "blue"}}
+              > 
+
+                {onLoaded ? (
+                  <>
+                    <Typography  sx={{color: "white", fontFamily: "mono"}}>{filterChapter?.chapter_name}</Typography>
+                  </>
+                ) : (
+                  <>
+                    <CircularProgress />
+                  </>
+                  )
+                }
+                </ColorButton>
+              </ChakraLink>
             </>
             ))} 
           </VStack>
