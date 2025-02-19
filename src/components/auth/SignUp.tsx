@@ -1,9 +1,8 @@
 import { Box, Button, Link as ChakraLink, Checkbox, Flex, Heading, Image, Input, InputGroup, InputRightElement, Spacer, Stack, Text } from '@chakra-ui/react'
 import { Field, Form, Formik, FormikProps } from 'formik'
 import React, { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
-import style from "./styles.module.css"
-import SignUpImage from '../../assets/images/Signup-Image.jpg'
+import { NavLink } from 'react-router-dom'
+import SignUpImage from '../../assets/images/signup-image.jpg'
 import axios from 'axios'
 import { useAuth } from '../../provider/authProvider'
 import { object, string, TypeOf, z } from 'zod'
