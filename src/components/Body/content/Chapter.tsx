@@ -31,6 +31,7 @@ const Chapter = () => {
   const [onLoaded, setLoaded] = useState<boolean>(true); //THIS SHOULD BE FALSE ONCE WE HAVE THE IMAGE ICON FOR BUTTONS
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
   const [chapterProgress, setChapterProgress] = useState<number>(0); 
+  const [status, setStatus] = useState<any>("");
 
   const handleTabChange = (e: any, tabIndex: any) => {
     setCurrentTabIndex(tabIndex);
@@ -66,26 +67,6 @@ const Chapter = () => {
     }).then((res) => {
       const chapterProgress = res.data.chapter_progress + 1;
       setChapterProgress(chapterProgress);
-      /*toast({
-        title: 'Account created.',
-        description: "We've created your account for you.",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })*/
-     
-      /*setUserId(res.data.userId);
-      localStorage.setItem("userId", res.data.userId);
-      setStatus(res.status)
-      if (res.status === 200) {
-        setStatus({
-          sent: true,
-          msg: "Message has been sent! Thanks!"
-        })
-      }
-    
-      logUserIn(userId);*/
-    //logUserIn();
     }).catch(err => {
       if (err.response === undefined) {
         setStatus({
@@ -146,7 +127,6 @@ const Chapter = () => {
                     onLoad={() => setLoaded(true)}
                 />}
                 disabled={ filterChapter.chapter_order > chapterProgress }
-                //sx={{backgroundColor: "blue"}}
               > 
 
                 {onLoaded ? (
@@ -166,7 +146,7 @@ const Chapter = () => {
           </VStack>
         )}
           
-          {/* TAB 2 Contents */}
+        {/* TAB 2 Contents */}
         {currentTabIndex === 1 && (
           <VStack sx={{ p: 3 }}>
             {props.props.challenges?.filter((challenge: any) => challenge.course_id === courseId).map((filterChallenge: any) => (

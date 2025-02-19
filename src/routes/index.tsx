@@ -8,7 +8,6 @@ import Chapter from "../components/Body/content/Chapter";
 import Topics from "../components/Body/content/Topics";
 import Challenge_Free from "../components/Body/content/Challenge_Free";
 import Challenge_Chapter from "../components/Body/content/Challenge_Chapter";
-import Logout from "../components/auth/Logout";
 import Body from "../components/Body/Body";
 
 
@@ -24,7 +23,6 @@ const MyRoutes = () => {
         <Route path="/about" element={<About />} />
         <Route path="/chapters" element={<Chapter />} />
         <Route path="/topics" element={<Topics />} />
-        <Route path="/logout" element={<Logout />} />  
         <Route path="/challenges" element={<Challenge_Free />} />
         <Route path="/tasks" element={<Challenge_Chapter />} />
       </Route>

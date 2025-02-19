@@ -1,15 +1,23 @@
 import { Box, Button, Heading, Input, Link as ChakraLink, Text, InputGroup, Stack, useToast, FormErrorMessage, FormLabel, FormControl, VStack, InputRightElement, Checkbox } from '@chakra-ui/react'
 import { Formik, FormikProps, FormikHelpers as FormikActions, Form, FormikHelpers, ErrorMessage, Field } from 'formik'
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import styles from "./styles.module.css"
-import Layoult from '../Layoult/Layoult'
 import axios from 'axios'
 import { useAuth } from '../../provider/authProvider'
-import { toaster } from '../ui/toaster'
-import { color } from 'framer-motion'
-import { lightGreen, red } from '@mui/material/colors'
+import { object, string, TypeOf } from 'zod'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
+
+type ContactFormInputs = TypeOf<typeof contactFormSchema>
+
+const contactFormSchema = object({
+  
+  username: string({
+    required_error: "Please enter your name",
+  }).min(6).max(36),
+  password: string(),
+});
 
 const SignIn = () => {
 
@@ -21,26 +29,18 @@ const SignIn = () => {
   const { logUserIn } = useAuth();
   
   useEffect(() => {
-    logUserIn(userId);
-    /*if(userLocal){
-      setUserId(userLocal);
-      logUserIn(userId);
-    } else {
-      console.log("userLocal",userLocal);
-    }*/
+    logUserIn();
   }, [userId]);
   
   const toast = useToast();
 
-  const [loginUsername, setLoginUsername] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
 
-  function login() {
+  function login(username: any, password: any) {
     axios({
       method: "POST",
       data: {
-        username: loginUsername,
-        password: loginPassword,
+        username: username,
+        password: password,
       },
       withCredentials: true,
       url: "http://localhost:5050/auth/login",
@@ -65,8 +65,7 @@ const SignIn = () => {
           msg: "Message has been sent! Thanks!"
         })
       }
-    
-      logUserIn(res.data.userId);
+      logUserIn();
     }).catch(err => {
       if (err.response === undefined) {
         setStatus({
@@ -97,45 +96,52 @@ const SignIn = () => {
           <Stack>
             <Heading sx={{margin: 10}}>Sign In</Heading>
             <Box bg="white" p={6} w={"300px"} rounded="md">
-              <Formik
-              initialValues={{ username: "", password: ""/*, rememberMe: false*/ }}
-              onSubmit={(value: any, actions: any) => {
-                login();
-                actions.resetForm();
-              }}
+              <Formik<ContactFormInputs>
+                initialValues={{ username: "", password: ""/*, rememberMe: false*/ }}
+                onSubmit={(value: any, actions: any) => {
+                  let username = value.username;
+                  let password = value.password;
+                  login(username, password);
+                  actions.resetForm();
+                  }
+                }
+                validationSchema={toFormikValidationSchema(contactFormSchema)}
               >
-              {({ isSubmitting }) => (
+              {({ isSubmitting, errors }) => {
+                return (
                 <Form>
                   <VStack>
                     <FormControl>
-                      <FormLabel htmlFor="username" sx={{color: "black"}}>Username</FormLabel>
-                      <Input  
-                        placeholder="username"
-                        sx={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
-                        variant="subtle"
-                        onChange={(e: any) => {
-                          setLoginUsername(e.target.value);
-                        }} 
-                        name="username" 
-                      />
+                      <FormLabel htmlFor="username" sx={{color: "black"}}>Username</FormLabel>     
+                        <Field  
+                          placeholder="username"
+                          style={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
+                          variant="subtle"
+                          name="username" 
+                        />{!!errors.username && (
+                          <Text className="form-text" sx={{color: "red"}}>
+                            {errors.username}
+                          </Text>
+                        )}
                       <FormLabel htmlFor="password" sx={{color: "black"}}>Password</FormLabel>
                       <InputGroup margin={'auto'} style={{alignItems: 'center'}} >
-                        <Input 
+                        <Field 
                           placeholder='password'
-                          sx={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
-                          onChange={(e: any) => {
-                            setLoginPassword(e.target.value);
-                          }} 
+                          style={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
                           type={show ? 'text' : 'password'}
                           name="password" 
                           variant="filled"
-                        />
+                        /> 
                         <InputRightElement width='4.5rem' style={{height: "100%", textAlign: "center"}}>
                           <Button onClick={handleClick} style={{backgroundColor: "white", color: "gray", padding: 3, borderRadius: 10}}>
                             {show ? 'Hide' : 'Show'}
                           </Button>
                         </InputRightElement>
-                      </InputGroup>   
+                      </InputGroup> {!!errors.password && (
+                          <Text className="form-text" sx={{color: "red"}}>
+                            {errors.password}
+                          </Text>
+                        )}   
                       {status && status.msg && (
                         <Box w={200}>
                           <Text style={{color: 'red', marginTop: "15px", fontSize: 10}}
@@ -171,7 +177,7 @@ const SignIn = () => {
                     </FormControl>
                   </VStack>
                 </Form>
-                )}
+                )}}
               </Formik>
             </Box>
           </Stack>

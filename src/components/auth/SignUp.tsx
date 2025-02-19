@@ -1,48 +1,52 @@
 import { Box, Button, Link as ChakraLink, Checkbox, Flex, Heading, Image, Input, InputGroup, InputRightElement, Spacer, Stack, Text } from '@chakra-ui/react'
-import { Form, Formik, FormikProps } from 'formik'
+import { Field, Form, Formik, FormikProps } from 'formik'
 import React, { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import style from "./styles.module.css"
 import SignUpImage from '../../assets/images/Signup-Image.jpg'
 import axios from 'axios'
 import { useAuth } from '../../provider/authProvider'
+import { object, string, TypeOf, z } from 'zod'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
+
+
+type ContactFormInputs = TypeOf<typeof contactFormSchema>
+
+const contactFormSchema = object({
+  username: z.string({
+    required_error: "Please enter your name",
+  }).min(6).max(36),
+  email: z.string().email("Please enter a valid email"),
+  password: z.string()
+  .min(8)
+  .max(20)
+  .refine((password) => /[A-Z]/.test(password), {
+    message: "At least one uppercase character is needed.",
+  })
+  .refine((password) => /[a-z]/.test(password), {
+    message: "At least one lowercase character is needed.",
+  })
+});
+
 
 const SignUp = () => {
-  //const location = useLocation();
-  //let props = location.state;
-
-  type Values = {
-    username: string;
-    //secondName: string;  
-    email: string;
-    password: string;
-  }
-
-  
-  const [registerUsername, setRegisterUsername] = useState("");
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+ 
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show)
   const { logUserIn } = useAuth();
 
-  function register() {
+  function register(username: string, email: string, password: any) {
     axios({
       method: "POST",
       data: {
-        username: registerUsername,
-        email: registerEmail,
-        password: registerPassword,
+        username: username,
+        email: email,
+        password: password,
       },
       withCredentials: true,
       url: "http://localhost:5050/auth/register",
     }).then((res) => {
-      const userId = res.data.userId;
-      console.log(userId);
-      localStorage.setItem("userId", res.data.userId);
-      
-      logUserIn(userId);
+      logUserIn();
     }).catch((err) => {
       console.log("err", err)
     });
@@ -50,122 +54,79 @@ const SignUp = () => {
 
   
   return (
-    /*<Layoult props={props.props}>*/
     <Stack sx={{color: "white"}}>
-      {/*
-      <Stack>
-        <Heading sx={{marginBottom: 4}}>Sign Up</Heading>
-        <Formik
-          initialValues={{ username: "", email: "", password: "" }}
-          onSubmit={console.log}
-        >
-        {(props: FormikProps<Values>) => (
-          <form onSubmit={props.handleSubmit}>
-            <Stack spacing={1}>
-              <Text mb='8px'>First Name: </Text>
-              <Input  
-                placeholder="username"                 
-                onChange={(e) => {
-                  console.log("username", e.target.value)
-                  setRegisterUsername(e.target.value);
-                }} 
-                name="username" 
-              />
-              <Input  
-                placeholder="email"                 
-                onChange={(e) => {
-                  console.log("email", e.target.value)
-                  setRegisterEmail(e.target.value);
-                }} 
-                name="email" 
-              />
-              <Input mb='8px'
-                placeholder="password"
-                onChange={(e) => {
-                  console.log("pass", e.target.value)
-                  setRegisterPassword(e.target.value);
-                }}
-              />
-              <Button type="submit" onClick={register}>Submit</Button>
-            </Stack>
-          </form>
-        )}
-        </Formik>
-      </Stack>
-      <Box >
-        <Text>Already have an account?</Text>
-        <ChakraLink
-          as={NavLink}
-          to="/signIn"
-          //state={{props: props.props}}
-        >
-          Sign In
-        </ChakraLink>
-      </Box>
-      */}
-
       <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
         <Flex p={8} flex={1} align={'center'} justify={'center'}>
           <Stack spacing={4} w={'full'} maxW={'md'}>
             <Heading fontSize={'2xl'}>Sign Up</Heading>
-            <Formik
+            <Formik<ContactFormInputs>
               initialValues={{ username: "", email: "", password: "" }}
-              onSubmit={console.log}
+              onSubmit={(value: any, actions: any) => {
+                let username = value.username;
+                let email = value.email;
+                let password = value.password;
+                register(username, email, password )
+              }}
+              validationSchema={toFormikValidationSchema(contactFormSchema)}
             >
-            {(props: FormikProps<Values>) => (
-              <Form onSubmit={props.handleSubmit}>
+            {({errors}) => {
+              return (
+              <Form>
                 <Stack spacing={1} >
-                  <Input  
-                    sx={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
+                  <Field  
+                    style={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
                     placeholder="username"                 
-                    onChange={(e) => {
-                      console.log("username", e.target.value)
-                      setRegisterUsername(e.target.value);
-                    }} 
                     name="username" 
-                  />
-                  <Input  
-                    sx={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
+                  /> {!!errors.username && (
+                    <Text className="form-text" sx={{color: "red"}}>
+                      {errors.username}
+                    </Text>
+                  )}
+                  <Field  
+                    style={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
                     placeholder="email"                 
-                    onChange={(e) => {
-                      console.log("email", e.target.value)
-                      setRegisterEmail(e.target.value);
-                    }} 
                     name="email" 
-                  />
-
+                  /> {!!errors.email && (
+                    <Text className="form-text" sx={{color: "red"}}>
+                      {errors.email}
+                    </Text>
+                  )}
                   <InputGroup margin={'auto'} style={{alignItems: 'center'}} >
-                    <Input 
-                      placeholder='password'
-                      sx={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px", w: "100%"}}
-                      onChange={(e: any) => {
-                        setLoginPassword(e.target.value);
-                      }} 
-                      type={show ? 'text' : 'password'}
+                    <Field
+                      as={Input}
                       name="password" 
+                      type={show ? 'text' : 'password'}
+                      placeholder='password'
                       variant="filled"
-                    />
+                      style={{
+                        color: "black", 
+                        backgroundColor: "#CBCCF7", 
+                        borderRadius: "5px", 
+                        padding: "6px", 
+                        width: "100%"
+                      }}
+                    /> 
                     <InputRightElement width='4.5rem' style={{height: "100%", textAlign: "center"}}>
                       <Button onClick={handleClick} style={{backgroundColor: "purple", color: "white", padding: 3, borderRadius: 10}}>
                         {show ? 'Hide' : 'Show'}
                       </Button>
                     </InputRightElement>
-                  </InputGroup>   
-
+                  </InputGroup> {!!errors.password && (
+                    <Text className="form-text" sx={{color: "red"}}>
+                      {errors.password}
+                    </Text>
+                  )}
                   <Button
                     type="submit"
                     className="button-19"
                     sx={{alignSelf: "center", marginTop: "20px"}}
-                    onClick={register}
                   >
                     Submit
                   </Button>
                 </Stack>
               </Form>
-            )}
+            )}}
             </Formik>
-
-
             <Stack spacing={6}>
               <Stack
                 direction={{ base: 'column', sm: 'row' }}
@@ -195,11 +156,7 @@ const SignUp = () => {
           />
         </Flex>
       </Stack>
-
-
-
     </Stack>
-    /*</Layoult>*/
   )
 }
 

@@ -1,20 +1,26 @@
 import { HStack, Link as ChakraLink, Flex, Spacer, Button, Stack, ButtonGroup, Heading, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, Box, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogCloseButton, AlertDialogBody, AlertDialogFooter, Center, WrapItem, Avatar, Menu, MenuButton, MenuList, MenuDivider, MenuItem, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
-import { Navigate, NavLink, redirect, useLocation, useNavigate } from 'react-router-dom'
+import {NavLink, useNavigate } from 'react-router-dom'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import axios from 'axios';
 import { useAuth } from '../../../provider/authProvider';
-import { purple } from '@mui/material/colors';
 
+
+type UserDataType = {
+  data?: {
+    username: string;
+    email?: string;
+  };
+};
 
 const NavBar = ({props}: any) => {
   const isSmallLogoWidth = useMediaQuery('(max-width:530px)');
   const logoMediaQueryWidth = useMediaQuery('(max-width:625px)');
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const cancelRef = React.useRef()
+  const cancelRef = React.useRef<HTMLButtonElement | null>(null)
   const navigate = useNavigate();
-  const { userData } = useAuth();
-  
+  const { userData }: { userData: UserDataType | null } = useAuth();
+
   const userName = userData?.data?.username;
   //const logoMediaQueryHeight = useMediaQuery('(max-height:530px)');
   
@@ -122,7 +128,6 @@ const NavBar = ({props}: any) => {
       >
         <AlertDialogOverlay />
         <AlertDialogContent sx={{backgroundColor: "rgba(17, 37, 124, 0.5)"}}>
-    
           <Box sx={{backgroundColor: "white", w: 280, p: "17px 30px", marginTop: "100px", alignSelf: "center", textAlign: "center"}} >
             <Box sx={{display: "flex", paddingBottom: "20px"}}>
               <AlertDialogBody sx={{backgroundColor: "white", textAlign: "left", paddingRight: 10}}>
