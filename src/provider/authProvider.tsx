@@ -28,7 +28,8 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
     axios({
       method: "POST",
       withCredentials: true,
-      url: "http://localhost:5050/auth/user",
+      //url: "http://localhost:5050/auth/user", //DEVELOPMENT
+      url: "https://one-soul-server.onrender.com/auth/user" //PRODUCTION
     }).then((res) => {
       setUserData(res);
         if(res.status === 200){

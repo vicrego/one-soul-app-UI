@@ -43,7 +43,8 @@ const SignIn = () => {
         password: password,
       },
       withCredentials: true,
-      url: "http://localhost:5050/auth/login",
+      //url: "http://localhost:5050/auth/login",  //DEVELOPMENT
+      url: "https://one-soul-server.onrender.com/auth/login" //PRODUCTION
     }).then((res) => {
       /*toast({
         title: 'Account created.',

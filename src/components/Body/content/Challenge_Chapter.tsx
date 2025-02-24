@@ -91,7 +91,8 @@ const Challenge_Chapter = () => {
     axios({
       method: "GET",
       withCredentials: true,
-      url: "http://localhost:5050/auth/getUserProgress",
+      //url: "http://localhost:5050/auth/getUserProgress",
+      url: "https://one-soul-server.onrender.com/auth/getUserProgress",
       params: { course_id: courseId }
     })
     .then((res) => {
@@ -117,7 +118,8 @@ const Challenge_Chapter = () => {
         chapterProgress: updatedProgress,
       },
       withCredentials: true,
-      url: "http://localhost:5050/auth/userProgressCounter",
+      //url: "http://localhost:5050/auth/userProgressCounter", //DEVELOPMENT
+      url: "https://one-soul-server.onrender.com/" //PRODUCTION
     })
     .then((res) => {
       console.log("")

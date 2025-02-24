@@ -43,7 +43,8 @@ const SignUp = () => {
         password: password,
       },
       withCredentials: true,
-      url: "http://localhost:5050/auth/register",
+      //url: "http://localhost:5050/auth/register", //DEVELOPMENT
+      url: "https://one-soul-server.onrender.com/auth/register" //PRODUCTION
     }).then((res) => {
       logUserIn();
     }).catch((err) => {

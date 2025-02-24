@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "http://localhost:5050",
+  "proxy": "https://one-soul-server.onrender.com",
+  
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

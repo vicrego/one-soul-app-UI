@@ -63,7 +63,8 @@ const Chapter = () => {
       method: "GET",
       
       withCredentials: true,
-      url: "http://localhost:5050/auth/getUserProgress",
+      //url: "http://localhost:5050/auth/getUserProgress", //DEVELOPMENT
+      url: "https://one-soul-server.onrender.com/auth/getUserProgress", //PRODUCTION
     }).then((res) => {
       const chapterProgress = res.data.chapter_progress + 1;
       setChapterProgress(chapterProgress);

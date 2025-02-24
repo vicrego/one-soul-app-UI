@@ -37,7 +37,8 @@ const NavBar = ({props}: any) => {
     axios({
       method: "POST",
       withCredentials: true,
-      url: "http://localhost:5050/auth/logout",
+      //url: "http://localhost:5050/auth/logout", //DEVELOPMENT
+      url: "https://one-soul-server.onrender.com/auth/logout" //PRODUCTION
     }).then(() => {
       navigate("/signIn");
     })/*.catch(err => {
