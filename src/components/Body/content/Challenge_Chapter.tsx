@@ -119,7 +119,7 @@ const Challenge_Chapter = () => {
       },
       withCredentials: true,
       //url: "http://localhost:5050/auth/userProgressCounter", //DEVELOPMENT
-      url: "https://one-soul-server.onrender.com/" //PRODUCTION
+      url: "https://one-soul-server.onrender.com/auth/userProgressCounter" //PRODUCTION
     })
     .then((res) => {
       console.log("")
