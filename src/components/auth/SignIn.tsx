@@ -33,6 +33,14 @@ const SignIn = () => {
   }, [userId]);
   
   const toast = useToast();
+  let url: string;
+
+  
+  if(import.meta.env.VITE_ENV === "development"){
+    url = "http://localhost:5050/auth/login";
+  } else {
+    url = "https://one-soul-server.onrender.com/auth/login";
+  }
 
 
   function login(username: any, password: any) {
@@ -43,8 +51,7 @@ const SignIn = () => {
         password: password,
       },
       withCredentials: true,
-      //url: "http://localhost:5050/auth/login",  //DEVELOPMENT
-      url: "https://one-soul-server.onrender.com/auth/login" //PRODUCTION
+      url: url
     }).then((res) => {
       /*toast({
         title: 'Account created.',

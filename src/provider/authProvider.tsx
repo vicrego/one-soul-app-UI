@@ -24,12 +24,20 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
 
   const navigate = useNavigate();
 
+  let url: string;
+  
+  if(import.meta.env.VITE_ENV === "development"){
+    url = 'http://localhost:5050/auth/user';
+  } else {
+    url = "https://one-soul-server.onrender.com/auth/user";
+  }
+  
+
   const logUserIn = () => {
     axios({
       method: "POST",
       withCredentials: true,
-      //url: "http://localhost:5050/auth/user", //DEVELOPMENT
-      url: "https://one-soul-server.onrender.com/auth/user" //PRODUCTION
+      url: url
     }).then((res) => {
       setUserData(res);
         if(res.status === 200){
