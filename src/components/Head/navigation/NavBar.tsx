@@ -32,13 +32,20 @@ const NavBar = ({props}: any) => {
     })
   };
 
+  let url: string;
+
+  if(import.meta.env.VITE_ENV === "development"){
+    url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/logout`;
+  } else {
+    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/logout`;
+  }
+
   function logout(event: any) {
     //event.preventDefault();
     axios({
       method: "POST",
       withCredentials: true,
-      //url: "http://localhost:5050/auth/logout", //DEVELOPMENT
-      url: "https://one-soul-server.onrender.com/auth/logout" //PRODUCTION
+      url: url
     }).then(() => {
       navigate("/signIn");
     })/*.catch(err => {

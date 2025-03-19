@@ -35,11 +35,10 @@ const SignIn = () => {
   const toast = useToast();
   let url: string;
 
-  
   if(import.meta.env.VITE_ENV === "development"){
-    url = "http://localhost:5050/auth/login";
+    url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/login`;
   } else {
-    url = "https://one-soul-server.onrender.com/auth/login";
+    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/login`;
   }
 
 

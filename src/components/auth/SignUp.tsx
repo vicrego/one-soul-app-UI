@@ -35,13 +35,12 @@ const SignUp = () => {
   const { logUserIn } = useAuth();
 
   let url: string;
-    
-  if(import.meta.env.VITE_ENV === "development"){
-    url = "http://localhost:5050/auth/register";
-  } else {
-    url = "https://one-soul-server.onrender.com/auth/register";
-  }
 
+  if(import.meta.env.VITE_ENV === "development"){
+    url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/register`;
+  } else {
+    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/register`;
+  }
 
   function register(username: string, email: string, password: any) {
     axios({

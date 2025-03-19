@@ -55,31 +55,6 @@ const Challenge_Chapter = () => {
     }
   };
 
-  //const [chapterProgress, setChapterProgress] = useState(0);
-
-  /*
-  useEffect(() => {
-    axios({
-      method: "GET",
-      withCredentials: true,
-      url: "http://localhost:5050/auth/getUserProgress",
-      params: { course_id: courseId }  // Send course_id to identify the user's progress
-    })
-    .then((res) => {
-      console.log("res data challenge",res)
-      setChapterProgress(res.data.chapter_progress);  // Update state with fetched data
-    })
-    .catch(err => {
-      console.error("Error fetching progress:", err);
-    });
-  }, [courseId])
-  */
-
-  
-
-  // Fetch user's current progress on mount
-
-
   /*
 
     1 - We get chapterProgress from database
@@ -87,12 +62,31 @@ const Challenge_Chapter = () => {
     database. If chapter Order is higher than chapterProgress, we add 1 to chapterPRrogress.
 
   */
+
+  let url_get: string;
+
+  if(import.meta.env.VITE_ENV === "development"){
+    url_get = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/getUserProgress`;
+  } else {
+    url_get = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/getUserProgress`;
+  }
+
+  let url_counter: string;
+
+  if(import.meta.env.VITE_ENV === "development"){
+    url_counter = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/userProgressCounter`;
+  } else {
+    url_counter = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/userProgressCounter`;
+  }
+
+
+  
+    
   useEffect(() => {
     axios({
       method: "GET",
       withCredentials: true,
-      //url: "http://localhost:5050/auth/getUserProgress",
-      url: "https://one-soul-server.onrender.com/auth/getUserProgress",
+      url: url_get,
       params: { course_id: courseId }
     })
     .then((res) => {
@@ -118,8 +112,7 @@ const Challenge_Chapter = () => {
         chapterProgress: updatedProgress,
       },
       withCredentials: true,
-      //url: "http://localhost:5050/auth/userProgressCounter", //DEVELOPMENT
-      url: "https://one-soul-server.onrender.com/auth/userProgressCounter" //PRODUCTION
+      url: url_counter
     })
     .then((res) => {
       console.log("")
@@ -130,53 +123,6 @@ const Challenge_Chapter = () => {
   }
 
 
-  /*
-  useEffect(() => {
-    let chapterProgress = 0;
-    axios({
-      method: "GET",
-      withCredentials: true,
-      url: "http://localhost:5050/auth/getUserProgress",
-      params: { course_id: courseId }  // Send course_id to identify the user's progress
-    })
-    .then((res) => {
-      chapterProgress = res.data.chapter_progress;  // Update state with fetched data
-    })
-    .catch(err => {
-      console.error("Error fetching progress:", err);
-    });
-    console.log("chapterProgress", chapterProgress);
-    console.log("chapterId", chapterId);
-    
-    if(chapterProgress < chapterId){
-      
-      userProgress(chapterProgress);
-    } else {
-      console.log("chapterProgress is > chapterId")}
-
-  }, [])
-
-  function userProgress(chapterProgress: number) {
-    console.log("chapterId", chapterId);
-    chapterProgress = chapterProgress ++;
-    console.log("chapter_progress", chapterProgress);
-    
-      axios({
-        method: "PUT",
-        data: {
-          courseId: courseId,
-          chapterProgress: chapterProgress,
-        },
-        withCredentials: true,
-        url: "http://localhost:5050/auth/userProgressCounter",
-      }).then((res) => {
-        const {chapter_progress, course_id} = res.data; 
-      }).catch(err => {
-        console.log("err cat", err)   
-      });
-  }
-  */
-  
   return (
     <Layoult props={props.props}>
       <Stack

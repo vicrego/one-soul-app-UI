@@ -57,14 +57,21 @@ const Chapter = () => {
     progress();
   }, []);
 
+  
+  let url: string;
+  
+  if(import.meta.env.VITE_ENV === "development"){
+    url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/getUserProgress`;
+  } else {
+    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/getUserProgress`;
+  }
+
   function progress() {
     
     axios({
       method: "GET",
-      
       withCredentials: true,
-      //url: "http://localhost:5050/auth/getUserProgress", //DEVELOPMENT
-      url: "https://one-soul-server.onrender.com/auth/getUserProgress", //PRODUCTION
+      url: url
     }).then((res) => {
       const chapterProgress = res.data.chapter_progress + 1;
       setChapterProgress(chapterProgress);
