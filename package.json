@@ -4,12 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "proxy": "https://one-soul-server.onrender.com",
-  
   "scripts": {
-    "dev": "vite",
+    "dev": "env-cmd -f dev.env vite",
+    "start": "env-cmd -f .env vite",
+    "start:stag": "env-cmd -f stag.env vite",
     "build": "tsc && vite build",
+    "build:stag": "env-cmd -f stag.env vite build",
     "preview": "vite preview",
-    "start": "yarn run dev"
+    "postinstall": "husky install"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",
@@ -19,6 +21,7 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.17",
     "axios": "^1.6.1",
+    "env-cmd": "^10.1.0",
     "formik": "^2.2.9",
     "formik-validator-zod": "^2.0.1",
     "framer-motion": "^10.11.2",
@@ -36,6 +39,7 @@
     "zod-formik-adapter": "^1.3.0"
   },
   "devDependencies": {
+    "@types/node": "^22.13.9",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",

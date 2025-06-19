@@ -34,6 +34,14 @@ const SignUp = () => {
   const handleClick = () => setShow(!show)
   const { logUserIn } = useAuth();
 
+  let url: string;
+
+  if(import.meta.env.VITE_ENV === "development"){
+    url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/register`;
+  } else {
+    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/register`;
+  }
+
   function register(username: string, email: string, password: any) {
     axios({
       method: "POST",
@@ -43,8 +51,7 @@ const SignUp = () => {
         password: password,
       },
       withCredentials: true,
-      //url: "http://localhost:5050/auth/register", //DEVELOPMENT
-      url: "https://one-soul-server.onrender.com/auth/register" //PRODUCTION
+      url: url
     }).then((res) => {
       logUserIn();
     }).catch((err) => {
