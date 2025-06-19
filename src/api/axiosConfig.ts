@@ -17,9 +17,9 @@ const instanceMongo = axios.create({
 let url: string;
   
 if(import.meta.env.VITE_ENV === "development"){
-  url = 'http://localhost:5050/content';
+  url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/content`
 } else {
-  url = "https://one-soul-server.onrender.com/content";
+  url = `${import.meta.env.VITE_API_URL_PRODUCTION}/content`
 }
 
 

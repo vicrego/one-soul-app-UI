@@ -27,9 +27,9 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
   let url: string;
   
   if(import.meta.env.VITE_ENV === "development"){
-    url = 'http://localhost:5050/auth/user';
+    url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/user`;
   } else {
-    url = "https://one-soul-server.onrender.com/auth/user";
+    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/user`
   }
   
 
