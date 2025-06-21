@@ -22,7 +22,6 @@ if(import.meta.env.VITE_ENV === "development"){
   url = `${import.meta.env.VITE_API_URL_PRODUCTION}/content`
 }
 
-
 const instanceNeon = axios.create({
   baseURL: url,
   timeout: 5000,

@@ -1,9 +1,10 @@
-import { HStack, Link as ChakraLink, Flex, Spacer, Button, Stack, ButtonGroup, Heading, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, Box, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogCloseButton, AlertDialogBody, AlertDialogFooter, Center, WrapItem, Avatar, Menu, MenuButton, MenuList, MenuDivider, MenuItem, Text, VStack } from '@chakra-ui/react'
+import { HStack, Link as ChakraLink, Flex, Spacer, Button, Stack, ButtonGroup, Heading, useDisclosure, Box, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogCloseButton, AlertDialogBody, AlertDialogFooter, Center, WrapItem, Avatar, Menu, MenuButton, MenuList, MenuDivider, MenuItem, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 import {NavLink, useNavigate } from 'react-router-dom'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import axios from 'axios';
 import { useAuth } from '../../../provider/authProvider';
+import { Modal, Typography } from '@mui/material';
 
 
 type UserDataType = {
@@ -16,7 +17,20 @@ type UserDataType = {
 const NavBar = ({props}: any) => {
   const isSmallLogoWidth = useMediaQuery('(max-width:530px)');
   const logoMediaQueryWidth = useMediaQuery('(max-width:625px)');
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { 
+    isOpen: isOpenLogout, 
+    onOpen: onOpenLogout, 
+    onClose: onCloseLogout,
+  } = useDisclosure()
+
+  const { 
+    isOpen: isOpenAccountSettings, 
+    onOpen: onOpenAccountSettings, 
+    onClose: onCloseAccountSettings
+  } = useDisclosure()
+
+
+
   const cancelRef = React.useRef<HTMLButtonElement | null>(null)
   const navigate = useNavigate();
   const { userData }: { userData: UserDataType | null } = useAuth();
@@ -29,7 +43,15 @@ const NavBar = ({props}: any) => {
   const styles = {
     container: (headerMediaQuery : any) => ({
       padding: headerMediaQuery ? '3px 10px' : '10px 30px',
-    })
+    }),
+    heading: {
+      as: 'h4',
+      size: 'md',
+      color: 'white',
+      _hover: {
+        color: 'white'
+      }
+    }
   };
 
   let url: string;
@@ -64,6 +86,19 @@ const NavBar = ({props}: any) => {
     });*/
   }
 
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    background: 'white',
+    color: 'black',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
 
   return (
     <Flex style={styles.container(headerMediaQuery)} sx={{position: "sticky", zIndex: 2}} alignItems='center'>
@@ -74,7 +109,7 @@ const NavBar = ({props}: any) => {
             to="/home" 
             state={props.props} 
           >
-            <Heading as='h4' size='md' sx={{color: "white"}}  _hover={{ color: "white" }}>
+            <Heading as='h4' size={styles.heading.size} sx={{color: styles.heading.color}} _hover={{ color: styles.heading._hover.color }}>
               <Text>HOME</Text>
             </Heading>
           </ChakraLink>
@@ -83,7 +118,7 @@ const NavBar = ({props}: any) => {
             to="/about"
             state={props.props}
           >
-            <Heading as='h4' size='md' sx={{color: "white"}} _hover={{ color: "white" }}>
+            <Heading as='h4' size={styles.heading.size} sx={{color: styles.heading.color}} _hover={{ color: styles.heading._hover.color }}>
               ABOUT
             </Heading>
           </ChakraLink>
@@ -117,21 +152,49 @@ const NavBar = ({props}: any) => {
             <br />
             <MenuDivider />
             <VStack p={3}>
-              <MenuItem>Account Settings</MenuItem>
-              <MenuItem>
-                <ButtonGroup position="static" gap='2'>
-                  <Button onClick={onOpen} colorScheme='teal' >Logout</Button>
-                </ButtonGroup>
-              </MenuItem>
+              <MenuItem onClick={onOpenAccountSettings}>Account Settings</MenuItem>
+              <MenuItem onClick={onOpenLogout}>Logout</MenuItem>
             </VStack>
           </MenuList>
         </Menu>
       </HStack>
+      <Modal
+          open={isOpenAccountSettings}
+          //onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Account Settings
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Username: {userData?.data?.username}
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Email: {userData?.data?.email}
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Password: {/*userData?.data?.username*/}
+            </Typography>
+            <Flex>
+              <Button variant="contained" sx={{marginLeft: "auto"}} 
+                onClick={() => {
+                  onCloseAccountSettings();
+                  //setOpen(false);
+                  //setFirstTimeEntry(false); 
+                }}
+              >
+                I'm Ready!
+              </Button>
+            </Flex>
+          </Box>
+        </Modal>
       <AlertDialog
         motionPreset='slideInBottom'
         leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        isOpen={isOpen}
+        onClose={onCloseLogout}
+        isOpen={isOpenLogout}
         isCentered
       >
         <AlertDialogOverlay />
@@ -144,7 +207,7 @@ const NavBar = ({props}: any) => {
               <AlertDialogCloseButton />
             </Box>
             <AlertDialogFooter sx={{backgroundColor: "white", p: 0}}>
-              <Button sx={{backgroundColor: "lightGray", padding: "7px 15px", borderRadius: 10}} ref={cancelRef} onClick={onClose}>
+              <Button sx={{backgroundColor: "lightGray", padding: "7px 15px", borderRadius: 10}} ref={cancelRef} onClick={onCloseLogout}>
                 No
               </Button>
               <Button onClick={logout} sx={{backgroundColor: "red", padding: "7px 15px", borderRadius: 10, color: "white"}} colorScheme='red' ml={3}>

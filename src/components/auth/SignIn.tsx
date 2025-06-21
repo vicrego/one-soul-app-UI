@@ -7,6 +7,8 @@ import axios from 'axios'
 import { useAuth } from '../../provider/authProvider'
 import { object, string, TypeOf } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
+import { BorderStyle } from '@mui/icons-material'
+import { color } from 'framer-motion'
 
 
 type ContactFormInputs = TypeOf<typeof contactFormSchema>
@@ -37,10 +39,13 @@ const SignIn = () => {
 
   if(import.meta.env.VITE_ENV === "development"){
     url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/login`;
+    console.log("Dev test.")
+    console.log("ViteEnv: " + import.meta.env.VITE_ENV);
   } else {
     url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/login`;
+    console.log("Production test.");
+    console.log("ViteEnv: " + import.meta.env.VITE_ENV);
   }
-
 
   function login(username: any, password: any) {
     axios({
@@ -95,14 +100,22 @@ const SignIn = () => {
     });
   }
   
+  let formStyle = {
+    color: "black",
+    backgroundColor: "#CBCCF7",
+    borderRadius: "5px",
+    width: "250px",
+    padding: "9px"
+  };
+
   return (
     <Box>
       { ((useAuth().isAuthenticated === false)) &&     
       (
-        <Stack className={styles.styleForm} sx={{color: "white", fontFamily: "mono", alignItems: "center"}}>
+        <Stack className={styles.wrapperStyle} sx={{color: "white", fontFamily: "mono", alignItems: "center"}}>
           <Stack>
             <Heading sx={{margin: 10}}>Sign In</Heading>
-            <Box bg="white" p={6} w={"300px"} rounded="md">
+            <Box bg="white" p={6} w={"400px"} rounded="md">
               <Formik<ContactFormInputs>
                 initialValues={{ username: "", password: ""/*, rememberMe: false*/ }}
                 onSubmit={(value: any, actions: any) => {
@@ -119,22 +132,34 @@ const SignIn = () => {
                 <Form>
                   <VStack>
                     <FormControl>
-                      <FormLabel htmlFor="username" sx={{color: "black"}}>Username</FormLabel>     
+                      <FormLabel htmlFor="username" sx={{color: formStyle.color}}>Username</FormLabel>     
                         <Field  
                           placeholder="username"
-                          style={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
+                          style={{
+                            color: formStyle.color,
+                            backgroundColor: formStyle.backgroundColor, 
+                            borderRadius: formStyle.borderRadius, 
+                            width: formStyle.width, 
+                            padding: formStyle.padding,
+                          }}
                           variant="subtle"
                           name="username" 
                         />{!!errors.username && (
-                          <Text className="form-text" sx={{color: "red"}}>
+                          <Text className="form-text" sx={{color: "red", width: 250}}>
                             {errors.username}
                           </Text>
                         )}
-                      <FormLabel htmlFor="password" sx={{color: "black"}}>Password</FormLabel>
+                      <FormLabel htmlFor="password" sx={{color: formStyle.color}}>Password</FormLabel>
                       <InputGroup margin={'auto'} style={{alignItems: 'center'}} >
                         <Field 
                           placeholder='password'
-                          style={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
+                          style={{
+                            color: formStyle.color,
+                            backgroundColor: formStyle.backgroundColor, 
+                            borderRadius: formStyle.borderRadius, 
+                            width: formStyle.width, 
+                            padding: formStyle.padding
+                          }}
                           type={show ? 'text' : 'password'}
                           name="password" 
                           variant="filled"

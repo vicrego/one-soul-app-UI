@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>();
   const [userData, setUserData] = useState({});
-  
 
   const navigate = useNavigate();
 
@@ -29,10 +28,9 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
   if(import.meta.env.VITE_ENV === "development"){
     url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/user`;
   } else {
-    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/user`
+    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/user`;
   }
   
-
   const logUserIn = () => {
     axios({
       method: "POST",
