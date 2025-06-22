@@ -25,6 +25,7 @@
     "formik": "^2.2.9",
     "formik-validator-zod": "^2.0.1",
     "framer-motion": "^10.11.2",
+    "husky": "^9.1.7",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",

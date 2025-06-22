@@ -14,7 +14,6 @@ import { color } from 'framer-motion'
 type ContactFormInputs = TypeOf<typeof contactFormSchema>
 
 const contactFormSchema = object({
-  
   username: string({
     required_error: "Please enter your name",
   }).min(6).max(36),

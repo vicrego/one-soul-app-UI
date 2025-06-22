@@ -30,7 +30,6 @@ const NavBar = ({props}: any) => {
   } = useDisclosure()
 
 
-
   const cancelRef = React.useRef<HTMLButtonElement | null>(null)
   const navigate = useNavigate();
   const { userData }: { userData: UserDataType | null } = useAuth();
