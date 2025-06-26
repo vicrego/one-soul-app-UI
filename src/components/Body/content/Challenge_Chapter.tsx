@@ -64,23 +64,16 @@ const Challenge_Chapter = () => {
   */
 
   let url_get: string;
-
-  if(import.meta.env.VITE_ENV === "development"){
-    url_get = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/getUserProgress`;
-  } else {
-    url_get = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/getUserProgress`;
-  }
-
   let url_counter: string;
-
-  if(import.meta.env.VITE_ENV === "development"){
-    url_counter = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/userProgressCounter`;
-  } else {
-    url_counter = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/userProgressCounter`;
-  }
-
-
   
+  if(import.meta.env.VITE_ENV === "development"){
+    url_get = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/user/getUserProgress`;
+    url_counter = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/user/userProgressCounter`;
+  } else {
+    url_get = `${import.meta.env.VITE_API_URL_PRODUCTION}/user/getUserProgress`;
+    url_counter = `${import.meta.env.VITE_API_URL_PRODUCTION}/user/userProgressCounter`;
+  }
+ 
     
   useEffect(() => {
     axios({

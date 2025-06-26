@@ -61,9 +61,9 @@ const Chapter = () => {
   let url: string;
   
   if(import.meta.env.VITE_ENV === "development"){
-    url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/getUserProgress`;
+    url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/user/getUserProgress`;
   } else {
-    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/getUserProgress`;
+    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/user/getUserProgress`;
   }
 
   function progress() {
