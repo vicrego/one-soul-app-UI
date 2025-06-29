@@ -149,7 +149,6 @@ const NavBar = ({props}: any) => {
         isOpenAccountSettings={isOpenAccountSettings} 
         onOpenAccountSettings={onOpenAccountSettings} 
         onCloseAccountSettings={onCloseAccountSettings} 
-        userData={userData} 
       />
       <AlertDialog
         motionPreset='slideInBottom'

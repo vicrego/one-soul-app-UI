@@ -1,17 +1,20 @@
 import { Box, Button, FormControl, FormLabel, Text, VStack } from '@chakra-ui/react'
 import { CategoryOutlined, Email, Password } from '@mui/icons-material'
-import { Modal, Stack, TextField, Typography } from '@mui/material'
+import { Grid, Modal, Snackbar, SnackbarOrigin, Stack, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import { Formik, Form,Field } from 'formik'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { any, object, string, TypeOf } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { z } from "zod";
+import { useAuth } from '../../provider/authProvider'
 
 
-const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defaultValue}: any) => {
 
-      const schemaMap: Record<string, z.ZodTypeAny> = {
+
+const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defaultValue, setSubmited}: any) => {
+
+    const schemaMap: Record<string, z.ZodTypeAny> = {
         username: z.string({ required_error: "Please enter your username" }).min(6).max(36),
         email: z.string().email("Please enter a valid email"),
         password: z.string()
@@ -23,11 +26,11 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
         .refine((password) => /[a-z]/.test(password), {
             message: "At least one lowercase character is needed.",
         })
-      };
-      
-      const contactFormSchema = z.object({
+        };
+        
+        const contactFormSchema = z.object({
         [category]: schemaMap[category] || z.string().min(1),
-      });
+    });
 
 
     let url = "";
@@ -41,6 +44,17 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
     const [status, setStatus] = useState<any>();
     const [userId, setUserId] = useState("");
 
+/*
+    const buttons = (
+        <React.Fragment>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Button onClick={handleClick({ vertical: 'bottom', horizontal: 'center' })}>
+                    Bottom-Center
+                </Button>
+            </Box>
+        </React.Fragment>
+    );
+  */  
 
     function update(category: any, updatedValue: any) {
         
@@ -54,9 +68,9 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
                 withCredentials: true,
                 url: `${url}/auth/updateUsername`
             }).then((res) => {
-                console.log("res", res)
+
             }).catch(err => {
-        
+                console.log("err: ", err)
             });    
         } else if (category === "email"){
             axios({
@@ -68,7 +82,7 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
                 withCredentials: true,
                 url: `${url}/auth/updateEmail`
             }).then((res) => {
-        
+                
             }).catch(err => {
         
             });
@@ -86,9 +100,10 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
             }).catch(err => {
         
             });
+            
         }
     }
-
+    //const { refreshUser } = useAuth();
     
     return (
         <Modal
@@ -102,50 +117,53 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
             <Formik<{ [key: string]: string }>
                 initialValues={{ [category]: defaultValue}}
                 onSubmit={async (values: any, actions: any) => {      
+
                         console.log("value", values);
                         const updatedValue = values[category];
-                        update(category, updatedValue);
+                        update(category, updatedValue); 
+                        setSubmited(true);
                         actions.resetForm();
-                        onClose();
+                        onClose();    
                     }
                 }
                 validationSchema={toFormikValidationSchema(contactFormSchema)}
-              >
-              {({ values, handleChange, isSubmitting, errors }) => {
+            >
+                {({ values, handleChange, isSubmitting, errors }) => {
                 return (
-                <Form>
-                    <FormControl>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">Edit {category}</Typography>
-                        <TextField 
-                            name={category} 
-                            label={category} 
-                            value={values[category] || ""}
-                            onChange={handleChange}
-                            sx={{width: "100%"}} 
-                            size='small' 
-                            id="outlined-basic" 
-                            variant="outlined" 
-                        /> {!!errors[category] && (
-                            <Text className="form-text" sx={{color: "red", width: 250}}>
-                              {errors[category]}
-                            </Text>
-                        )}
-                      
-                        <Button
-                            type="submit"
-                            className="button-19"
-                            sx={{display: "block", marginTop: "20px"}}
-                            disabled={isSubmitting}
-                        >
-                            Submit 
-                        </Button>
-                        <Box sx={{textColor: "black"}}>
-                            {isSubmitting && <span style={{color: "black"}}>Sending...</span>}
-                        </Box>
-                    </FormControl>
-                </Form>
+                    <Form>
+                        <FormControl>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">Edit {category}</Typography>
+                            <TextField 
+                                name={category} 
+                                label={category} 
+                                value={values[category] || ""}
+                                onChange={handleChange}
+                                sx={{width: "100%"}} 
+                                size='small' 
+                                id="outlined-basic" 
+                                variant="outlined" 
+                            /> {!!errors[category] && (
+                                <Text className="form-text" sx={{color: "red", width: 250}}>
+                                {errors[category]}
+                                </Text>
+                            )}
+                        
+                            <Button
+                                type="submit"
+                                className="button-19"
+                                sx={{display: "block", marginTop: "20px"}}
+                                disabled={isSubmitting}
+                            >
+                                Submit 
+                            </Button>
+                            <Box sx={{textColor: "black"}}>
+                                {isSubmitting && <span style={{color: "black"}}>Sending...</span>}
+                            </Box>
+                        </FormControl>
+                    </Form>
                 )}}
               </Formik>
+              
             </Stack>
             
         </Modal>

@@ -1,7 +1,7 @@
 import { Box, Button, Heading, Link as ChakraLink, Text, InputGroup, Stack, useToast, FormLabel, FormControl, VStack, InputRightElement } from '@chakra-ui/react'
 import { Formik, Form,Field } from 'formik'
 import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import styles from "./styles.module.css"
 import axios from 'axios'
 import { useAuth } from '../../provider/authProvider'
@@ -35,6 +35,8 @@ const SignIn = () => {
   
   const toast = useToast();
   let url: string;
+
+  const navigate = useNavigate();
 
   if(import.meta.env.VITE_ENV === "development"){
     url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/login`;
@@ -72,7 +74,7 @@ const SignIn = () => {
           msg: "Message has been sent! Thanks!"
         })
       }
-      logUserIn();
+      logUserIn(); 
     }).catch(err => {
       if (err.response === undefined) {
         setStatus({
