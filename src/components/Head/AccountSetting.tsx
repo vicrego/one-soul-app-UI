@@ -99,42 +99,53 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Account Settings
                     </Typography>
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>  
-                        <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
-                            <Typography id="modal-modal-description">
-                                Username: 
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <HStack>
-                                <Typography id="modal-modal-description">{userData?.data?.username}</Typography>
+                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> 
+                        <>
+                            <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
+                                <Typography id="modal-modal-description">
+                                    Username: 
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                                    <Typography id="modal-modal-description">{userData?.data?.username}</Typography>    
+                            </Grid>
+                            <Grid item xs={3}>
                                 <Button onClick={onOpenUsername}>{">"}</Button>
-                            </HStack>
-                        </Grid>
-                        <SimpleModal isOpen={isOpenUsername} onOpen={onOpenUsername} onClose={onCloseUsername} styles={styles} category={"username"} userData={userData} defaultValue={userData?.data?.username} setSubmited={setSubmited}/>
-                        <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
-                            <Typography id="modal-modal-description">
-                                Email:
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={6} sx={{backgroundColor: "blue"}}>
-                            <HStack sx={{backgroundColor: "red"}}>
+                            </Grid>
+                            <SimpleModal isOpen={isOpenUsername} onOpen={onOpenUsername} onClose={onCloseUsername} styles={styles} category={"username"} userData={userData} defaultValue={userData?.data?.username} setSubmited={setSubmited}/>
+                        </>
+                        <>
+                            <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
+                                <Typography id="modal-modal-description">
+                                    Email:
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={5}>
                                 <Typography sx={{width: "100%"}} id="modal-modal-description">
                                     {userData?.data?.email}
                                 </Typography>
-                                <Button onClick={onOpenEmail}>{">"}</Button>                                                 
-                            </HStack>
-                        </Grid>
-                        <SimpleModal isOpen={isOpenEmail} onOpen={onOpenEmail} onClose={onCloseEmail} styles={styles} category={"email"} userData={userData} defaultValue={userData?.data?.email} setSubmited={setSubmited}/>
-                        <Grid sx={{display: 'flex', alignItems: "center"}} item xs={6}>
-                            <Typography id="modal-modal-description"> 
-                                Password: {/*userData?.data?.username*/}
-                            </Typography>
-                        </Grid>          
-                        <Grid>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Button onClick={onOpenEmail}>{">"}</Button>  
+                            </Grid>                                               
+                            <SimpleModal isOpen={isOpenEmail} onOpen={onOpenEmail} onClose={onCloseEmail} styles={styles} category={"email"} userData={userData} defaultValue={userData?.data?.email} setSubmited={setSubmited}/>
+                        </>
+                        <>
+                            <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
+                                <Typography id="modal-modal-description"> 
+                                    Password: {/*userData?.data?.username*/}
+                                </Typography>
+                            </Grid> 
+                            <Grid item xs={5}>
+                                <Typography sx={{width: "100%"}} id="modal-modal-description">
+                                    <span>••••••••••</span>
+                                </Typography>
+                            </Grid>         
+                            <Grid item xs={3}>
+                                <Button onClick={onOpenPassword}>{">"}</Button>  
+                            </Grid> 
                             <SimpleModal isOpen={isOpenPassword} onOpen={onOpenPassword} onClose={onClosePassword} styles={styles} category={"password"} userData={userData} setSubmited={setSubmited}/>
-                        </Grid>    
-                        <Button onClick={onOpenPassword}>{">"}</Button>  
+                        </>    
                     </Grid>
                 
                     <Flex>
