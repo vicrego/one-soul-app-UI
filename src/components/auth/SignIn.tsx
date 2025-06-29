@@ -1,7 +1,7 @@
-import { Box, Button, Heading, Input, Link as ChakraLink, Text, InputGroup, Stack, useToast, FormErrorMessage, FormLabel, FormControl, VStack, InputRightElement, Checkbox } from '@chakra-ui/react'
-import { Formik, FormikProps, FormikHelpers as FormikActions, Form, FormikHelpers, ErrorMessage, Field } from 'formik'
+import { Box, Button, Heading, Link as ChakraLink, Text, InputGroup, Stack, useToast, FormLabel, FormControl, VStack, InputRightElement } from '@chakra-ui/react'
+import { Formik, Form,Field } from 'formik'
 import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import styles from "./styles.module.css"
 import axios from 'axios'
 import { useAuth } from '../../provider/authProvider'
@@ -36,14 +36,12 @@ const SignIn = () => {
   const toast = useToast();
   let url: string;
 
+  const navigate = useNavigate();
+
   if(import.meta.env.VITE_ENV === "development"){
     url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/login`;
-    console.log("Dev test.")
-    console.log("ViteEnv: " + import.meta.env.VITE_ENV);
   } else {
     url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/login`;
-    console.log("Production test.");
-    console.log("ViteEnv: " + import.meta.env.VITE_ENV);
   }
 
   function login(username: any, password: any) {
@@ -76,7 +74,7 @@ const SignIn = () => {
           msg: "Message has been sent! Thanks!"
         })
       }
-      logUserIn();
+      logUserIn(); 
     }).catch(err => {
       if (err.response === undefined) {
         setStatus({
@@ -132,22 +130,22 @@ const SignIn = () => {
                   <VStack>
                     <FormControl>
                       <FormLabel htmlFor="username" sx={{color: formStyle.color}}>Username</FormLabel>     
-                        <Field  
-                          placeholder="username"
-                          style={{
-                            color: formStyle.color,
-                            backgroundColor: formStyle.backgroundColor, 
-                            borderRadius: formStyle.borderRadius, 
-                            width: formStyle.width, 
-                            padding: formStyle.padding,
-                          }}
-                          variant="subtle"
-                          name="username" 
-                        />{!!errors.username && (
-                          <Text className="form-text" sx={{color: "red", width: 250}}>
-                            {errors.username}
-                          </Text>
-                        )}
+                      <Field
+                        placeholder="username"
+                        style={{
+                          color: formStyle.color,
+                          backgroundColor: formStyle.backgroundColor, 
+                          borderRadius: formStyle.borderRadius, 
+                          width: formStyle.width, 
+                          padding: formStyle.padding,
+                        }}
+                        variant="subtle"
+                        name="username" 
+                      />{!!errors.username && (
+                        <Text className="form-text" sx={{color: "red", width: 250}}>
+                          {errors.username}
+                        </Text>
+                      )}
                       <FormLabel htmlFor="password" sx={{color: formStyle.color}}>Password</FormLabel>
                       <InputGroup margin={'auto'} style={{alignItems: 'center'}} >
                         <Field 

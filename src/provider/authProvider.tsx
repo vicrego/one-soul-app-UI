@@ -6,7 +6,9 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 type AuthContextType = {
   isAuthenticated: boolean | undefined;
   logUserIn: () => void;
-  userData: {};
+  refreshUser: () => Promise<any>;
+  userData: any;
+  setUserData: React.Dispatch<React.SetStateAction<any>>;
 };
 
 type AuthContextPropsType = {
@@ -14,6 +16,11 @@ type AuthContextPropsType = {
 };
 
 const AuthContext: Context<AuthContextType | null> = createContext<AuthContextType | null>(null);
+
+//Sharing of centralized and updated userData
+//Authentication state
+
+
 
 
 export const AuthProvider = ({ children }: AuthContextPropsType) => {
@@ -50,8 +57,25 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
     });
   };
 
+  const refreshUser = () => {
+    return axios({
+      method: "POST",
+      withCredentials: true,
+      url: url
+    }).then((res) => {
+      setUserData(res);
+      setIsAuthenticated(true);
+      return res;
+    }).catch((err) => {
+      if (err.response?.status === 401) {
+        setIsAuthenticated(false);
+      }
+      return null;
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, logUserIn, userData }}>
+    <AuthContext.Provider value={{ isAuthenticated, logUserIn, userData, setUserData, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
@@ -66,7 +90,5 @@ export const useAuth = () => {
   }
   return context;
 };
-
-
 
 export default AuthProvider;

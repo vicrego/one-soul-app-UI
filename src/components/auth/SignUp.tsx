@@ -1,7 +1,7 @@
 import { Box, Button, Link as ChakraLink, Checkbox, Flex, Heading, Image, Input, InputGroup, InputRightElement, Spacer, Stack, Text } from '@chakra-ui/react'
 import { Field, Form, Formik, FormikProps } from 'formik'
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import SignUpImage from '../../assets/images/signup-image.jpg'
 import axios from 'axios'
 import { useAuth } from '../../provider/authProvider'
@@ -42,6 +42,8 @@ const SignUp = () => {
     url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/register`;
   }
 
+  const navigate = useNavigate();
+
   function register(username: string, email: string, password: any) {
     axios({
       method: "POST",
@@ -53,7 +55,7 @@ const SignUp = () => {
       withCredentials: true,
       url: url
     }).then((res) => {
-      logUserIn();
+      logUserIn();  
     }).catch((err) => {
       console.log("err", err)
     });

@@ -5,6 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import axios from 'axios';
 import { useAuth } from '../../../provider/authProvider';
 import { Modal, Typography } from '@mui/material';
+import AccountSetting from '../AccountSetting';
 
 
 type UserDataType = {
@@ -85,19 +86,6 @@ const NavBar = ({props}: any) => {
     });*/
   }
 
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    background: 'white',
-    color: 'black',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
-
 
   return (
     <Flex style={styles.container(headerMediaQuery)} sx={{position: "sticky", zIndex: 2}} alignItems='center'>
@@ -157,38 +145,11 @@ const NavBar = ({props}: any) => {
           </MenuList>
         </Menu>
       </HStack>
-      <Modal
-          open={isOpenAccountSettings}
-          //onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Account Settings
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Username: {userData?.data?.username}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Email: {userData?.data?.email}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Password: {/*userData?.data?.username*/}
-            </Typography>
-            <Flex>
-              <Button variant="contained" sx={{marginLeft: "auto"}} 
-                onClick={() => {
-                  onCloseAccountSettings();
-                  //setOpen(false);
-                  //setFirstTimeEntry(false); 
-                }}
-              >
-                I'm Ready!
-              </Button>
-            </Flex>
-          </Box>
-        </Modal>
+      <AccountSetting 
+        isOpenAccountSettings={isOpenAccountSettings} 
+        onOpenAccountSettings={onOpenAccountSettings} 
+        onCloseAccountSettings={onCloseAccountSettings} 
+      />
       <AlertDialog
         motionPreset='slideInBottom'
         leastDestructiveRef={cancelRef}
