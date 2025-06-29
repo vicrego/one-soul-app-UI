@@ -38,7 +38,7 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
     if(import.meta.env.VITE_ENV === "development"){
         url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}`;
     } else {
-        url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/update${category}`;
+        url = `${import.meta.env.VITE_API_URL_PRODUCTION}`;
     };
     
     const [status, setStatus] = useState<any>();
