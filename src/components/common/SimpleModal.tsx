@@ -117,8 +117,6 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
             <Formik<{ [key: string]: string }>
                 initialValues={{ [category]: defaultValue}}
                 onSubmit={async (values: any, actions: any) => {      
-
-                        console.log("value", values);
                         const updatedValue = values[category];
                         update(category, updatedValue); 
                         setSubmited(true);
