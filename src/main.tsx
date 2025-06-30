@@ -16,13 +16,13 @@ import {
 const theme = extendTheme();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <ChakraProvider >
-    <React.StrictMode>
-      <BrowserRouter>
-        <CssVarsProvider theme={theme}>
+  <React.StrictMode>
+    <ChakraProvider>
+      <CssVarsProvider theme={theme}>
+        <BrowserRouter>
           <App />
-        </CssVarsProvider>
-      </BrowserRouter>
-    </React.StrictMode>
-  </ChakraProvider>
+        </BrowserRouter>
+      </CssVarsProvider>
+    </ChakraProvider>
+  </React.StrictMode>
 )

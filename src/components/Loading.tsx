@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Body from './Body/Body';
-//import { getChapter, getCourse, getTopic, getChallengeLevel, getChallenge } from '../api/api';
 import { CircularProgress } from '@mui/material';
-//import { getCourse } from '../api/api';
 import { getChallenges, getChallengesChapter, getChallengesFree, getChapter, getCourse, getTopics } from '../api/api';
 
 
@@ -64,11 +62,11 @@ const Loading = () => {
 
   return (
     <>
-      {onLoaded ? (
-        <Body props={categories} loading/>
-      ) : (
+      {!onLoaded ? (
         <CircularProgress style={centerElement} />
-      )
+        ) : (
+          <Body props={categories} loading/>
+        )
       }
     </>
   )

@@ -1,4 +1,4 @@
-import { Link as ChakraLink, LinkProps, /*Button*/ Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue, ButtonGroup, extendTheme, VStack, useDisclosure} from '@chakra-ui/react';
+import { Link as ChakraLink, LinkProps, /*Button*/ Box, Flex, Text} from '@chakra-ui/react';
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -7,8 +7,6 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, Modal, useMediaQuery } from '@mui/material';
 import Layoult from '../Layoult/Layoult';
 import { useEffect, useMemo, useState } from 'react';
-import { red, yellow } from '@mui/material/colors';
-import Chapter from './content/Chapter';
 import { useAuth } from '../../provider/authProvider';
 import axios from 'axios';
 

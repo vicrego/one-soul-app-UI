@@ -1,14 +1,11 @@
-import { Box, Button, FormControl, FormLabel, Text, VStack } from '@chakra-ui/react'
-import { CategoryOutlined, Email, Password } from '@mui/icons-material'
-import { Grid, Modal, Snackbar, SnackbarOrigin, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, FormControl, Text } from '@chakra-ui/react'
+import { Modal, Stack, TextField, Typography } from '@mui/material'
 import axios from 'axios'
-import { Formik, Form,Field } from 'formik'
-import React, { useEffect, useState } from 'react'
-import { any, object, string, TypeOf } from 'zod'
+import { Formik, Form } from 'formik'
+import React, { useState } from 'react'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { z } from "zod";
-import { useAuth } from '../../provider/authProvider'
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 
@@ -103,7 +100,6 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
             
         }
     }
-    //const { refreshUser } = useAuth();
     
     return (
         <Modal
@@ -112,25 +108,27 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description"
         >
-            <Stack sx={{ ...styles, width: "82%", pt: 2, pb: 10, gap: 2 }}>
-            <Button variant="contained" sx={{marginRight: "auto"}} onClick={() => {onClose()}}>Back</Button>
-            <Formik<{ [key: string]: string }>
-                initialValues={{ [category]: defaultValue}}
-                onSubmit={async (values: any, actions: any) => {      
-                        const updatedValue = values[category];
-                        update(category, updatedValue); 
-                        setSubmited(true);
-                        actions.resetForm();
-                        onClose();    
+            <Stack sx={{ ...styles, pt: 2, pb: 10, gap: 2 }}>
+                <Button variant="contained" sx={{marginRight: "auto"}} onClick={() => {onClose()}}><ArrowBackIcon/></Button>
+                <Formik<{ [key: string]: string }>
+                    initialValues={{ [category]: defaultValue}}
+                    onSubmit={async (values: any, actions: any) => {      
+                            const updatedValue = values[category];
+                            update(category, updatedValue); 
+                            setSubmited(true);
+                            actions.resetForm();
+                            onClose();    
+                        }
                     }
-                }
-                validationSchema={toFormikValidationSchema(contactFormSchema)}
-            >
+                    validationSchema={toFormikValidationSchema(contactFormSchema)}
+                >
                 {({ values, handleChange, isSubmitting, errors }) => {
                 return (
                     <Form>
                         <FormControl>
-                            <Typography id="modal-modal-title" variant="h6" component="h2">Edit {category}</Typography>
+                            <Box sx={{paddingBottom: 3}}>
+                                <Typography id="modal-modal-title" variant="h6" component="h2">Edit {category}</Typography>
+                            </Box>
                             <TextField 
                                 name={category} 
                                 label={category} 
@@ -160,8 +158,7 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
                         </FormControl>
                     </Form>
                 )}}
-              </Formik>
-              
+                </Formik>
             </Stack>
             
         </Modal>
