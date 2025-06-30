@@ -3,8 +3,8 @@ import { Alert, Box, Grid, Modal, Snackbar, SnackbarOrigin, styled, TextField, T
 import React, { useEffect, useState } from 'react'
 import SimpleModal from '../common/SimpleModal';
 import { useAuth } from '../../provider/authProvider';
-import { set } from 'zod';
-import zIndex from '@mui/material/styles/zIndex';
+import CloseIcon from '@mui/icons-material/Close';
+import { KeyboardArrowRight } from '@mui/icons-material';
 
 interface State extends SnackbarOrigin {
     open: boolean;
@@ -61,14 +61,14 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: "80%",
+        width: "100%",
+        height: "100%",
         background: 'white',
         color: 'black',
         border: '2px solid #000',
         boxShadow: 24,
         p: 5,
-        borderRadius: "5px",
-        
+        borderRadius: "30px",
     };
 
     const [toast, setToast] = React.useState({
@@ -88,17 +88,26 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
       }));
     
     return (
-        <Box>
+        <Box >
             <Modal
                 open={isOpenAccountSettings}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                //sx={{backgroundColor: "red"}}
             >
+                
                 <Box sx={styles}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Account Settings
-                    </Typography>
+                    <CloseIcon onClick={() => {
+                        onCloseAccountSettings();
+                        //setOpen(false);
+                        //setFirstTimeEntry(false); 
+                    }}/>
+                    <Box sx={{paddingTop: 2, paddingBottom: 1}}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            Account Settings
+                        </Typography>
+                    </Box>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> 
                         <>
                             <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
@@ -110,7 +119,7 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
                                     <Typography id="modal-modal-description">{userData?.data?.username}</Typography>    
                             </Grid>
                             <Grid item xs={3}>
-                                <Button onClick={onOpenUsername}>{">"}</Button>
+                                <Button onClick={onOpenUsername}><KeyboardArrowRight/></Button>
                             </Grid>
                             <SimpleModal isOpen={isOpenUsername} onOpen={onOpenUsername} onClose={onCloseUsername} styles={styles} category={"username"} userData={userData} defaultValue={userData?.data?.username} setSubmited={setSubmited}/>
                         </>
@@ -126,7 +135,7 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
                                 </Typography>
                             </Grid>
                             <Grid item xs={3}>
-                                <Button onClick={onOpenEmail}>{">"}</Button>  
+                                <Button onClick={onOpenEmail}><KeyboardArrowRight/></Button>  
                             </Grid>                                               
                             <SimpleModal isOpen={isOpenEmail} onOpen={onOpenEmail} onClose={onCloseEmail} styles={styles} category={"email"} userData={userData} defaultValue={userData?.data?.email} setSubmited={setSubmited}/>
                         </>
@@ -142,28 +151,17 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
                                 </Typography>
                             </Grid>         
                             <Grid item xs={3}>
-                                <Button onClick={onOpenPassword}>{">"}</Button>  
+                                <Button onClick={onOpenPassword}><KeyboardArrowRight/></Button>  
                             </Grid> 
                             <SimpleModal isOpen={isOpenPassword} onOpen={onOpenPassword} onClose={onClosePassword} styles={styles} category={"password"} userData={userData} setSubmited={setSubmited}/>
                         </>    
-                    </Grid>
-                
-                    <Flex>
-                        <Button variant="contained" sx={{marginLeft: "auto"}} 
-                        onClick={() => {
-                            onCloseAccountSettings();
-                            //setOpen(false);
-                            //setFirstTimeEntry(false); 
-                        }}
-                        >
-                        I'm Ready!
-                        </Button>
-                    </Flex>
+                    </Grid>   
+                                 
                 </Box>
             </Modal>
             <Snackbar
                 anchorOrigin={{ vertical, horizontal }}
-                autoHideDuration={6000}
+                autoHideDuration={100}
                 open={open}
                 key={vertical + horizontal}
                 
