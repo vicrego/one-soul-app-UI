@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
   
   const logUserIn = () => {
     axios({
-      method: "POST",
+      method: "GET",
       withCredentials: true,
       url: url
     }).then((res) => {
@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
           navigate("/");    
         }
       }).catch((err) => {
+        console.log("err", err)
         if(err.response.status === 401){
           console.log(err)
           setIsAuthenticated(false);
@@ -59,7 +60,7 @@ export const AuthProvider = ({ children }: AuthContextPropsType) => {
 
   const refreshUser = () => {
     return axios({
-      method: "POST",
+      method: "GET",
       withCredentials: true,
       url: url
     }).then((res) => {

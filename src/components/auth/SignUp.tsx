@@ -30,8 +30,9 @@ const contactFormSchema = object({
 
 const SignUp = () => {
  
+  const [usernameError, setUsernameError] = useState("");
   const [show, setShow] = React.useState(false);
-  const handleClick = () => setShow(!show)
+  const handleClick = () => setShow(!show);
   const { logUserIn } = useAuth();
 
   let url: string;
@@ -41,8 +42,6 @@ const SignUp = () => {
   } else {
     url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/register`;
   }
-
-  const navigate = useNavigate();
 
   function register(username: string, email: string, password: any) {
     axios({
@@ -57,11 +56,10 @@ const SignUp = () => {
     }).then((res) => {
       logUserIn();  
     }).catch((err) => {
-      console.log("err", err)
+      setUsernameError(err.response.data.message);
     });
   }
 
-  
   return (
     <Stack sx={{color: "white"}}>
       <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
@@ -89,6 +87,11 @@ const SignUp = () => {
                   /> {!!errors.username && (
                     <Text className="form-text" sx={{color: "red"}}>
                       {errors.username}
+                    </Text>
+                  )}
+                  {usernameError != "" && (
+                    <Text className="form-text" sx={{color: "red"}}>
+                      {usernameError}
                     </Text>
                   )}
                   <Field  

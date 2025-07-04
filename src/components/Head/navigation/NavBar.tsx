@@ -1,11 +1,11 @@
-import { HStack, Link as ChakraLink, Flex, Spacer, Button, Stack, ButtonGroup, Heading, useDisclosure, Box, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogCloseButton, AlertDialogBody, AlertDialogFooter, Center, WrapItem, Avatar, Menu, MenuButton, MenuList, MenuDivider, MenuItem, Text, VStack } from '@chakra-ui/react'
+import { HStack, Link as ChakraLink, Flex, Spacer, Button, Stack,Heading, useDisclosure, Box, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogCloseButton, AlertDialogBody, AlertDialogFooter, Center, Avatar, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 import {NavLink, useNavigate } from 'react-router-dom'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import axios from 'axios';
 import { useAuth } from '../../../provider/authProvider';
-import { Modal, Typography } from '@mui/material';
 import AccountSetting from '../AccountSetting';
+import { Divider, Grid, Menu, MenuItem, MenuList } from '@mui/material';
 
 
 type UserDataType = {
@@ -51,7 +51,7 @@ const NavBar = ({props}: any) => {
       _hover: {
         color: 'white'
       }
-    }
+    },
   };
 
   let url: string;
@@ -70,81 +70,91 @@ const NavBar = ({props}: any) => {
       url: url
     }).then(() => {
       navigate("/signIn");
-    })/*.catch(err => {
-      if (err.response.status === 400) {
-        setStatus({
-          sent: false,
-          msg: `Username or Password is wrong. Please try again.`
-        });
-      };
-      if (err.response.status === 404) {
-        setStatus({
-          sent: false,
-          msg: `Error! Request failed with status code ${err.response.status}. Please try again later.`
-        });
-      }
-    });*/
+    })
   }
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openMenu = Boolean(anchorEl);
+  const handleClickMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
   return (
-    <Flex style={styles.container(headerMediaQuery)} sx={{position: "sticky", zIndex: 2}} alignItems='center'>
-      <Stack>
-        <HStack spacing={7}>   
-          <ChakraLink 
-            as={NavLink} 
-            to="/home" 
-            state={props.props} 
+    <Flex style={styles.container(headerMediaQuery)} sx={{position: "sticky", zIndex: 2}} alignItems='center'>    
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid item xs={4}>
+          <HStack spacing={7}>   
+            <ChakraLink 
+              as={NavLink} 
+              to="/home" 
+              state={props.props} 
+            >
+              <Heading as='h4' size={styles.heading.size} sx={{color: styles.heading.color}} _hover={{ color: styles.heading._hover.color }}>
+                <Text>HOME</Text>
+              </Heading>
+            </ChakraLink>
+            <ChakraLink 
+              as={NavLink} 
+              to="/about"
+              state={props.props}
+            >
+              <Heading as='h4' size={styles.heading.size} sx={{color: styles.heading.color}} _hover={{ color: styles.heading._hover.color }}>
+                ABOUT
+              </Heading>
+            </ChakraLink>
+          </HStack>
+        </Grid>
+        <Grid item xs={4}>
+          {/*<Spacer />*/}
+          {!isSmallLogoWidth &&
+            <Heading size='lg' sx={{color: "white"}} fontSize={logoMediaQueryWidth ? '20px' : '25px'} lineHeight='1'>OneSelf Academy</Heading>
+          }
+          {/*<Spacer />*/}
+        </Grid>
+        <Grid sx={{}} item xs={4}>
+          <Spacer/>
+          <Button 
+            marginLeft={20}
+            onClick={handleClickMenu} 
+            minW={1}
           >
-            <Heading as='h4' size={styles.heading.size} sx={{color: styles.heading.color}} _hover={{ color: styles.heading._hover.color }}>
-              <Text>HOME</Text>
-            </Heading>
-          </ChakraLink>
-          <ChakraLink 
-            as={NavLink} 
-            to="/about"
-            state={props.props}
-          >
-            <Heading as='h4' size={styles.heading.size} sx={{color: styles.heading.color}} _hover={{ color: styles.heading._hover.color }}>
-              ABOUT
-            </Heading>
-          </ChakraLink>
-        </HStack>
-      </Stack>
-      <Spacer />
-      {!isSmallLogoWidth &&
-        <Heading size='lg' sx={{color: "white"}} fontSize={logoMediaQueryWidth ? '20px' : '25px'} lineHeight='1'>OneSoul Academy</Heading>
-      }
-      <Spacer />
-      <HStack marginRight={8}>
-        <Menu>
-          <MenuButton 
-            as={Button}     
-            minW={0}
-          >
-          <Avatar sx={{backgroundColor: "purple", p: "2"}} name={userName} />
-          </MenuButton>
-          <MenuList alignItems={'center'} sx={{backgroundColor: "white", p: 3, borderRadius: 6, w: 300}}>
-            <br />
-            <Center>
-              <Avatar
-                sx={{width: "150px"}}                
-                src={'https://avatars.dicebear.com/api/male/usern§ame.svg'}
-              />
-            </Center>
-            <br />
-            <Center>
-              <p>{userName}</p>
-            </Center>
-            <br />
-            <MenuDivider />
-            <VStack p={3}>
-              <MenuItem onClick={onOpenAccountSettings}>Account Settings</MenuItem>
-              <MenuItem onClick={onOpenLogout}>Logout</MenuItem>
-            </VStack>
-          </MenuList>
-        </Menu>
-      </HStack>
+            <Avatar sx={{backgroundColor: "purple", p: "2", px: 8, color: "white"}} name={userName} />
+          </Button>
+        </Grid>
+      </Grid>
+      
+      <Menu
+        anchorEl={anchorEl}
+        open={openMenu}
+        onClose={handleCloseMenu}
+        
+      > 
+        <MenuList sx={{pb: 10, width: "20rem"}}>
+        <VStack >
+          <br />
+          <Center>
+            <Avatar
+              sx={{width: "150px"}}                
+              src={'https://avatars.dicebear.com/api/male/usern§ame.svg'}
+            />
+          </Center>
+          <br />
+          <Center>
+            <p>{userName}</p>
+          </Center>
+          <br />
+          <Divider  sx={{ borderColor: 'black' }}/>
+          <VStack sx={{alignItems: "left", width: "90%"}} p={0} gap={0}>
+            <MenuItem sx={{minHeight: 0}} onClick={onOpenAccountSettings} >Account Settings</MenuItem>
+            <MenuItem sx={{minHeight: 0}} onClick={onOpenLogout} >Logout</MenuItem>
+          </VStack>
+          </VStack>
+        </MenuList>
+      </Menu>
+      
       <AccountSetting 
         isOpenAccountSettings={isOpenAccountSettings} 
         onOpenAccountSettings={onOpenAccountSettings} 
@@ -175,7 +185,6 @@ const NavBar = ({props}: any) => {
               </Button>
             </AlertDialogFooter>
           </Box>
-
         </AlertDialogContent>
       </AlertDialog>
     </Flex>

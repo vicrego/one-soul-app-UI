@@ -8,14 +8,14 @@ import { KeyboardArrowRight } from '@mui/icons-material';
 
 interface State extends SnackbarOrigin {
     open: boolean;
-  }
+}
   
 
 const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAccountSettings}: any) => {
     
     const { userData, setUserData } = useAuth();
     const {refreshUser} = useAuth();
-   
+   console.log("userData", userData)
     const { 
         isOpen: isOpenUsername, 
         onOpen: onOpenUsername, 
@@ -36,7 +36,10 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
 
     const [submited, setSubmited] = useState(false);
     
-    const handleClick = (newState: SnackbarOrigin) => () => {
+    const handleSuccess = (newState: SnackbarOrigin) => () => {
+        setToast({ ...newState, open: true });
+    };
+    const handleError = (newState: SnackbarOrigin) => () => {
         setToast({ ...newState, open: true });
     };
 
@@ -48,7 +51,7 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
             if(data && submited){
                 console.log("data", data);
                 setUserData(data);
-                handleClick({ vertical: 'bottom', horizontal: 'center' })();
+                handleSuccess({ vertical: 'bottom', horizontal: 'center' })();
                 setSubmited(false);
             }
             return data;
@@ -156,26 +159,24 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
                             <SimpleModal isOpen={isOpenPassword} onOpen={onOpenPassword} onClose={onClosePassword} styles={styles} category={"password"} userData={userData} setSubmited={setSubmited}/>
                         </>    
                     </Grid>   
-                                 
+                    <Snackbar
+                        anchorOrigin={{ vertical, horizontal }}
+                        autoHideDuration={5000}
+                        onClose={handleClose}
+                        open={open}
+                        key={vertical + horizontal}            
+                    >
+                        <Alert
+                            
+                            severity="success"
+                            variant="filled"
+                            sx={{ width: '100%' }}
+                        >
+                            "Updated Successfully."
+                        </Alert>
+                    </Snackbar>             
                 </Box>
             </Modal>
-            <Snackbar
-                anchorOrigin={{ vertical, horizontal }}
-                autoHideDuration={100}
-                open={open}
-                key={vertical + horizontal}
-                
-            >
-                <Alert
-                    onClose={handleClose}
-                    severity="success"
-                    variant="filled"
-                    sx={{ width: '100%' }}
-                >
-                    "Updated Successfully."
-                </Alert>
-            </Snackbar>
-        
         </Box>
     )
 
