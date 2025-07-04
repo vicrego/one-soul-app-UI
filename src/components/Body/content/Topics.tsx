@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
+import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue, VStack} from '@chakra-ui/react';
 import { useNavigate, Link as ReactRouterLink, redirect, useLocation } from 'react-router-dom';
 //import { Stepper, Step, StepIndicator, StepStatus, StepTitle, StepDescription, StepNumber, StepIcon, StepSeparator, useSteps} from '@chakra-ui/stepper';
 import Button from '@mui/material/Button';
@@ -53,7 +53,6 @@ const Topics = () => {
   const [activeStep, setActiveStep] = React.useState(0); 
   
 
-
   const title = filteredSteps[activeStep] && filteredSteps[activeStep].topic_name; /*: "great"*/
   const type = filteredSteps[activeStep] && filteredSteps && filteredSteps[activeStep].topic_type;
   
@@ -88,6 +87,12 @@ const Topics = () => {
       navigate("/chapters", {state:{courseId, props}});
     }
   };
+
+  const styles = {
+    backgroundColor: "white",
+    py: "1.3rem",
+    px: "1rem"
+  }
   
   return (
     <Layoult props={props.props}>
@@ -95,16 +100,9 @@ const Topics = () => {
         className="topics"
         style={{
           display: "block",
-          //backgroundColor: "rgba(253, 230, 179)",
           borderRadius: "0.5rem",
-          //margin: "0.5rem 0.5rem",
-          //padding: "0.5rem",
           overflowY: "auto",
           height: "85vh",
-          //height: "50vh",
-          //background: `url(${Background})`,
-          //backgroundRepeat: "no-repeat",
-          //backgroundSize: "cover"
         }}
       >
         <MobileStepper
@@ -142,31 +140,25 @@ const Topics = () => {
         />
         {hasCompletedAllSteps ? (
           <>
-            <Box 
+            <VStack 
               sx={{  
                 p: isSmallScreen ? 10 : 20, 
-                rounded: "md", 
-                //borderRadius: "1rem",
+                rounded: "0.4rem", 
                 background: `url(${Background})`,
                 backgroundRepeat: "no-repeat",
                 backgroundSize: isSmallScreen ? "100%" : "50%",
-                //alignContent: "center",
-                //height: isSmallScreen ? "" : "35vh",
-                //backgroundSize: "50rem",
-                backgroundPositionX: "center"
-                
+                backgroundPositionX: "center",
+                height: 60,
+                justifyContent: "space-between"
              }}>
               <Heading fontSize="xl" textAlign={"center"}>
                 <TypeAnimation
-                
                   sequence={[
                     'Congratulations! \n All steps were completed.', // Types 'One'
                     1000, // Waits 1s
                   ]}
                   wrapper="span"
                   cursor={false}
-                  //repeat={Infinity}
-                  //speed={75}
                   style={{ whiteSpace: 'pre-line', fontSize: isSmallScreen ? '1.2em' : '1.5em', display: 'block', color: 'white' }}
                 />
               </Heading>
@@ -179,7 +171,7 @@ const Topics = () => {
                   Challenge!
                 </ColorButton>
               </ChakraLink>    
-            </Box>
+            </VStack>
           </>
         ) : (
           <>
@@ -198,13 +190,13 @@ const Topics = () => {
             )}
             {type === "theory" &&
             (
-            <Stack sx={{ width: '100%', px: "1rem", bg:"rgba(253, 230, 179)", borderRadius: "1rem" } }  >
-              <Heading as={"h1"} gap={3}>{title}</Heading>
+            <Stack sx={{ width: '100%', px: styles.px, py: styles.py, backgroundColor: styles.backgroundColor, borderRadius: "0.7rem" } }  >
+              <Heading as={"h1"} /*gap={3}*/>{title}</Heading>
               <Flex 
-                justifyContent={"center"} 
-                sx={{ px: "1rem" }} 
+                justifyContent={'center'} 
+                sx={{ px: "0.2rem" }} 
                 flexWrap={"wrap"} 
-                gap={5} 
+                //gap={5} 
               >
                 <Box width={isSmallScreen || image == undefined ? "100%" : "50%"}>
                   {content?.map((post: any, id: any) =>
@@ -227,7 +219,7 @@ const Topics = () => {
             )}
             {type === "exercise" &&
             (
-            <Stack sx={{ width: '100%', px: "1rem" }}  >
+            <Stack sx={{ width: '100%', px: styles.px, py: styles.py }}  >
               <Heading as={"h1"} sx={{color: "white"}}>{title}</Heading>
               <Flex 
                 style={{alignItems:"flex-start"}} 
@@ -239,10 +231,10 @@ const Topics = () => {
                   style={{
                     borderWidth: 1.5, 
                     borderStyle: "dotted", 
-                    backgroundColor: 'beige', 
+                    backgroundColor: styles.backgroundColor, 
                     borderRadius: '1rem', 
                     borderColor: "red",
-                    marginTop: "3rem"
+                    marginTop: "0.5rem"
                   }} 
                   p={6}
                 >

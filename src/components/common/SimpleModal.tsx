@@ -1,5 +1,5 @@
-import { Box, Button, FormControl, Text } from '@chakra-ui/react'
-import { Modal, Stack, TextField, Typography } from '@mui/material'
+import { Box, FormControl, Text } from '@chakra-ui/react'
+import { Button, Modal, Stack, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import { Formik, Form } from 'formik'
 import React, { useState } from 'react'
@@ -38,20 +38,7 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
         url = `${import.meta.env.VITE_API_URL_PRODUCTION}`;
     };
     
-    const [status, setStatus] = useState<any>();
-    const [userId, setUserId] = useState("");
-
-/*
-    const buttons = (
-        <React.Fragment>
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Button onClick={handleClick({ vertical: 'bottom', horizontal: 'center' })}>
-                    Bottom-Center
-                </Button>
-            </Box>
-        </React.Fragment>
-    );
-  */  
+    const [usernameError, setUsernameError] = useState("");
 
     function update(category: any, updatedValue: any) {
         
@@ -65,9 +52,10 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
                 withCredentials: true,
                 url: `${url}/auth/updateUsername`
             }).then((res) => {
-
+                setSubmited(true);
+                onClose();    
             }).catch(err => {
-                console.log("err: ", err)
+                setUsernameError(err.response.data.message);
             });    
         } else if (category === "email"){
             axios({
@@ -79,9 +67,9 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
                 withCredentials: true,
                 url: `${url}/auth/updateEmail`
             }).then((res) => {
-                
+                setSubmited(true);
+                onClose();    
             }).catch(err => {
-        
             });
         } else if (category === "password"){
             axios({
@@ -93,14 +81,13 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
                 withCredentials: true,
                 url: `${url}/auth/updatePassword`
             }).then((res) => {
-        
+                setSubmited(true);
+                onClose();    
             }).catch(err => {
-        
             });
-            
         }
     }
-    
+
     return (
         <Modal
             open={isOpen}
@@ -108,16 +95,15 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description"
         >
-            <Stack sx={{ ...styles, pt: 2, pb: 10, gap: 2 }}>
-                <Button variant="contained" sx={{marginRight: "auto"}} onClick={() => {onClose()}}><ArrowBackIcon/></Button>
+            <Stack sx={{ ...styles, pt: 2, pb: 10, gap: 2}}>
+                <Box cursor={"pointer"} onClick={() => {onClose()}}>
+                    <ArrowBackIcon />
+                </Box>
                 <Formik<{ [key: string]: string }>
                     initialValues={{ [category]: defaultValue}}
                     onSubmit={async (values: any, actions: any) => {      
                             const updatedValue = values[category];
-                            update(category, updatedValue); 
-                            setSubmited(true);
-                            actions.resetForm();
-                            onClose();    
+                            update(category, updatedValue);
                         }
                     }
                     validationSchema={toFormikValidationSchema(contactFormSchema)}
@@ -143,12 +129,16 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
                                 {errors[category]}
                                 </Text>
                             )}
-                        
+                            {usernameError != "" && (
+                                <Text className="form-text" sx={{color: "red"}}>
+                                {usernameError}
+                                </Text>
+                            )}
                             <Button
                                 type="submit"
                                 className="button-19"
-                                sx={{display: "block", marginTop: "20px"}}
-                                disabled={isSubmitting}
+                                sx={{display: "block", marginTop: "20px", marginLeft: "auto", marginRight: "auto"}}
+                                disabled={isSubmitting || ( values[category] === defaultValue)}
                             >
                                 Submit 
                             </Button>
