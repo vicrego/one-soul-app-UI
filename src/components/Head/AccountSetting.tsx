@@ -9,13 +9,12 @@ import { KeyboardArrowRight } from '@mui/icons-material';
 interface State extends SnackbarOrigin {
     open: boolean;
 }
-  
 
 const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAccountSettings}: any) => {
     
     const { userData, setUserData } = useAuth();
     const {refreshUser} = useAuth();
-   console.log("userData", userData)
+
     const { 
         isOpen: isOpenUsername, 
         onOpen: onOpenUsername, 
@@ -167,7 +166,6 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
                         key={vertical + horizontal}            
                     >
                         <Alert
-                            
                             severity="success"
                             variant="filled"
                             sx={{ width: '100%' }}

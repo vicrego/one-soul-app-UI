@@ -137,7 +137,7 @@ const Body = (props: any) => {
                   <CardMedia
                     component="img"
                     //image={`http://localhost:1337${course?.attributes?.image.data?.attributes?.url}`}
-                    src={`./images-icons/${course.course_img}`}
+                    src={`./images-icons/courses/${course.course_img}`}
                     alt="course image"
                     onLoad={() => setImageLoaded(true)}
                   />

@@ -117,7 +117,7 @@ const NavBar = ({props}: any) => {
         <Grid sx={{}} item xs={4}>
           <Spacer/>
           <Button 
-            marginLeft={20}
+            marginLeft={10}
             onClick={handleClickMenu} 
             minW={1}
           >

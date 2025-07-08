@@ -21,6 +21,7 @@ const Challenge_Chapter = () => {
   const navigate = useNavigate();
 
   const { courseId, chapterId, chapterOrder, chapterName, props } = location.state;
+  
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
     color: theme.palette.getContrastText(teal[500]),
@@ -30,15 +31,15 @@ const Challenge_Chapter = () => {
     },
   }));
 
+
+  
   const theme = extendTheme();
-  const filteredSteps = props.props?.challengesChapter.filter((challenge: any) => challenge.chapter_name === chapterName);
+  const filteredSteps = props.props?.challengesChapter.filter((challenge: any) => challenge.chapter_id === chapterId);
   const [activeStep, setActiveStep] = React.useState(0);
   const type = filteredSteps && filteredSteps[activeStep]?.challenge_type;
   const order = filteredSteps && filteredSteps[activeStep]?.challenge_order;
   
   const content = filteredSteps && filteredSteps[activeStep]?.challenge_content.split("\\n");
-
-  //const content = filteredSteps && filteredSteps[activeStep]?.attributes?.content;
   const hasCompletedAllSteps = activeStep === filteredSteps?.length;
   const bg = useColorModeValue("gray.200", "gray.700");
    

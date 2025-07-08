@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue, VStack} from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { Link as ChakraLink, Box, Flex, Heading, Stack, Text, useColorModeValue, VStack} from '@chakra-ui/react';
 import { useNavigate, Link as ReactRouterLink, redirect, useLocation } from 'react-router-dom';
-//import { Stepper, Step, StepIndicator, StepStatus, StepTitle, StepDescription, StepNumber, StepIcon, StepSeparator, useSteps} from '@chakra-ui/stepper';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { MobileStepper, useMediaQuery } from '@mui/material';
 import {
-  Experimental_CssVarsProvider as CssVarsProvider,
+  Experimental_CssVarsProvider,
   experimental_extendTheme as extendTheme,
 } from '@mui/material/styles';
 import { ButtonProps, styled } from '@mui/material';
@@ -22,6 +21,7 @@ const Topics = () => {
   const navigate = useNavigate();
 
   const { courseId, chapterId, chapterOrder, props, challengeChapter } = location.state;
+  console.log("props: ", props)
   
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
@@ -46,21 +46,28 @@ const Topics = () => {
 
   //console.log(propsTest)
 
+
+
+  
+
   const theme = extendTheme();
 
   const filteredSteps = props?.props.topics?.filter((topic: any) => topic.chapter_id === chapterId);
-  
   const [activeStep, setActiveStep] = React.useState(0); 
   
 
   const title = filteredSteps[activeStep] && filteredSteps[activeStep].topic_name; /*: "great"*/
   const type = filteredSteps[activeStep] && filteredSteps && filteredSteps[activeStep].topic_type;
   
-  let image = /*filteredSteps.data[activeStep]?.attributes?.image.data?.attributes?.url ||*/ undefined; // undefined, as we still need to database our images
+
+  let topicImgUrl: string;
+  let image = filteredSteps[activeStep] && filteredSteps[activeStep].topic_image || undefined;
   
-  if(image === "http://localhost:1337undefined"){
-    image = undefined;
-  };
+  if(import.meta.env.VITE_ENV === "development"){
+    topicImgUrl = `./images-icons/courses/${image}`;
+  } else {
+    topicImgUrl = `./images-icons/courses/${image}`;
+  }
 
   const content = filteredSteps[activeStep] && filteredSteps[activeStep].content.split("\\n");
 
@@ -146,7 +153,7 @@ const Topics = () => {
                 rounded: "0.4rem", 
                 background: `url(${Background})`,
                 backgroundRepeat: "no-repeat",
-                backgroundSize: isSmallScreen ? "100%" : "50%",
+                backgroundSize: isSmallScreen ? "30rem" : "50%",
                 backgroundPositionX: "center",
                 height: 60,
                 justifyContent: "space-between"
@@ -165,7 +172,7 @@ const Topics = () => {
               <ChakraLink as={ReactRouterLink} 
                 type='button'
                 to="/tasks"
-                state={{courseId: courseId, chapterId: chapterId, chapterOrder: chapterOrder, props}}
+                state={{courseId: courseId, chapterId: chapterId, chapterOrder: chapterOrder, /*chapterName ,*/ props}}
               >
                 <ColorButton variant="contained" size="large">
                   Challenge!
@@ -191,16 +198,15 @@ const Topics = () => {
             {type === "theory" &&
             (
             <Stack sx={{ width: '100%', px: styles.px, py: styles.py, backgroundColor: styles.backgroundColor, borderRadius: "0.7rem" } }  >
-              <Heading as={"h1"} /*gap={3}*/>{title}</Heading>
+              <Heading as={"h1"} sx={{marginBottom: "1.5rem"}}>{title}</Heading>
               <Flex 
                 justifyContent={'center'} 
-                sx={{ px: "0.2rem" }} 
+                sx={{ px: "1.4rem", gap: 5 }} 
                 flexWrap={"wrap"} 
-                //gap={5} 
               >
                 <Box width={isSmallScreen || image == undefined ? "100%" : "50%"}>
                   {content?.map((post: any, id: any) =>
-                    <Text key={id} marginBottom={3.5}>
+                    <Text textAlign={'justify'} key={id} marginBottom={3}>
                       {post}
                     </Text>
                   )}
@@ -210,7 +216,7 @@ const Topics = () => {
                     margin-left={'auto'}
                     margin-right={'auto'}
                     width={'400rem'}
-                    src={"http://localhost:1337" + image}
+                    src={"./images-icons/courses/" + image}
                     style={{borderRadius: "20%"}}
                   />
                 }
@@ -247,7 +253,7 @@ const Topics = () => {
                   margin-left={'auto'}
                   margin-right={'auto'}
                   width={'400rem'}
-                  src={"http://localhost:1337" + image}
+                  src={topicImgUrl}
                   style={{borderRadius: "20%"}}
                 />
               </Flex>
