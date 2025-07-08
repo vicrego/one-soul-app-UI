@@ -3,16 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/onesoul_academy_icon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
     <title>OneSoul Academy</title>
   </head>
   <body>
-    <div id="root">
-      <div id="preloader" style="display:flex;justify-content:center;align-items:center;height:100vh;">
-        <svg class="spinner"> ... your spinner SVG ... </svg>
+
+    <div id="root" >
+      <div id="preloader">
+        <img src="./logo-initializer.jpeg" />
       </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
+<style>
+  html, body {
+    background-color: rgb(6, 6, 22);
+  }
+  #preloader{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+  }
+  #preloader img {
+  margin-left: auto; 
+  margin-right: auto;
+  width: 400px;
+  }
+</style>
