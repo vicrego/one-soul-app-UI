@@ -11,11 +11,11 @@
   background-size: cover; 
   background-attachment: scroll;
 }
-
+/*
 :root {
   background-color: rgb(53, 34, 151);
 }
-
+*/
 *{
   margin: 0;
   font-family: mono;
@@ -55,7 +55,8 @@
 .topics::-webkit-scrollbar-thumb
 {
   border-radius: 1rem;
-	background-color: #F90;	
+	background-color: rgb(20, 82, 94);	
+  /*
 	background-image: -webkit-linear-gradient(45deg,
                       rgba(255, 255, 255, .2) 25%,
                 transparent 25%,
@@ -64,6 +65,7 @@
                 rgba(255, 255, 255, .2) 75%,
                 transparent 75%,
                 transparent)
+    */
 }
 
 /* BACK BUTTON */

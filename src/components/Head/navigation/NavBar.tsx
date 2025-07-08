@@ -92,7 +92,7 @@ const NavBar = ({props}: any) => {
               to="/home" 
               state={props.props} 
             >
-              <Heading as='h4' size={styles.heading.size} sx={{color: styles.heading.color}} _hover={{ color: styles.heading._hover.color }}>
+              <Heading size={styles.heading.size} sx={{color: styles.heading.color}} _hover={{ color: styles.heading._hover.color }}>
                 <Text>HOME</Text>
               </Heading>
             </ChakraLink>
@@ -101,7 +101,7 @@ const NavBar = ({props}: any) => {
               to="/about"
               state={props.props}
             >
-              <Heading as='h4' size={styles.heading.size} sx={{color: styles.heading.color}} _hover={{ color: styles.heading._hover.color }}>
+              <Heading size={styles.heading.size} sx={{color: styles.heading.color}} _hover={{ color: styles.heading._hover.color }}>
                 ABOUT
               </Heading>
             </ChakraLink>

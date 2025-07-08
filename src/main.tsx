@@ -13,8 +13,18 @@ import {
 } from '@mui/material/styles';
 
 
-const theme = extendTheme();
 
+const theme = extendTheme();
+/*
+const preloader = document.getElementById('preloader');
+console.log("preloader: ", preloader)
+if (preloader) {
+  preloader.style.opacity = '0';
+  setTimeout(() => {
+    preloader.remove();
+  }, 500); // fade duration
+}
+*/
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider>
