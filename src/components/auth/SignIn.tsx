@@ -109,8 +109,8 @@ const SignIn = () => {
     <Box>
       { ((useAuth().isAuthenticated === false)) &&     
       (
-        <Stack className={styles.wrapperStyle} sx={{color: "white", margin: 10, fontFamily: "mono", alignItems: "center"}}>
-          <Stack sx={{margin: 10}}>
+        <Stack className={styles.wrapperStyle} sx={{color: "white", fontFamily: "mono", alignItems: "center"}}>
+          <Stack sx={{margin: 20}}>
             <Heading as='h4' >Sign In</Heading>
             <Box bg="white" p={6} w={"400px"} rounded="md">
               <Formik<ContactFormInputs>

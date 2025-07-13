@@ -1,11 +1,12 @@
 import { HStack, Link as ChakraLink, Flex, Spacer, Button, Stack,Heading, useDisclosure, Box, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogCloseButton, AlertDialogBody, AlertDialogFooter, Center, Avatar, Text, VStack } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {NavLink, useNavigate } from 'react-router-dom'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import axios from 'axios';
 import { useAuth } from '../../../provider/authProvider';
 import AccountSetting from '../AccountSetting';
 import { Divider, Grid, Menu, MenuItem, MenuList } from '@mui/material';
+import zIndex from '@mui/material/styles/zIndex';
 
 
 type UserDataType = {
@@ -16,30 +17,58 @@ type UserDataType = {
 };
 
 const NavBar = ({props}: any) => {
-  const isSmallLogoWidth = useMediaQuery('(max-width:530px)');
-  const logoMediaQueryWidth = useMediaQuery('(max-width:625px)');
+  
+  const navigate = useNavigate();
+  
+  const { userData }: { userData: UserDataType | null } = useAuth();
+  const userName = userData?.data?.username;
+  //const logoMediaQueryHeight = useMediaQuery('(max-height:530px)');
+  
+  let url: string;
+  if(import.meta.env.VITE_ENV === "development"){
+    url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/logout`;
+  } else {
+    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/logout`;
+  }
+
+  function logout(event: any) {
+    axios({
+      method: "POST",
+      withCredentials: true,
+      url: url
+    }).then(() => {
+      navigate("/signIn");
+    })
+  }
+  
+  //CONFIG MODALS
   const { 
     isOpen: isOpenLogout, 
     onOpen: onOpenLogout, 
     onClose: onCloseLogout,
   } = useDisclosure()
-
   const { 
     isOpen: isOpenAccountSettings, 
     onOpen: onOpenAccountSettings, 
     onClose: onCloseAccountSettings
   } = useDisclosure()
 
-
+  //LOGOUT MODAL
   const cancelRef = React.useRef<HTMLButtonElement | null>(null)
-  const navigate = useNavigate();
-  const { userData }: { userData: UserDataType | null } = useAuth();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openMenu = Boolean(anchorEl);
+  const handleClickMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
-  const userName = userData?.data?.username;
-  //const logoMediaQueryHeight = useMediaQuery('(max-height:530px)');
+  //STYLES
+  const isSmallLogoWidth = useMediaQuery('(max-width:530px)');
+  const logoMediaQueryWidth = useMediaQuery('(max-width:625px)');
   
   const headerMediaQuery = useMediaQuery('(min-width:394px)');
-  
   const styles = {
     container: (headerMediaQuery : any) => ({
       padding: headerMediaQuery ? '3px 10px' : '10px 30px',
@@ -54,34 +83,7 @@ const NavBar = ({props}: any) => {
     },
   };
 
-  let url: string;
-
-  if(import.meta.env.VITE_ENV === "development"){
-    url = `${import.meta.env.VITE_API_URL_DEVELOPMENT}/auth/logout`;
-  } else {
-    url = `${import.meta.env.VITE_API_URL_PRODUCTION}/auth/logout`;
-  }
-
-  function logout(event: any) {
-    //event.preventDefault();
-    axios({
-      method: "POST",
-      withCredentials: true,
-      url: url
-    }).then(() => {
-      navigate("/signIn");
-    })
-  }
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const openMenu = Boolean(anchorEl);
-  const handleClickMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
+  
   return (
     <Flex style={styles.container(headerMediaQuery)} sx={{position: "sticky", zIndex: 2}} alignItems='center'>    
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -108,13 +110,11 @@ const NavBar = ({props}: any) => {
           </HStack>
         </Grid>
         <Grid item xs={4}>
-          {/*<Spacer />*/}
           {!isSmallLogoWidth &&
             <Heading size='lg' sx={{color: "white"}} fontSize={logoMediaQueryWidth ? '20px' : '25px'} lineHeight='1'>OneSelf Academy</Heading>
           }
-          {/*<Spacer />*/}
         </Grid>
-        <Grid sx={{}} item xs={4}>
+        <Grid item xs={4}>
           <Spacer/>
           <Button 
             marginLeft={10}
@@ -130,7 +130,6 @@ const NavBar = ({props}: any) => {
         anchorEl={anchorEl}
         open={openMenu}
         onClose={handleCloseMenu}
-        
       > 
         <MenuList sx={{pb: 10, width: "20rem"}}>
         <VStack >
@@ -149,7 +148,14 @@ const NavBar = ({props}: any) => {
           <Divider  sx={{ borderColor: 'black' }}/>
           <VStack sx={{alignItems: "left", width: "90%"}} p={0} gap={0}>
             <MenuItem sx={{minHeight: 0}} onClick={onOpenAccountSettings} >Account Settings</MenuItem>
-            <MenuItem sx={{minHeight: 0}} onClick={onOpenLogout} >Logout</MenuItem>
+            <MenuItem 
+              sx={{minHeight: 0}} 
+              onClick={() => {
+                handleCloseMenu();
+                onOpenLogout();
+              }} >
+              Logout
+            </MenuItem>
           </VStack>
           </VStack>
         </MenuList>
@@ -177,7 +183,17 @@ const NavBar = ({props}: any) => {
               <AlertDialogCloseButton />
             </Box>
             <AlertDialogFooter sx={{backgroundColor: "white", p: 0}}>
-              <Button sx={{backgroundColor: "lightGray", padding: "7px 15px", borderRadius: 10}} ref={cancelRef} onClick={onCloseLogout}>
+              <Button 
+                sx={{
+                  backgroundColor: "lightGray", 
+                  padding: "7px 15px", 
+                  borderRadius: 10
+                }} 
+                ref={cancelRef} 
+                onClick={() => {
+                  onCloseLogout();
+                }}
+              >
                 No
               </Button>
               <Button onClick={logout} sx={{backgroundColor: "red", padding: "7px 15px", borderRadius: 10, color: "white"}} colorScheme='red' ml={3}>

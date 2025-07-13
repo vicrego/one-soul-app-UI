@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Body from './Body/Body';
 import { CircularProgress } from '@mui/material';
 import { getChallenges, getChallengesChapter, getChallengesFree, getChapter, getCourse, getTopics } from '../api/api';
+import { Image } from '@mui/icons-material';
+import { Box } from '@chakra-ui/react';
+import LoaderLogo from './common/LoaderLogo';
 
 
 const Loading = () => {
@@ -54,16 +57,13 @@ const Loading = () => {
   
   const centerElement = {
     margin: "auto",
-    display: "flex",
-    alignItems: "center",
     justifyContent: "center",
-    height: "100vh"
   };
 
   return (
     <>
       {!onLoaded ? (
-        <CircularProgress style={centerElement} />
+        <LoaderLogo/>
         ) : (
           <Body props={categories} loading/>
         )

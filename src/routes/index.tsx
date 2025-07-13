@@ -9,9 +9,15 @@ import Topics from "../components/Body/content/Topics";
 import Challenge_Free from "../components/Body/content/Challenge_Free";
 import Challenge_Chapter from "../components/Body/content/Challenge_Chapter";
 import Body from "../components/Body/Body";
+import LoaderLogo from "../components/common/LoaderLogo";
+import { useEffect } from "react";
 
 
-const MyRoutes = () => {
+const MyRoutes = ({setLoading}: any) => {
+  useEffect(()=> {
+    setLoading(false);
+  }, [])
+  
   return (
     <Routes>
       <Route path="/signIn" element={<SignIn />} />

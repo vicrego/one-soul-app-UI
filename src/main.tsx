@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
@@ -15,16 +15,20 @@ import {
 
 
 const theme = extendTheme();
+
+
+
+
 /*
-const preloader = document.getElementById('preloader');
-console.log("preloader: ", preloader)
-if (preloader) {
-  preloader.style.opacity = '0';
-  setTimeout(() => {
-    preloader.remove();
-  }, 500); // fade duration
-}
+useEffect(() => {
+  const preloader = document.getElementById('preloader');
+  if (preloader) {
+    preloader.style.opacity = '0';
+    setTimeout(() => preloader.remove(), 300); // allow fade-out if animated
+  }
+}, []);
 */
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider>
