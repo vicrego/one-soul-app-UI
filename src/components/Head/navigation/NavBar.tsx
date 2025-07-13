@@ -121,7 +121,7 @@ const NavBar = ({props}: any) => {
             onClick={handleClickMenu} 
             minW={1}
           >
-            <Avatar sx={{backgroundColor: "purple", p: "2", px: 8, color: "white"}} name={userName} />
+            <Avatar sx={{backgroundColor: "#7a1111", p: 2, px: 7, color: "white"}} name={userName} />
           </Button>
         </Grid>
       </Grid>

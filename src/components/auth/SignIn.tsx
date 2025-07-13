@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Link as ChakraLink, Text, InputGroup, Stack, useToast, FormLabel, FormControl, VStack, InputRightElement } from '@chakra-ui/react'
+import { Box, Button, Heading, Link as ChakraLink, Text, InputGroup, Stack, useToast, FormLabel, FormControl, VStack, InputRightElement, background } from '@chakra-ui/react'
 import { Formik, Form,Field } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -9,10 +9,11 @@ import { object, string, TypeOf } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { BorderStyle } from '@mui/icons-material'
 import { color } from 'framer-motion'
+import LoaderLogo, { LoaderLogoRemover } from '../common/LoaderLogo'
 
 
 type ContactFormInputs = TypeOf<typeof contactFormSchema>
-
+console.log("signIn")
 const contactFormSchema = object({
   username: string({
     required_error: "Please enter your name",
@@ -23,7 +24,8 @@ const contactFormSchema = object({
 const SignIn = () => {
 
   const [status, setStatus] = useState<any>();
-  const [userId, setUserId] = useState("");
+  //const [userId, setUserId] = useState("");
+  const [userLogged, setUserLogged] = useState(false);
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show)
     
@@ -31,7 +33,8 @@ const SignIn = () => {
   
   useEffect(() => {
     logUserIn();
-  }, [userId]);
+    setUserLogged(true);
+  }, [/*userId*/]);
   
   const toast = useToast();
   let url: string;
@@ -54,24 +57,12 @@ const SignIn = () => {
       withCredentials: true,
       url: url
     }).then((res) => {
-      /*toast({
-        title: 'Account created.',
-        description: "We've created your account for you.",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })*/
-      setUserId(res.data.userId);
-      /*if(userId === ""){
-        console.log("Missing Id")
-      } else {
-        
-      }*/
+      //setUserId(res.data.userId);
       setStatus(res.status)
       if (res.status === 200) {
         setStatus({
           sent: true,
-          msg: "Message has been sent! Thanks!"
+          msg: "Sign In Successful!"
         })
       }
       logUserIn(); 
@@ -100,6 +91,8 @@ const SignIn = () => {
   let formStyle = {
     color: "black",
     backgroundColor: "#CBCCF7",
+    //backgroundColor: "#7a1111",
+    
     borderRadius: "5px",
     width: "250px",
     padding: "9px"
@@ -107,10 +100,21 @@ const SignIn = () => {
 
   return (
     <Box>
+      {userLogged ?
+        (
+          <LoaderLogoRemover/>
+        ) : (
+          <LoaderLogo/>
+        )
+      }
       { ((useAuth().isAuthenticated === false)) &&     
       (
         <Stack className={styles.wrapperStyle} sx={{color: "white", fontFamily: "mono", alignItems: "center"}}>
-          <Stack sx={{margin: 20}}>
+          
+          <Stack sx={{margin: 10}}>
+            <Box sx={{width: "15rem", marginLeft: "auto", marginRight: "auto"}}>
+              <img src="./logo-initializer.jpeg" />
+            </Box>
             <Heading as='h4' >Sign In</Heading>
             <Box bg="white" p={6} w={"400px"} rounded="md">
               <Formik<ContactFormInputs>
@@ -142,7 +146,7 @@ const SignIn = () => {
                         variant="subtle"
                         name="username" 
                       />{!!errors.username && (
-                        <Text className="form-text" sx={{color: "red", width: 250}}>
+                        <Text className="form-text" sx={{color: "#7a1111", width: 250}}>
                           {errors.username}
                         </Text>
                       )}
@@ -167,7 +171,7 @@ const SignIn = () => {
                           </Button>
                         </InputRightElement>
                       </InputGroup> {!!errors.password && (
-                          <Text className="form-text" sx={{color: "red"}}>
+                          <Text className="form-text" sx={{color: "#7a1111"}}>
                             {errors.password}
                           </Text>
                         )}   
@@ -221,6 +225,8 @@ const SignIn = () => {
           </Box>
         </Stack>
       )}
+      
+      
     </Box>
     )
 }

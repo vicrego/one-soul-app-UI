@@ -16,9 +16,10 @@ function App() {
     setTimeout(() => setLoading(false), 0); // Or better: detect data readiness
   }, []);
 */
+console.log("App")
   return (
     <AuthProvider>
-      {loading && <LoaderLogoRemover/>}
+      {/*loading && <LoaderLogoRemover/>*/}
       <MyRoutes setLoading={setLoading}/>
     </AuthProvider>
   );

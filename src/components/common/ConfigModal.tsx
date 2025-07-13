@@ -9,8 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 
-const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defaultValue, setSubmited}: any) => {
-
+const ConfigModal = ({isOpen, onOpen, onClose, styles, category, userData, defaultValue, setSubmited}: any) => {
     const schemaMap: Record<string, z.ZodTypeAny> = {
         username: z.string({ required_error: "Please enter your username" }).min(6).max(36),
         email: z.string().email("Please enter a valid email"),
@@ -155,4 +154,4 @@ const SimpleModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
     )
 }
 
-export default SimpleModal
+export default ConfigModal

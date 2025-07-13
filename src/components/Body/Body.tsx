@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, Modal, useMediaQuery } from '@mui/material';
+import { Button, CardActionArea, CircularProgress, Modal, useMediaQuery } from '@mui/material';
 import Layoult from '../Layoult/Layoult';
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../../provider/authProvider';
@@ -128,7 +128,7 @@ const Body = (props: any) => {
               <Card 
                 sx={{ 
                   maxWidth: 300, 
-                  backgroundColor: "#4a148c",     
+                  backgroundColor: "#7a1111",     
                   "&:hover": {
                     background: "purple"
                   }, 
@@ -136,16 +136,20 @@ const Body = (props: any) => {
                 <CardActionArea>
                   <CardMedia
                     component="img"
-                    //image={`http://localhost:1337${course?.attributes?.image.data?.attributes?.url}`}
                     src={`./images-icons/courses/${course.course_img}`}
                     alt="course image"
                     onLoad={() => setImageLoaded(true)}
                   />
-                  <CardContent>
+                  {imageLoaded ? (
+                    <CardContent>
                       <Typography gutterBottom variant="h5" component="div" sx={{color: "white"}}>
                         <Text>{course.course_name}</Text>
                       </Typography>     
                     </CardContent>
+                  ):     
+                    <Box sx={{ display: 'flex' }}>
+                      <CircularProgress />
+                    </Box>}
                   {/*imageLoaded && (
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">

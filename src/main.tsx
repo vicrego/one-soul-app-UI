@@ -12,12 +12,7 @@ import {
   experimental_extendTheme as extendTheme,
 } from '@mui/material/styles';
 
-
-
 const theme = extendTheme();
-
-
-
 
 /*
 useEffect(() => {
@@ -28,6 +23,7 @@ useEffect(() => {
   }
 }, []);
 */
+console.log("main")
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

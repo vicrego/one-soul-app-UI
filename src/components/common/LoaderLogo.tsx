@@ -10,7 +10,6 @@ const LoaderLogo = () => {
       height: "100vh",
       backgroundColor: "rgb(6, 6, 22)"
     };
-
     return (
       <Box sx={styles}>
         <img src="./logo-initializer.jpeg" alt="Loading Logo" width={400} />

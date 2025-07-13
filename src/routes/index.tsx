@@ -14,10 +14,13 @@ import { useEffect } from "react";
 
 
 const MyRoutes = ({setLoading}: any) => {
+  /*
   useEffect(()=> {
     setLoading(false);
   }, [])
-  
+  */
+  console.log("index.tsx")
+
   return (
     <Routes>
       <Route path="/signIn" element={<SignIn />} />

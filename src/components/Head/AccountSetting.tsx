@@ -1,7 +1,7 @@
 import { Button, Flex, HStack, Stack, Table, useDisclosure, VStack } from '@chakra-ui/react';
 import { Alert, Box, Grid, Modal, Snackbar, SnackbarOrigin, styled, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import SimpleModal from '../common/SimpleModal';
+import ConfigModal from '../common/ConfigModal';
 import { useAuth } from '../../provider/authProvider';
 import CloseIcon from '@mui/icons-material/Close';
 import { KeyboardArrowRight } from '@mui/icons-material';
@@ -123,7 +123,7 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
                             <Grid item xs={3}>
                                 <Button onClick={onOpenUsername}><KeyboardArrowRight/></Button>
                             </Grid>
-                            <SimpleModal isOpen={isOpenUsername} onOpen={onOpenUsername} onClose={onCloseUsername} styles={styles} category={"username"} userData={userData} defaultValue={userData?.data?.username} setSubmited={setSubmited}/>
+                            <ConfigModal isOpen={isOpenUsername} onOpen={onOpenUsername} onClose={onCloseUsername} styles={styles} category={"username"} userData={userData} defaultValue={userData?.data?.username} setSubmited={setSubmited}/>
                         </>
                         <>
                             <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
@@ -139,7 +139,7 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
                             <Grid item xs={3}>
                                 <Button onClick={onOpenEmail}><KeyboardArrowRight/></Button>  
                             </Grid>                                               
-                            <SimpleModal isOpen={isOpenEmail} onOpen={onOpenEmail} onClose={onCloseEmail} styles={styles} category={"email"} userData={userData} defaultValue={userData?.data?.email} setSubmited={setSubmited}/>
+                            <ConfigModal isOpen={isOpenEmail} onOpen={onOpenEmail} onClose={onCloseEmail} styles={styles} category={"email"} userData={userData} defaultValue={userData?.data?.email} setSubmited={setSubmited}/>
                         </>
                         <>
                             <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
@@ -155,7 +155,7 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
                             <Grid item xs={3}>
                                 <Button onClick={onOpenPassword}><KeyboardArrowRight/></Button>  
                             </Grid> 
-                            <SimpleModal isOpen={isOpenPassword} onOpen={onOpenPassword} onClose={onClosePassword} styles={styles} category={"password"} userData={userData} setSubmited={setSubmited}/>
+                            <ConfigModal isOpen={isOpenPassword} onOpen={onOpenPassword} onClose={onClosePassword} styles={styles} category={"password"} userData={userData} setSubmited={setSubmited}/>
                         </>    
                     </Grid>   
                     <Snackbar
