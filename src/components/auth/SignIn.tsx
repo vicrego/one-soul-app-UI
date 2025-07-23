@@ -1,15 +1,14 @@
-import { Box, Button, Heading, Link as ChakraLink, Text, InputGroup, Stack, useToast, FormLabel, FormControl, VStack, InputRightElement, background } from '@chakra-ui/react'
 import { Formik, Form,Field } from 'formik'
 import React, { useEffect, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import styles from "./styles.module.css"
 import axios from 'axios'
 import { useAuth } from '../../provider/authProvider'
 import { object, string, TypeOf } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
-import { BorderStyle } from '@mui/icons-material'
-import { color } from 'framer-motion'
+import { BorderStyle, Visibility, VisibilityOff } from '@mui/icons-material'
 import LoaderLogo, { LoaderLogoRemover } from '../common/LoaderLogo'
+import { Box, Button, IconButton, InputAdornment, Stack, TextField, Typography } from '@mui/material'
 
 
 type ContactFormInputs = TypeOf<typeof contactFormSchema>
@@ -17,7 +16,8 @@ console.log("signIn")
 const contactFormSchema = object({
   username: string({
     required_error: "Please enter your name",
-  }).min(6).max(36),
+  })//*.min(6).max(36)*/
+  ,
   password: string(),
 });
 
@@ -26,8 +26,6 @@ const SignIn = () => {
   const [status, setStatus] = useState<any>();
   //const [userId, setUserId] = useState("");
   const [userLogged, setUserLogged] = useState(false);
-  const [show, setShow] = React.useState(false);
-  const handleClick = () => setShow(!show)
     
   const { logUserIn } = useAuth();
   
@@ -36,7 +34,6 @@ const SignIn = () => {
     setUserLogged(true);
   }, [/*userId*/]);
   
-  const toast = useToast();
   let url: string;
 
   const navigate = useNavigate();
@@ -98,8 +95,12 @@ const SignIn = () => {
     padding: "9px"
   };
 
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
   return (
-    <Box>
+    <Box sx={{marginLeft: "auto", marginRight: "auto"}}>
       {userLogged ?
         (
           <LoaderLogoRemover/>
@@ -111,12 +112,12 @@ const SignIn = () => {
       (
         <Stack className={styles.wrapperStyle} sx={{color: "white", fontFamily: "mono", alignItems: "center"}}>
           
-          <Stack sx={{margin: 10}}>
+          <Stack sx={{margin: 9}}>
             <Box sx={{width: "15rem", marginLeft: "auto", marginRight: "auto"}}>
               <img src="./logo-initializer.jpeg" />
             </Box>
-            <Heading as='h4' >Sign In</Heading>
-            <Box bg="white" p={6} w={"400px"} rounded="md">
+            <Typography /*as='h4'*/ fontFamily={'inherit'} >SIGN IN</Typography>
+            <Box /*bg="white"*/ sx={{/*p: 6*/ w: "400px", rounded: "md"}} >
               <Formik<ContactFormInputs>
                 initialValues={{ username: "", password: ""/*, rememberMe: false*/ }}
                 onSubmit={(value: any, actions: any) => {
@@ -131,97 +132,94 @@ const SignIn = () => {
               {({ isSubmitting, errors }) => {
                 return (
                 <Form>
-                  <VStack>
-                    <FormControl>
-                      <FormLabel htmlFor="username" sx={{color: formStyle.color}}>Username</FormLabel>     
-                      <Field
-                        placeholder="username"
+                  <Stack spacing={1.5} alignItems={"center"}>
+                    <Field
+                      placeholder="username"
+                      style={{
+                        color: formStyle.color,
+                        backgroundColor: formStyle.backgroundColor, 
+                        borderRadius: formStyle.borderRadius, 
+                        width: formStyle.width, 
+                        padding: formStyle.padding,
+                      }}
+                      variant="subtle"
+                      name="username" 
+                    />
+                    {status && status.msg && (
+                      <Box /*w={200}*/>
+                        <Typography 
+                          style={{
+                            color: 'red', 
+                            marginTop: "15px", 
+                            fontSize: 13
+                          }}
+                          className={`alert ${
+                            status.sent ? "alert-success" : "alert-error"
+                          }`}
+                        >
+                          {status.msg}
+                        </Typography>
+                      </Box>
+                    )}
+                    <Stack 
+                      direction={"row"} 
+                      sx={{
+                        backgroundColor: formStyle.backgroundColor, 
+                        borderRadius: formStyle.borderRadius,
+                        width: formStyle.width
+                      }}
+                    >
+                      <Field 
+                        placeholder='password'
+                        type={showPassword ? 'text' : 'password'}
+                        name="password" 
+                        variant="filled"
                         style={{
                           color: formStyle.color,
                           backgroundColor: formStyle.backgroundColor, 
-                          borderRadius: formStyle.borderRadius, 
-                          width: formStyle.width, 
                           padding: formStyle.padding,
+                          borderRadius: formStyle.borderRadius
                         }}
-                        variant="subtle"
-                        name="username" 
-                      />{!!errors.username && (
-                        <Text className="form-text" sx={{color: "#7a1111", width: 250}}>
-                          {errors.username}
-                        </Text>
-                      )}
-                      <FormLabel htmlFor="password" sx={{color: formStyle.color}}>Password</FormLabel>
-                      <InputGroup margin={'auto'} style={{alignItems: 'center'}} >
-                        <Field 
-                          placeholder='password'
-                          style={{
-                            color: formStyle.color,
-                            backgroundColor: formStyle.backgroundColor, 
-                            borderRadius: formStyle.borderRadius, 
-                            width: formStyle.width, 
-                            padding: formStyle.padding
-                          }}
-                          type={show ? 'text' : 'password'}
-                          name="password" 
-                          variant="filled"
-                        /> 
-                        <InputRightElement width='4.5rem' style={{height: "100%", textAlign: "center"}}>
-                          <Button onClick={handleClick} style={{backgroundColor: "white", color: "gray", padding: 3, borderRadius: 10}}>
-                            {show ? 'Hide' : 'Show'}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup> {!!errors.password && (
-                          <Text className="form-text" sx={{color: "#7a1111"}}>
-                            {errors.password}
-                          </Text>
-                        )}   
-                      {status && status.msg && (
-                        <Box w={200}>
-                          <Text style={{color: 'red', marginTop: "15px", fontSize: 10}}
-                            className={`alert ${
-                              status.sent ? "alert-success" : "alert-error"
-                            }`}
+                      /> 
+                      <Box sx={{alignSelf: "center"}}>
+                        <InputAdornment position="end"  style={{color: "gray"}} >
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
                           >
-                            {status.msg}
-                          </Text>
-                        </Box>
-                      )}
-                      {/*<Checkbox
-                        //as={Checkbox}
-                        id="rememberMe"
-                        name="rememberMe"
-                        colorScheme="purple"
-                        style={{color: "black"}}
-                      >
-                        Remember me?
-                      </Checkbox>
-                      */}  
-                      <Button
-                        type="submit"
-                        className="button-19"
-                        sx={{display: "block", marginTop: "20px"}}
-                        disabled={isSubmitting}
-                      >
-                        Submit 
-                      </Button>
-                      <Box sx={{textColor: "black"}}>
-                        {isSubmitting && <span style={{color: "black"}}>Sending...</span>}
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
                       </Box>
-                    </FormControl>
-                  </VStack>
+                    </Stack>
+                    <Button
+                      type="submit"
+                      className="button-19"
+                      sx={{display: "block", marginTop: "20px", color: "white"}}
+                      disabled={isSubmitting}
+                    >
+                      Submit 
+                    </Button>
+                    <Box sx={{textColor: "white"}}>
+                      {isSubmitting && <span style={{color: "black"}}>Sending...</span>}
+                    </Box>
+                  </Stack>
                 </Form>
                 )}}
               </Formik>
             </Box>
           </Stack>
           <Box>
-            <Text>Don't have an account?</Text>
-            <ChakraLink
-              as={NavLink}
+            <Typography>Don't have an account?</Typography>
+            <Link
+              //component={"button"}
+              //as={NavLink}
               to="/signUp"
+              
             >
               Sign Up
-            </ChakraLink>
+            </Link>
           </Box>
         </Stack>
       )}

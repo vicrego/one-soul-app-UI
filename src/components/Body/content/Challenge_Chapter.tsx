@@ -25,7 +25,6 @@ const Challenge_Chapter = () => {
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
     color: theme.palette.getContrastText(teal[500]),
-    backgroundColor: teal[500],
     '&:hover': {
       backgroundColor: teal[700],
     },
@@ -34,6 +33,8 @@ const Challenge_Chapter = () => {
 
   
   const theme = extendTheme();
+  console.log("theme: ", theme)
+
   const filteredSteps = props.props?.challengesChapter.filter((challenge: any) => challenge.chapter_id === chapterId);
   const [activeStep, setActiveStep] = React.useState(0);
   const type = filteredSteps && filteredSteps[activeStep]?.challenge_type;
@@ -123,10 +124,11 @@ const Challenge_Chapter = () => {
         className="topics"
         style={{
           display: "block",
-          backgroundColor: "rgba(253, 230, 179)",
+          //backgroundColor: "rgba(253, 230, 179)",
+          background: "white",
           borderRadius: "0.5rem",
           margin: "0.5rem 2rem",
-          padding: "1rem",
+          padding: "0.5rem",
           overflowY: "auto",
           height: "85vh", 
         }}>
@@ -140,10 +142,12 @@ const Challenge_Chapter = () => {
           mx: "10%", 
           padding: "0.3%",
           borderRadius: "1.5rem", 
-          backgroundColor: "rgb(138, 97, 130)", 
+          //backgroundColor: "rgb(138, 97, 130)", 
+          backgroundColor: "#7a1111",
+          color: "white"
         }}
         nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+          <Button size="small" sx={{color: "white"}} onClick={handleNext} disabled={activeStep === maxSteps - 1}>
             Next
             {theme.direction === 'rtl' ? (
               <KeyboardArrowLeft />
@@ -153,7 +157,7 @@ const Challenge_Chapter = () => {
           </Button>
         }
         backButton={
-          <Button size="small" onClick={handleBack} >
+          <Button size="small" sx={{color: "white"}} onClick={handleBack} >
             {theme.direction === 'rtl' ? (
               <KeyboardArrowRight />
             ) : (

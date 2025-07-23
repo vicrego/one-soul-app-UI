@@ -11,8 +11,9 @@ import {
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendTheme,
 } from '@mui/material/styles';
+import { blue, pink, red } from '@mui/material/colors'
 
-const theme = extendTheme();
+//const theme = extendTheme();
 
 /*
 useEffect(() => {
@@ -24,11 +25,35 @@ useEffect(() => {
 }, []);
 */
 console.log("main")
+/*
+const theme = extendTheme({
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          main: blue[600],
+          
+        },
+        secondary: {
+          main: red[600]
+        }
+      },
+    },
+    dark: {
+      palette: {
+        primary: {
+          main: blue[400],
+        },
+      },
+    },
+  },
+});
+*/
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider>
-      <CssVarsProvider theme={theme}>
+      <CssVarsProvider /*theme={theme}*/ >
         <BrowserRouter>
           <App />
         </BrowserRouter>

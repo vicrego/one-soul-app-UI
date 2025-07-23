@@ -55,7 +55,8 @@
 .topics::-webkit-scrollbar-thumb
 {
   border-radius: 1rem;
-	background-color: rgb(20, 82, 94);	
+	/*background-color: rgb(20, 82, 94);	*/
+  background-color: #7a1111;
   /*
 	background-image: -webkit-linear-gradient(45deg,
                       rgba(255, 255, 255, .2) 25%,

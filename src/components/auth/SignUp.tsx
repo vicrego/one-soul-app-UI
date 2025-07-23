@@ -1,12 +1,13 @@
-import { Box, Button, Link as ChakraLink, Checkbox, Flex, Heading, Image, Input, InputGroup, InputRightElement, Spacer, Stack, Text } from '@chakra-ui/react'
 import { Field, Form, Formik, FormikProps } from 'formik'
 import React, { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import SignUpImage from '../../assets/images/signup-image.jpg'
 import axios from 'axios'
 import { useAuth } from '../../provider/authProvider'
 import { object, string, TypeOf, z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
+import { Box, Button, Checkbox, FormControlLabel, IconButton, InputAdornment, Stack, Typography } from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 
 type ContactFormInputs = TypeOf<typeof contactFormSchema>
@@ -60,12 +61,25 @@ const SignUp = () => {
     });
   }
 
+  let formStyle = {
+    color: "black",
+    backgroundColor: "#CBCCF7",
+    //backgroundColor: "#7a1111",
+    borderRadius: "5px",
+    width: "250px",
+    padding: "9px"
+  };
+
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
   return (
     <Stack sx={{color: "white"}}>
-      <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
-        <Flex p={8} flex={1} align={'center'} justify={'center'}>
-          <Stack spacing={4} w={'full'} maxW={'md'}>
-            <Heading fontSize={'2xl'}>Sign Up</Heading>
+      <Stack sx={{minHeight: '100vh'}} direction={{ base: 'column', md: 'row' }}>
+        <Stack sx={{p: 8, flex: 1, justifyContent: "center"}}>
+          <Stack spacing={4} sx={{maxWidth: 'md', width: 'full'}}>
+            <Typography /*as='h4'*/ fontFamily={'inherit'} >SIGN IN</Typography>
             <Formik<ContactFormInputs>
               initialValues={{ username: "", email: "", password: "" }}
               onSubmit={(value: any, actions: any) => {
@@ -79,54 +93,78 @@ const SignUp = () => {
             {({errors}) => {
               return (
               <Form>
-                <Stack spacing={1} >
+                <Stack spacing={1.5} alignItems={"center"}>
                   <Field  
-                    style={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
+                    style={{
+                      color: formStyle.color,
+                      backgroundColor: formStyle.backgroundColor, 
+                      borderRadius: formStyle.borderRadius, 
+                      width: formStyle.width, 
+                      padding: formStyle.padding,
+                    }}
                     placeholder="username"                 
                     name="username" 
                   /> {!!errors.username && (
-                    <Text className="form-text" sx={{color: "red"}}>
+                    <Typography className="form-text" sx={{color: "red"}}>
                       {errors.username}
-                    </Text>
+                    </Typography>
                   )}
                   {usernameError != "" && (
-                    <Text className="form-text" sx={{color: "red"}}>
+                    <Typography className="form-text" sx={{color: "red"}}>
                       {usernameError}
-                    </Text>
+                    </Typography>
                   )}
                   <Field  
-                    style={{color: "black", backgroundColor: "#CBCCF7", borderRadius: "5px", padding: "6px"}}
+                    style={{
+                      color: formStyle.color,
+                      backgroundColor: formStyle.backgroundColor, 
+                      borderRadius: formStyle.borderRadius, 
+                      width: formStyle.width, 
+                      padding: formStyle.padding,
+                    }}
                     placeholder="email"                 
                     name="email" 
                   /> {!!errors.email && (
-                    <Text className="form-text" sx={{color: "red"}}>
+                    <Typography className="form-text" sx={{color: "red"}}>
                       {errors.email}
-                    </Text>
+                    </Typography>
                   )}
-                  <InputGroup margin={'auto'} style={{alignItems: 'center'}} >
+                  <Stack 
+                    direction={"row"} 
+                    sx={{
+                      backgroundColor: formStyle.backgroundColor, 
+                      borderRadius: formStyle.borderRadius,
+                      width: formStyle.width
+                    }}
+                  >
                     <Field
-                      as={Input}
                       name="password" 
-                      type={show ? 'text' : 'password'}
+                      type={showPassword ? 'text' : 'password'}
                       placeholder='password'
                       variant="filled"
                       style={{
-                        color: "black", 
-                        backgroundColor: "#CBCCF7", 
-                        borderRadius: "5px", 
-                        padding: "6px", 
-                        width: "100%"
+                        color: formStyle.color,
+                        backgroundColor: formStyle.backgroundColor, 
+                        padding: formStyle.padding,
+                        borderRadius: formStyle.borderRadius
                       }}
                     /> 
-                    <InputRightElement width='4.5rem' style={{height: "100%", textAlign: "center"}}>
-                      <Button onClick={handleClick} style={{backgroundColor: "purple", color: "white", padding: 3, borderRadius: 10}}>
-                        {show ? 'Hide' : 'Show'}
-                      </Button>
-                    </InputRightElement>
-                  </InputGroup> {!!errors.password && (
-                    <Text className="form-text" sx={{color: "red"}}>
+                      <Box sx={{alignSelf: "center"}}>
+                        <InputAdornment position="end"  style={{color: "gray"}} >
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      </Box>
+                    </Stack>
+                  {!!errors.password && (
+                    <Typography className="form-text" sx={{color: "red"}}>
                       {errors.password}
-                    </Text>
+                    </Typography>
                   )}
                   <Button
                     type="submit"
@@ -141,32 +179,30 @@ const SignUp = () => {
             </Formik>
             <Stack spacing={6}>
               <Stack
+                sx={{justifyContent: 'space-between', alignContent: 'start'}}
                 direction={{ base: 'column', sm: 'row' }}
-                align={'start'}
-                justify={'space-between'}>
-                <Checkbox>Remember me</Checkbox>
-                <Text color={'blue.500'}>Forgot password?</Text>
+              >
+                <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
+                <Typography color={'blue.500'}>Forgot password?</Typography>
               </Stack>
-              <Box >
-                <Text>Already have an account?</Text>
-                <ChakraLink
-                  as={NavLink}
+              <Box>
+                <Typography>Already have an account?</Typography>
+                <Link
                   to="/signIn"
-                  //state={{props: props.props}}
                 >
                   Sign In
-                </ChakraLink>
+                </Link>
               </Box>
             </Stack>
           </Stack>
-        </Flex>
-        <Flex flex={1}>
-          <Image
+        </Stack>
+        <Stack flex={1}>
+          <img
+            style={{height: "100%", width: "100%", objectFit: "cover"}}
             alt={'Login Image'}
-            objectFit={'cover'}
             src={SignUpImage}
           />
-        </Flex>
+        </Stack>
       </Stack>
     </Stack>
   )

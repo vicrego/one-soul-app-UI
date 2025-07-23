@@ -25,12 +25,7 @@ const Topics = () => {
   
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     borderRadius: '1.5rem',
-    //color: theme.palette.getContrastText(teal[500]),
     backgroundColor: "purple"
-    /*backgroundColor: teal[500],
-    '&:hover': {
-      backgroundColor: teal[700],
-    },*/
   }));
 
 

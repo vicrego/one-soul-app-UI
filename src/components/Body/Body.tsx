@@ -9,12 +9,12 @@ import Layoult from '../Layoult/Layoult';
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../../provider/authProvider';
 import axios from 'axios';
+import { generalStyles } from '../../Styles/generalStyles';
 
 
 
 
 const Body = (props: any) => {
-
   /*Check if props comes from Loading component. If it doesn't, 
   then it comes from Home Link, therefore useLocation is used to handle
   the props */ 
@@ -128,9 +128,9 @@ const Body = (props: any) => {
               <Card 
                 sx={{ 
                   maxWidth: 300, 
-                  backgroundColor: "#7a1111",     
+                  backgroundColor: generalStyles.secondaryColor,     
                   "&:hover": {
-                    background: "purple"
+                    background: "#46117A"
                   }, 
                 }} >
                 <CardActionArea>
@@ -140,16 +140,14 @@ const Body = (props: any) => {
                     alt="course image"
                     onLoad={() => setImageLoaded(true)}
                   />
-                  {imageLoaded ? (
+                  {imageLoaded && (
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div" sx={{color: "white"}}>
                         <Text>{course.course_name}</Text>
                       </Typography>     
                     </CardContent>
-                  ):     
-                    <Box sx={{ display: 'flex' }}>
-                      <CircularProgress />
-                    </Box>}
+                  )
+                    }
                   {/*imageLoaded && (
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
@@ -168,6 +166,11 @@ const Body = (props: any) => {
             </ChakraLink>
           </Box>
         ))}
+        {!imageLoaded && 
+          <Box sx={{ display: 'flex' }}>
+            <CircularProgress />
+          </Box>
+        }
       </Flex>
     </Layoult>
   )

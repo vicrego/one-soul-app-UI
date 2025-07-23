@@ -100,11 +100,14 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
             >
                 
                 <Box sx={styles}>
-                    <CloseIcon onClick={() => {
-                        onCloseAccountSettings();
-                        //setOpen(false);
-                        //setFirstTimeEntry(false); 
-                    }}/>
+                    <CloseIcon 
+                        sx={{cursor: "pointer"}}
+                        onClick={() => {
+                            onCloseAccountSettings();
+                            //setOpen(false);
+                            //setFirstTimeEntry(false); 
+                        }}
+                    />
                     <Box sx={{paddingTop: 2, paddingBottom: 1}}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
                             Account Settings

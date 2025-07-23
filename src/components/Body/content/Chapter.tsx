@@ -160,8 +160,8 @@ const Chapter = () => {
             {props.props.challenges?.filter((challenge: any) => challenge.course_id === courseId).map((filterChallenge: any) => (
               <Box 
                 sx={{
-                  backgroundColor: "white", 
-                  p: 3, 
+                  backgroundColor: "#7a1111", 
+                  p: 2, 
                   width: "100px", 
                   borderRadius: "10px",
                   "&:hover": {
@@ -176,7 +176,7 @@ const Chapter = () => {
                 >
                   <Typography 
                       sx={{ 
-                        color: "black", 
+                        color: "white", 
                         textAlign: "center",
                         "&:hover": {
                           color: "white",
