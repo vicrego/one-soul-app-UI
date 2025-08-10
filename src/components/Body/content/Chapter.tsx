@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Link as ChakraLink, Box, Heading, VStack, Center, filter, Text} from '@chakra-ui/react';
-import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { ButtonProps, styled, CircularProgress, useMediaQuery, Typography } from '@mui/material';
+import { ButtonProps, styled, CircularProgress, useMediaQuery, Typography, Box, Stack } from '@mui/material';
 import { purple, red, teal } from '@mui/material/colors';
 import Layoult from '../../Layoult/Layoult';
 import { color } from 'framer-motion';
@@ -101,7 +100,7 @@ const Chapter = () => {
   return ( 
     <Layoult props={props.props}>   
       <Box 
-        p={5} 
+        //p={5} 
         gap={2}
         height={isSmallHeight ? "60vh" : "100vh"}
         maxHeight={isMediumHeight ? "75vh" : "80vh" }
@@ -113,50 +112,55 @@ const Chapter = () => {
 
         {/* TAB 1 Contents */}
         {currentTabIndex === 0 && (
-          <VStack p={5}> 
+          <Stack p={5} gap={1}> 
             {props?.props.chapters?.filter((chapter: any) => chapter.course_id === courseId).map((filterChapter: any) => (
-            <>
-              <ChakraLink as={ReactRouterLink} 
-                type='button'
-                to="/topics"
-                state={{courseId: courseId, chapterId: filterChapter.chapter_id, chapterOrder: filterChapter.chapter_order, props}}
-                key={filterChapter.id} 
-                pointerEvents={filterChapter.chapter_order > chapterProgress ? "none" : "auto"}
-                //_disabled={ filterChapter.chapter_order > chapterProgress } 
-              >
-              <ColorButton variant="contained" 
+            <Box >
+              <ColorButton 
+                variant="contained" 
                 endIcon={
                   <img
                     rel="stylesheet"
                     //src={`http://localhost:1337${filterChapter.attributes?.image.data?.attributes?.url}`}
                     //type="css/style.css"
-                    width={50}
+                    //width={50}
                     
                     onLoad={() => setLoaded(true)}
                 />}
                 disabled={ filterChapter.chapter_order > chapterProgress }
               > 
-
-                {onLoaded ? (
-                  <>
-                    <Typography  sx={{color: "white", fontFamily: "mono"}}>{filterChapter?.chapter_name}</Typography>
-                  </>
-                ) : (
-                  <>
-                    <CircularProgress />
-                  </>
-                  )
-                }
-                </ColorButton>
-              </ChakraLink>
-            </>
+                <Link
+                  type='button'
+                  to="/topics"
+                  style={{cursor: "pointer", width: 200}}
+                  state={{courseId: courseId, chapterId: filterChapter.chapter_id, chapterOrder: filterChapter.chapter_order, props}}
+                  key={filterChapter.id} 
+                  //pointer-events={filterChapter.chapter_order > chapterProgress ? "none" : "auto"}
+                  onClick={(e) => {
+                    if (filterChapter.chapter_order > chapterProgress) {
+                      e.preventDefault(); // cancel navigation
+                    }
+                  }}
+                >
+                    {onLoaded ? (
+                      <>
+                        <Typography  sx={{color: "white", fontFamily: "mono"}}>{filterChapter?.chapter_name}</Typography>
+                      </>
+                    ) : (
+                      <>
+                        <CircularProgress />
+                      </>
+                      )
+                    }
+                </Link>
+              </ColorButton>
+            </Box>
             ))} 
-          </VStack>
+          </Stack>
         )}
           
         {/* TAB 2 Contents */}
         {currentTabIndex === 1 && (
-          <VStack sx={{ p: 3 }}>
+          <Stack sx={{ p: 3, gap: 2, alignItems: "center" }}>
             {props.props.challenges?.filter((challenge: any) => challenge.course_id === courseId).map((filterChallenge: any) => (
               <Box 
                 sx={{
@@ -166,12 +170,12 @@ const Chapter = () => {
                   borderRadius: "10px",
                   "&:hover": {
                     background: "purple",
-                  }
+                  },
                 }}>
-                <ChakraLink as={ReactRouterLink} 
+                <Link
                   type='button'
                   to="/challenges"   
-                  sx={{width: "200px"}}
+                  style={{width: "200px"}}
                   state={{ courseId: courseId, challengeDifficulty: filterChallenge?.difficulty_level, props}}
                 >
                   <Typography 
@@ -183,23 +187,22 @@ const Chapter = () => {
                         }, 
                       }}
                   >
-                    <Text>{filterChallenge?.challenge_name}</Text>
+                    <Typography fontFamily={'initial'}>{filterChallenge?.challenge_name}</Typography>
                   </Typography>
-                </ChakraLink> 
+                </Link> 
               </Box>
             ))} 
-          </VStack>
+          </Stack>
         )}
       </Box>
-        <ChakraLink 
-          as={ReactRouterLink}
+        <Link
           className="button-19"
           type='button'
           to="/home"
           state={props}
         >      
-          <Heading>Back</Heading>
-        </ChakraLink>
+          <Typography fontFamily={'initial'}>Back</Typography>
+        </Link>
     </Layoult>
   )
 }

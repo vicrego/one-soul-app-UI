@@ -1,5 +1,4 @@
-import { Box, FormControl, Text } from '@chakra-ui/react'
-import { Button, Modal, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, FormControl, Modal, Stack, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import { Formik, Form } from 'formik'
 import React, { useState } from 'react'
@@ -95,7 +94,7 @@ const ConfigModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
             aria-describedby="parent-modal-description"
         >
             <Stack sx={{ ...styles, pt: 2, pb: 10, gap: 2}}>
-                <Box cursor={"pointer"} onClick={() => {onClose()}}>
+                <Box sx={{cursor: "pointer"}} onClick={() => {onClose()}}>
                     <ArrowBackIcon />
                 </Box>
                 <Formik<{ [key: string]: string }>
@@ -109,8 +108,8 @@ const ConfigModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
                 >
                 {({ values, handleChange, isSubmitting, errors }) => {
                 return (
-                    <Form>
-                        <FormControl>
+                    <Form >
+                        <FormControl sx={{width: "100%"}}>
                             <Box sx={{paddingBottom: 3}}>
                                 <Typography id="modal-modal-title" variant="h6" component="h2">Edit {category}</Typography>
                             </Box>
@@ -119,19 +118,19 @@ const ConfigModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
                                 label={category} 
                                 value={values[category] || ""}
                                 onChange={handleChange}
-                                sx={{width: "100%"}} 
+                                sx={{width: "70%"}} 
                                 size='small' 
                                 id="outlined-basic" 
                                 variant="outlined" 
                             /> {!!errors[category] && (
-                                <Text className="form-text" sx={{color: "red", width: 250}}>
+                                <Typography fontFamily={"initial"} className="form-text" sx={{color: "red", width: 250}}>
                                 {errors[category]}
-                                </Text>
+                                </Typography>
                             )}
                             {usernameError != "" && (
-                                <Text className="form-text" sx={{color: "red"}}>
+                                <Typography fontFamily={"initial"} className="form-text" sx={{color: "red"}}>
                                 {usernameError}
-                                </Text>
+                                </Typography>
                             )}
                             <Button
                                 type="submit"

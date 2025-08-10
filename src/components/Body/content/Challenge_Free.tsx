@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link as ReactRouterLink, useNavigate, useLocation } from 'react-router-dom';
-import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
+import { Link as ReactRouterLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import Layoult from '../../Layoult/Layoult';
 import Button from '@mui/material/Button';
 import {
@@ -11,7 +10,7 @@ import {
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { teal } from '@mui/material/colors';
-import { ButtonProps, styled, MobileStepper } from '@mui/material';
+import { ButtonProps, styled, MobileStepper, Box, Stack, Typography } from '@mui/material';
 
 
 const Challenge_Free = () => {
@@ -37,8 +36,6 @@ const Challenge_Free = () => {
   const content = filteredSteps?.[activeStep] && filteredSteps?.[activeStep].challenge_content?.split("\\n");
   
   const hasCompletedAllSteps = activeStep === filteredSteps?.length;
-  
-  const bg = useColorModeValue("gray.200", "gray.700");
   
   const maxSteps: number = filteredSteps ? (filteredSteps.length + 1) : 0;
 
@@ -101,11 +98,11 @@ const Challenge_Free = () => {
         />
         {hasCompletedAllSteps ? (
         <>
-          <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>
-            <Heading fontSize="xl" textAlign={"center"}>
+          <Box sx={{ my: 8, p: 8, rounded: "md" }}>
+            <Typography fontFamily={"initial"} variant='h4' textAlign={"center"}>
               Woohoo! 
-            </Heading>
-            <ChakraLink as={ReactRouterLink} 
+            </Typography>
+            <Link 
               type='button'
               to="/chapters"
               state={{courseId: courseId, props, challenge_Free: true}}
@@ -113,15 +110,15 @@ const Challenge_Free = () => {
               <ColorButton variant="contained" size="large">
                 Complete
               </ColorButton>
-            </ChakraLink>    
+            </Link>    
           </Box>
         </>
         ) : (
-          <Stack sx={{ width: '100%', px: "10%" } }>
-            <Heading as={"h1"} mb={3}>{title}</Heading>
+          <Stack /*sx={{ width: '100%' } }*/>
+            <Typography fontFamily={"initial"} variant='h3' mb={3}>{title}</Typography>
               <>
                 {content?.map((post: any, id: any) =>
-                  <Text key={id}>{post}</Text>
+                  <Typography fontFamily={"initial"} key={id}>{post}</Typography>
                 )}
               </>
           </Stack>

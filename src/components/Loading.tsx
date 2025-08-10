@@ -3,7 +3,6 @@ import Body from './Body/Body';
 import { CircularProgress } from '@mui/material';
 import { getChallenges, getChallengesChapter, getChallengesFree, getChapter, getCourse, getTopics } from '../api/api';
 import { Image } from '@mui/icons-material';
-import { Box } from '@chakra-ui/react';
 import LoaderLogo from './common/LoaderLogo';
 
 

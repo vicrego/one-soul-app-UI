@@ -1,10 +1,10 @@
-import { Button, Flex, HStack, Stack, Table, useDisclosure, VStack } from '@chakra-ui/react';
-import { Alert, Box, Grid, Modal, Snackbar, SnackbarOrigin, styled, TextField, Typography } from '@mui/material';
+
+import { Alert, Box, Button, Grid, Modal, Snackbar, SnackbarOrigin, styled, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import ConfigModal from '../common/ConfigModal';
 import { useAuth } from '../../provider/authProvider';
 import CloseIcon from '@mui/icons-material/Close';
-import { KeyboardArrowRight } from '@mui/icons-material';
+import { Height, KeyboardArrowRight, Padding } from '@mui/icons-material';
 
 interface State extends SnackbarOrigin {
     open: boolean;
@@ -15,23 +15,18 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
     const { userData, setUserData } = useAuth();
     const {refreshUser} = useAuth();
 
-    const { 
-        isOpen: isOpenUsername, 
-        onOpen: onOpenUsername, 
-        onClose: onCloseUsername,
-    } = useDisclosure()
+    const [isOpenUsername, setIsOpenUsername] = useState(false);
+    const onOpenUsername = () => setIsOpenUsername(true)
+    const onCloseUsername = () => setIsOpenUsername(false)
 
-    const { 
-        isOpen: isOpenEmail, 
-        onOpen: onOpenEmail, 
-        onClose: onCloseEmail,
-    } = useDisclosure()
+    const [isOpenEmail, setIsOpenEmail] = useState(false);
+    const onOpenEmail = () => setIsOpenEmail(true)
+    const onCloseEmail = () => setIsOpenEmail(false)
 
-    const { 
-        isOpen: isOpenPassword, 
-        onOpen: onOpenPassword, 
-        onClose: onClosePassword,
-    } = useDisclosure()
+    const [isOpenPassword, setIsOpenPassword] = useState(false);
+    const onOpenPassword = () => setIsOpenPassword(true)
+    const onClosePassword = () => setIsOpenPassword(false)
+
 
     const [submited, setSubmited] = useState(false);
     
@@ -42,7 +37,6 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
         setToast({ ...newState, open: true });
     };
 
-    
     //Refresh userData based on user's update
     useEffect(() =>{
         const refresh = async () => { 
@@ -69,7 +63,6 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
         color: 'black',
         border: '2px solid #000',
         boxShadow: 24,
-        p: 5,
         borderRadius: "30px",
     };
 
@@ -79,7 +72,6 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
         horizontal: 'center',
     });
     const { vertical, horizontal, open }: any = toast;
-
 
     const handleClose = () => {
         setToast({ ...toast, open: false });
@@ -100,82 +92,84 @@ const AccountSetting = ({isOpenAccountSettings, onOpenAccountSettings, onCloseAc
             >
                 
                 <Box sx={styles}>
-                    <CloseIcon 
-                        sx={{cursor: "pointer"}}
-                        onClick={() => {
-                            onCloseAccountSettings();
-                            //setOpen(false);
-                            //setFirstTimeEntry(false); 
-                        }}
-                    />
-                    <Box sx={{paddingTop: 2, paddingBottom: 1}}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Account Settings
-                        </Typography>
-                    </Box>
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> 
-                        <>
-                            <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
-                                <Typography id="modal-modal-description">
-                                    Username: 
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={5}>
-                                    <Typography id="modal-modal-description">{userData?.data?.username}</Typography>    
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Button onClick={onOpenUsername}><KeyboardArrowRight/></Button>
-                            </Grid>
-                            <ConfigModal isOpen={isOpenUsername} onOpen={onOpenUsername} onClose={onCloseUsername} styles={styles} category={"username"} userData={userData} defaultValue={userData?.data?.username} setSubmited={setSubmited}/>
-                        </>
-                        <>
-                            <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
-                                <Typography id="modal-modal-description">
-                                    Email:
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={5}>
-                                <Typography sx={{width: "100%"}} id="modal-modal-description">
-                                    {userData?.data?.email}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Button onClick={onOpenEmail}><KeyboardArrowRight/></Button>  
-                            </Grid>                                               
-                            <ConfigModal isOpen={isOpenEmail} onOpen={onOpenEmail} onClose={onCloseEmail} styles={styles} category={"email"} userData={userData} defaultValue={userData?.data?.email} setSubmited={setSubmited}/>
-                        </>
-                        <>
-                            <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
-                                <Typography id="modal-modal-description"> 
-                                    Password: {/*userData?.data?.username*/}
-                                </Typography>
-                            </Grid> 
-                            <Grid item xs={5}>
-                                <Typography sx={{width: "100%"}} id="modal-modal-description">
-                                    <span>••••••••••</span>
-                                </Typography>
-                            </Grid>         
-                            <Grid item xs={3}>
-                                <Button onClick={onOpenPassword}><KeyboardArrowRight/></Button>  
-                            </Grid> 
-                            <ConfigModal isOpen={isOpenPassword} onOpen={onOpenPassword} onClose={onClosePassword} styles={styles} category={"password"} userData={userData} setSubmited={setSubmited}/>
-                        </>    
-                    </Grid>   
-                    <Snackbar
-                        anchorOrigin={{ vertical, horizontal }}
-                        autoHideDuration={5000}
-                        onClose={handleClose}
-                        open={open}
-                        key={vertical + horizontal}            
-                    >
-                        <Alert
-                            severity="success"
-                            variant="filled"
-                            sx={{ width: '100%' }}
+                    <Box sx={{padding: 3.4}}>
+                        <CloseIcon 
+                            sx={{cursor: "pointer"}}
+                            onClick={() => {
+                                onCloseAccountSettings();
+                                //setOpen(false);
+                                //setFirstTimeEntry(false); 
+                            }}
+                        />
+                        <Box sx={{paddingTop: 2, paddingBottom: 1}}>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                Account Settings
+                            </Typography>
+                        </Box>
+                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> 
+                            <>
+                                <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
+                                    <Typography id="modal-modal-description">
+                                        Username: 
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={5}>
+                                        <Typography id="modal-modal-description">{userData?.data?.username}</Typography>    
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Button onClick={onOpenUsername}><KeyboardArrowRight/></Button>
+                                </Grid>
+                                <ConfigModal isOpen={isOpenUsername} onOpen={onOpenUsername} onClose={onCloseUsername} styles={styles} category={"username"} userData={userData} defaultValue={userData?.data?.username} setSubmited={setSubmited}/>
+                            </>
+                            <>
+                                <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
+                                    <Typography id="modal-modal-description">
+                                        Email:
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <Typography sx={{width: "100%"}} id="modal-modal-description">
+                                        {userData?.data?.email}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Button onClick={onOpenEmail}><KeyboardArrowRight/></Button>  
+                                </Grid>                                               
+                                <ConfigModal isOpen={isOpenEmail} onOpen={onOpenEmail} onClose={onCloseEmail} styles={styles} category={"email"} userData={userData} defaultValue={userData?.data?.email} setSubmited={setSubmited}/>
+                            </>
+                            <>
+                                <Grid sx={{display: 'flex', alignItems: "center"}} item xs={4}>
+                                    <Typography id="modal-modal-description"> 
+                                        Password: {/*userData?.data?.username*/}
+                                    </Typography>
+                                </Grid> 
+                                <Grid item xs={5}>
+                                    <Typography sx={{width: "100%"}} id="modal-modal-description">
+                                        <span>••••••••••</span>
+                                    </Typography>
+                                </Grid>         
+                                <Grid item xs={3}>
+                                    <Button onClick={onOpenPassword}><KeyboardArrowRight/></Button>  
+                                </Grid> 
+                                <ConfigModal isOpen={isOpenPassword} onOpen={onOpenPassword} onClose={onClosePassword} styles={styles} category={"password"} userData={userData} setSubmited={setSubmited}/>
+                            </>    
+                        </Grid>   
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            autoHideDuration={5000}
+                            onClose={handleClose}
+                            open={open}
+                            key={vertical + horizontal}            
                         >
-                            "Updated Successfully."
-                        </Alert>
-                    </Snackbar>             
+                            <Alert
+                                severity="success"
+                                variant="filled"
+                                sx={{ width: '100%' }}
+                            >
+                                "Updated Successfully."
+                            </Alert>
+                        </Snackbar>    
+                    </Box>         
                 </Box>
             </Modal>
         </Box>

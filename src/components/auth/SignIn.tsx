@@ -8,7 +8,7 @@ import { object, string, TypeOf } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { BorderStyle, Visibility, VisibilityOff } from '@mui/icons-material'
 import LoaderLogo, { LoaderLogoRemover } from '../common/LoaderLogo'
-import { Box, Button, IconButton, InputAdornment, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography } from '@mui/material'
 
 
 type ContactFormInputs = TypeOf<typeof contactFormSchema>
@@ -86,13 +86,13 @@ const SignIn = () => {
   }
   
   let formStyle = {
-    color: "black",
+    color: "white",
     backgroundColor: "#CBCCF7",
     //backgroundColor: "#7a1111",
     
     borderRadius: "5px",
     width: "250px",
-    padding: "9px"
+    padding: "13px"
   };
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -113,14 +113,15 @@ const SignIn = () => {
         <Stack className={styles.wrapperStyle} sx={{color: "white", fontFamily: "mono", alignItems: "center"}}>
           
           <Stack sx={{margin: 9}}>
-            <Box sx={{width: "15rem", marginLeft: "auto", marginRight: "auto"}}>
-              <img src="./logo-initializer.jpeg" />
+            <Box sx={{ marginLeft: "auto", marginRight: "auto"}}>
+              <img style={{width: "15rem"}} src="./logo-initializer.jpeg" />
             </Box>
             <Typography /*as='h4'*/ fontFamily={'inherit'} >SIGN IN</Typography>
             <Box /*bg="white"*/ sx={{/*p: 6*/ w: "400px", rounded: "md"}} >
               <Formik<ContactFormInputs>
                 initialValues={{ username: "", password: ""/*, rememberMe: false*/ }}
                 onSubmit={(value: any, actions: any) => {
+                  console.log("value", value)
                   let username = value.username;
                   let password = value.password;
                   login(username, password);
@@ -132,17 +133,18 @@ const SignIn = () => {
               {({ isSubmitting, errors }) => {
                 return (
                 <Form>
-                  <Stack spacing={1.5} alignItems={"center"}>
+                  <Stack spacing={1.7} alignItems={"center"}>
                     <Field
                       placeholder="username"
                       style={{
                         color: formStyle.color,
-                        backgroundColor: formStyle.backgroundColor, 
-                        borderRadius: formStyle.borderRadius, 
+                        //backgroundColor: formStyle.backgroundColor, 
+                        //borderRadius: formStyle.borderRadius, 
                         width: formStyle.width, 
                         padding: formStyle.padding,
+                        border: "none"
                       }}
-                      variant="subtle"
+                      //variant="subtle"
                       name="username" 
                     />
                     {status && status.msg && (
@@ -161,28 +163,61 @@ const SignIn = () => {
                         </Typography>
                       </Box>
                     )}
-                    <Stack 
-                      direction={"row"} 
-                      sx={{
-                        backgroundColor: formStyle.backgroundColor, 
-                        borderRadius: formStyle.borderRadius,
-                        width: formStyle.width
-                      }}
-                    >
-                      <Field 
-                        placeholder='password'
-                        type={showPassword ? 'text' : 'password'}
-                        name="password" 
-                        variant="filled"
-                        style={{
-                          color: formStyle.color,
-                          backgroundColor: formStyle.backgroundColor, 
-                          padding: formStyle.padding,
-                          borderRadius: formStyle.borderRadius
+                    
+                      <Stack 
+                        direction={"row"} 
+                        sx={{
+                          //width: "100%",
+                          borderRadius: formStyle.borderRadius, 
+                          //width: formStyle.width,
+                          //padding: formStyle.padding,
                         }}
-                      /> 
+                      >
+                       
+                        <Field 
+                          placeholder='password'
+                          type={showPassword ? 'text' : 'password'}
+                          name="password" 
+                          //variant="filled"
+                          
+                          style={{
+                            color: formStyle.color,
+                            //backgroundColor: formStyle.backgroundColor, 
+                            padding: formStyle.padding,
+                            width: formStyle.width,
+                            border: "none",
+                          }}
+                    
+                        /> 
+                       {/*
+                        <Box 
+                          sx={{
+                            backgroundColor: "rgb(59, 59, 59)",//formStyle.backgroundColor, 
+                            //width: "20%",
+                          }}>
+                        
+                          <IconButton
+                            sx={{
+                              justifyContent: "center", 
+                              color: "white",
+                              padding: 0,
+                              //padding: formStyle.padding,
+                            }}
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="start"
+                            aria-label="toggle password visibility"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </Box>
+                        */}
+                        {/*
+                      </Stack>
+                      */}
+                      {/*
                       <Box sx={{alignSelf: "center"}}>
-                        <InputAdornment position="end"  style={{color: "gray"}} >
+                        <InputAdornment position="end" style={{color: "gray"}} >
                           <IconButton
                             aria-label="toggle password visibility"
                             onClick={handleClickShowPassword}
@@ -192,7 +227,13 @@ const SignIn = () => {
                           </IconButton>
                         </InputAdornment>
                       </Box>
+                      */}
+                      
                     </Stack>
+                    
+
+                   
+                    
                     <Button
                       type="submit"
                       className="button-19"

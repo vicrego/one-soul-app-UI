@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { Link as ChakraLink, Box, Flex, Heading, Stack, Text, useColorModeValue, VStack} from '@chakra-ui/react';
-import { useNavigate, Link as ReactRouterLink, redirect, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { MobileStepper, useMediaQuery } from '@mui/material';
+import { Box, MobileStepper, Stack, Typography, useMediaQuery } from '@mui/material';
 import {
   Experimental_CssVarsProvider,
   experimental_extendTheme as extendTheme,
@@ -41,10 +40,6 @@ const Topics = () => {
 
   //console.log(propsTest)
 
-
-
-  
-
   const theme = extendTheme();
 
   const filteredSteps = props?.props.topics?.filter((topic: any) => topic.chapter_id === chapterId);
@@ -54,7 +49,6 @@ const Topics = () => {
   const title = filteredSteps[activeStep] && filteredSteps[activeStep].topic_name; /*: "great"*/
   const type = filteredSteps[activeStep] && filteredSteps && filteredSteps[activeStep].topic_type;
   
-
   let topicImgUrl: string;
   let image = filteredSteps[activeStep] && filteredSteps[activeStep].topic_image || undefined;
   
@@ -68,7 +62,6 @@ const Topics = () => {
 
   const hasCompletedAllSteps = activeStep === filteredSteps?.length;
   
-  const bg = useColorModeValue("gray.200", "gray.700");
   const isSmallScreen = useMediaQuery('(max-width: 1090px)');
 
   const maxSteps: number = filteredSteps ? (filteredSteps?.length + 1) : 0;
@@ -93,7 +86,6 @@ const Topics = () => {
   const styles = {
     backgroundColor: "white",
     py: "1.3rem",
-    px: "1rem"
   }
   
   return (
@@ -103,7 +95,7 @@ const Topics = () => {
         style={{
           display: "block",
           borderRadius: "0.5rem",
-          overflowY: "auto",
+          //overflowY: "auto",
           height: "85vh",
         }}
       >
@@ -142,7 +134,7 @@ const Topics = () => {
         />
         {hasCompletedAllSteps ? (
           <>
-            <VStack 
+            <Stack 
               sx={{  
                 p: isSmallScreen ? 10 : 20, 
                 rounded: "0.4rem", 
@@ -150,10 +142,9 @@ const Topics = () => {
                 backgroundRepeat: "no-repeat",
                 backgroundSize: isSmallScreen ? "30rem" : "50%",
                 backgroundPositionX: "center",
-                height: 60,
                 justifyContent: "space-between"
              }}>
-              <Heading fontSize="xl" textAlign={"center"}>
+              <Typography fontSize="xl" textAlign={"center"}>
                 <TypeAnimation
                   sequence={[
                     'Congratulations! \n All steps were completed.', // Types 'One'
@@ -163,8 +154,8 @@ const Topics = () => {
                   cursor={false}
                   style={{ whiteSpace: 'pre-line', fontSize: isSmallScreen ? '1.2em' : '1.5em', display: 'block', color: 'white' }}
                 />
-              </Heading>
-              <ChakraLink as={ReactRouterLink} 
+              </Typography>
+              <Link
                 type='button'
                 to="/tasks"
                 state={{courseId: courseId, chapterId: chapterId, chapterOrder: chapterOrder, /*chapterName ,*/ props}}
@@ -172,87 +163,127 @@ const Topics = () => {
                 <ColorButton variant="contained" size="large">
                   Challenge!
                 </ColorButton>
-              </ChakraLink>    
-            </VStack>
+              </Link>    
+            </Stack>
           </>
         ) : (
           <>
             {type === "introduction" &&
             (
-            <Stack sx={{width: '100%', px: "1rem" } }  >
-              <Heading as={"h1"} mb={3}>{title}</Heading>
+            <Stack sx={{width: '100%'} }  >
+              <Typography variant='h3' fontFamily={"initial"} mb={3}>{title}</Typography>
               <Box>
                 {content?.map((post: any, id: any) =>
-                  <Text key={id} marginBottom={3.5} >
+                  <Typography fontFamily={"initial"} key={id} marginBottom={3.5} >
                     {post}
-                  </Text>
+                  </Typography>
                 )}
               </Box>
             </Stack>
             )}
             {type === "theory" &&
             (
-            <Stack sx={{ width: '100%', px: styles.px, py: styles.py, backgroundColor: styles.backgroundColor, borderRadius: "0.7rem" } }  >
-              <Heading as={"h1"} sx={{marginBottom: "1.5rem"}}>{title}</Heading>
-              <Flex 
-                justifyContent={'center'} 
-                sx={{ px: "1.4rem", gap: 5 }} 
-                flexWrap={"wrap"} 
+              <Stack 
+              sx={{ 
+                width: '100%', 
+                py: styles.py, 
+                backgroundColor: styles.backgroundColor, 
+                borderRadius: "0.7rem" 
+              }}
+              flexWrap="wrap"
+            >
+              <Typography 
+                variant='h3' 
+                fontFamily="initial" 
+                sx={{ marginBottom: "1.5rem" }}
               >
-                <Box width={isSmallScreen || image == undefined ? "100%" : "50%"}>
-                  {content?.map((post: any, id: any) =>
-                    <Text textAlign={'justify'} key={id} marginBottom={3}>
+                {title}
+              </Typography>
+            
+              <Stack
+                direction={{ xs: 'column', md: 'row' }} // Responsive layout
+                justifyContent="center"
+                alignItems="center"
+                sx={{ px: "1.4rem", gap: 5 }}
+                flexWrap="wrap"
+              >
+                <Box width={{ xs: "100%", md: image ? "50%" : "100%" }}>
+                  {content?.map((post: any, id: any) => (
+                    <Typography 
+                      fontFamily="initial" 
+                      textAlign="justify" 
+                      key={id} 
+                      marginBottom={3}
+                    >
                       {post}
-                    </Text>
-                  )}
+                    </Typography>
+                  ))}
                 </Box>
-                {image !== undefined &&
-                  <img 
-                    margin-left={'auto'}
-                    margin-right={'auto'}
-                    width={'400rem'}
-                    src={"./images-icons/courses/" + image}
-                    style={{borderRadius: "20%"}}
+            
+                {image && (
+                  <Box
+                    component="img"
+                    src={`./images-icons/courses/${image}`}
+                    sx={{
+                      width: { xs: "100%", md: '300px', sm: '300px' },
+                      borderRadius: "20%",
+                      mx: "auto"
+                    }}
                   />
-                }
-              </Flex>
+                )}
+              </Stack>
             </Stack>
             )}
             {type === "exercise" &&
             (
-            <Stack sx={{ width: '100%', px: styles.px, py: styles.py }}  >
-              <Heading as={"h1"} sx={{color: "white"}}>{title}</Heading>
-              <Flex 
-                style={{alignItems:"flex-start"}} 
-                justifyContent={"center"} 
-                gap={5} 
-                flexWrap={"wrap"}>
-                <Box 
-                  width={isSmallScreen ? "100%" : "50%"}
-                  style={{
-                    borderWidth: 1.5, 
-                    borderStyle: "dotted", 
-                    backgroundColor: styles.backgroundColor, 
-                    borderRadius: '1rem', 
-                    borderColor: "red",
-                    marginTop: "0.5rem"
-                  }} 
-                  p={6}
+              <Stack sx={{ width: '100%', py: styles.py }} >
+                <Typography variant='h3' fontFamily="initial" sx={{ color: "white" }}>
+                  {title}
+                </Typography>
+            
+                <Stack
+                  direction={{ xs: 'column', md: 'row' }} // Responsive layout
+                  alignItems="center"
+                  justifyContent="center"
+                  gap={5}
+                  flexWrap="wrap"
                 >
-                  <b>Exercise!</b>
-                  {content?.map((post: any, id: any) =>
-                    <Text textAlign={'start'} key={id}>{post}</Text>
-                  )}
-                </Box>
-                <img 
-                  margin-left={'auto'}
-                  margin-right={'auto'}
-                  width={'400rem'}
-                  src={topicImgUrl}
-                  style={{borderRadius: "20%"}}
-                />
-              </Flex>
-            </Stack>
+                  <Box
+                    width={{ xs: '100%', md: '50%' }}
+                    sx={{
+                      borderWidth: 1.5,
+                      borderStyle: "dotted",
+                      backgroundColor: styles.backgroundColor,
+                      borderRadius: '1rem',
+                      borderColor: "red",
+                      py: 3,
+                      mt: 2
+                    }}
+                  >
+                    <b>Exercise!</b>
+                    {content?.map((post: any, id: any) => (
+                      <Typography
+                        fontFamily="initial"
+                        textAlign="start"
+                        key={id}
+                        px={5}
+                      >
+                        {post}
+                      </Typography>
+                    ))}
+                  </Box>
+              
+                  <Box
+                    component="img"
+                    src={topicImgUrl}
+                    sx={{
+                      width: { xs: '100%', md: '400px', sm: '400px' },
+                      borderRadius: "20%",
+                      mx: "auto",
+                    }}
+                  />
+                </Stack>
+              </Stack>
             )}
           </>
         )}

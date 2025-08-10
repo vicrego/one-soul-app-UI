@@ -1,10 +1,9 @@
-import { Link as ChakraLink, LinkProps, /*Button*/ Box, Flex, Text} from '@chakra-ui/react';
-import { Link as ReactRouterLink, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CircularProgress, Modal, useMediaQuery } from '@mui/material';
+import { Box, Button, CardActionArea, CircularProgress, Modal, Stack, useMediaQuery } from '@mui/material';
 import Layoult from '../Layoult/Layoult';
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../../provider/authProvider';
@@ -81,14 +80,15 @@ const Body = (props: any) => {
 
   return ( 
     <Layoult props={props.props} >  
-      <Flex 
+      <Stack
         p={10} 
         justifyContent="center" 
         flexWrap={'wrap'} 
-        gap={20} 
+        gap={12} 
         maxHeight="78vh"
         height={isMediumHeight ? "76vh" : "87vh"}
-        overflowY={/*isMediumHeight ? "hidden" :*/ "auto"}
+        //sx={{overflowY: /*isMediumHeight ? "hidden" :*/ "auto"}}
+        direction={"row"}        
       >
         <Modal
           open={open}
@@ -103,7 +103,7 @@ const Body = (props: any) => {
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               Your journey shall begin!
             </Typography>
-            <Flex>
+            <Stack>
               <Button variant="contained" sx={{marginLeft: "auto"}} 
                 onClick={() => {
                   setOpen(false);
@@ -112,14 +112,14 @@ const Body = (props: any) => {
               >
                 I'm Ready!
               </Button>
-            </Flex>
+            </Stack>
           </Box>
         </Modal>
         {props?.props.courses?.map((course: any, i: any) => (
           <Box
             width={isMediumHeight ? "180px" : "16rem"}     
           >
-            <ChakraLink as={ReactRouterLink} 
+            <Link
               type='button'
               to="/chapters"  
               state={{courseId: course.course_id, props}}
@@ -141,10 +141,19 @@ const Body = (props: any) => {
                     onLoad={() => setImageLoaded(true)}
                   />
                   {imageLoaded && (
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div" sx={{color: "white"}}>
-                        <Text>{course.course_name}</Text>
-                      </Typography>     
+                    <CardContent >
+                      <Typography 
+                        sx={{
+                          height: 60,
+                          color: "white", 
+                          alignContent: "center"
+                        }} 
+                        variant='h5'  
+                        /*gutterBottom*/  
+                        fontFamily={"fantasy"}
+                      >
+                        {course.course_name}
+                      </Typography>
                     </CardContent>
                   )
                     }
@@ -163,7 +172,7 @@ const Body = (props: any) => {
                   )*/} 
                 </CardActionArea>
               </Card>
-            </ChakraLink>
+            </Link>
           </Box>
         ))}
         {!imageLoaded && 
@@ -171,7 +180,7 @@ const Body = (props: any) => {
             <CircularProgress />
           </Box>
         }
-      </Flex>
+      </Stack>
     </Layoult>
   )
 }

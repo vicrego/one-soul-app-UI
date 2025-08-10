@@ -1,6 +1,6 @@
-import { Field, Form, Formik, FormikProps } from 'formik'
+import { Field, Form, Formik } from 'formik'
 import React, { useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import SignUpImage from '../../assets/images/signup-image.jpg'
 import axios from 'axios'
 import { useAuth } from '../../provider/authProvider'

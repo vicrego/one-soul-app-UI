@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link as ChakraLink, Box, Flex, HStack, Heading, MenuItemOption, Stack, Text, useColorModeValue} from '@chakra-ui/react';
-import { Link as ReactRouterLink, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 //import {getLessonTask} from '../../../api/api';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { ButtonProps, styled, MobileStepper } from '@mui/material';
+import { ButtonProps, styled, MobileStepper, Box, Stack, Typography } from '@mui/material';
 import {
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendTheme,
@@ -42,8 +41,7 @@ const Challenge_Chapter = () => {
   
   const content = filteredSteps && filteredSteps[activeStep]?.challenge_content.split("\\n");
   const hasCompletedAllSteps = activeStep === filteredSteps?.length;
-  const bg = useColorModeValue("gray.200", "gray.700");
-   
+     
   const maxSteps: number = filteredSteps ? (filteredSteps.length + 1) : 0;
 
   const handleNext = () => {
@@ -128,9 +126,9 @@ const Challenge_Chapter = () => {
           background: "white",
           borderRadius: "0.5rem",
           margin: "0.5rem 2rem",
-          padding: "0.5rem",
-          overflowY: "auto",
-          height: "85vh", 
+          padding: "10px 50px",          
+          //overflowY: "auto",
+          height: "80vh", 
         }}>
       <MobileStepper
         variant="text"
@@ -140,9 +138,8 @@ const Challenge_Chapter = () => {
         sx={{  
           flexGrow: 1, 
           mx: "10%", 
-          padding: "0.3%",
+          padding: "0.1%",
           borderRadius: "1.5rem", 
-          //backgroundColor: "rgb(138, 97, 130)", 
           backgroundColor: "#7a1111",
           color: "white"
         }}
@@ -170,11 +167,11 @@ const Challenge_Chapter = () => {
 
       {hasCompletedAllSteps ? (
         <>
-          <Box sx={{ bg, my: 8, p: 8, rounded: "md" }}>
-            <Heading fontSize="xl" textAlign={"center"}>
+          <Box sx={{ my: 8, p: 3, rounded: "md" }}>
+            <Typography fontFamily={"initial"} variant='h5' textAlign={"center"}>
               Woohoo! 
-            </Heading>
-            <ChakraLink as={ReactRouterLink} 
+            </Typography>
+            <Link 
               type='button'
               to="/chapters"
               state={{courseId: courseId, props: props}}
@@ -182,23 +179,23 @@ const Challenge_Chapter = () => {
               <ColorButton variant="contained" size="large">
                 Complete
               </ColorButton>
-            </ChakraLink>    
+            </Link>    
           </Box>
         </>
         ) : (
-        <Stack sx={{ width: '100%', px: "10%" } }>
-          <Heading as={"h1"} mb={3}>Challenge</Heading>
+        <Stack sx={{ width: '100%' } }>
+          <Typography fontFamily={"initial"} variant='h3' mb={3}>Challenge</Typography>
           {type === "warmUp" && (
-            <>
+            <Box>
               {content?.map((post: any, id: any) =>
-                <Text key={id}>{post}</Text>
+                <Typography fontFamily={"initial"} key={id} >{post}</Typography>
               )}
-            </>
+            </Box>
           )}
           {type === "task" && (
             <>
               {content?.map((post: any, id: any) =>
-                <Text key={id}>{post}</Text>
+                <Typography fontFamily={"initial"} key={id}>{post}</Typography>
               )}
             </>
           )}

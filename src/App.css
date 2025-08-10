@@ -5,20 +5,17 @@
   background-color: rgb(6, 6, 22);;
   /*background-image: linear-gradient(rgb(7, 1, 18), rgb(68, 22, 234));*/
   /*background-image: url("./assets/images/futuristic-background.jpg");*/
-  height: 100vh; 
+  /*height: 100vh;*/ 
   background-position: center; 
   background-repeat: no-repeat; 
   background-size: cover; 
   background-attachment: scroll;
 }
-/*
-:root {
-  background-color: rgb(53, 34, 151);
-}
-*/
-*{
+
+* {
   margin: 0;
   font-family: mono;
+  text-decoration: none;
 }
 
 .custom-border {

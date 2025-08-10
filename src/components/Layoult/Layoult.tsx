@@ -1,6 +1,6 @@
 import React from 'react'
 import NavBar from '../Head/navigation/NavBar'
-import { Box } from '@chakra-ui/react'
+import { Box } from '@mui/material';
 
 
 interface MyComponentProps {
@@ -11,7 +11,6 @@ interface MyComponentProps {
 const Layoult: React.FC<MyComponentProps> = ({ children, ...props }: { children: React.ReactNode }) => {
   return (
     <Box 
-      minHeight="99vh"
       maxHeight="99vh" 
       className="custom-border">
       <NavBar props={{props, loading: false}} />
