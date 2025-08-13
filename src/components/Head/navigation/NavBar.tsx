@@ -76,13 +76,13 @@ const NavBar = ({props}: any) => {
   };
 
   //STYLES
-  const isSmallLogoWidth = useMediaQuery('(max-width:530px)');
+  const isSmallLogoWidth = useMediaQuery('(max-width:600px)');
   const logoMediaQueryWidth = useMediaQuery('(max-width:625px)');
   
   const headerMediaQuery = useMediaQuery('(min-width:394px)');
   const styles = {
     container: (headerMediaQuery : any) => ({
-      padding: headerMediaQuery ? '3px 10px' : '10px 30px',
+      padding: headerMediaQuery ? '3px 0px' : '10px 30px',
     }),
     heading: {
       variant: 'h4',
@@ -98,7 +98,7 @@ const NavBar = ({props}: any) => {
   return (
     <Box style={styles.container(headerMediaQuery)} sx={{position: "sticky", zIndex: 2}} alignItems='center'>    
       <Grid  container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid item xs={4} >
+        <Grid item xs={2} sm={4} >
           <Stack direction={"row"} spacing={7}>   
             <Link 
               to="/home" 
@@ -145,7 +145,7 @@ const NavBar = ({props}: any) => {
             </Link>
           </Stack>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={4} sm={4}>
           {!isSmallLogoWidth &&
             <Typography 
               sx={{
@@ -160,7 +160,7 @@ const NavBar = ({props}: any) => {
           }
         </Grid>
        
-        <Grid item xs={0} >
+        <Grid item xs={6} sm={3.1} md={4} >
           <IconButton 
             //marginLeft={10}
             onClick={handleClickMenu} 

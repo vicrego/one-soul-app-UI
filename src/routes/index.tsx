@@ -19,7 +19,7 @@ const MyRoutes = ({setLoading}: any) => {
     setLoading(false);
   }, [])
   */
-  console.log("index.tsx")
+  console.log("index.tsx 2")
 
   return (
     <Routes>

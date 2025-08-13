@@ -93,10 +93,11 @@ const ConfigModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description"
         >
-            <Stack sx={{ ...styles, pt: 2, pb: 10, gap: 2}}>
-                <Box sx={{cursor: "pointer"}} onClick={() => {onClose()}}>
-                    <ArrowBackIcon />
-                </Box>
+            <Stack sx={{ ...styles}} >
+                <Stack gap={2} sx={{padding: 3}}>
+                    <Box sx={{cursor: "pointer"}} onClick={() => {onClose()}}>
+                        <ArrowBackIcon />
+                    </Box>
                 <Formik<{ [key: string]: string }>
                     initialValues={{ [category]: defaultValue}}
                     onSubmit={async (values: any, actions: any) => {      
@@ -147,6 +148,7 @@ const ConfigModal = ({isOpen, onOpen, onClose, styles, category, userData, defau
                     </Form>
                 )}}
                 </Formik>
+                </Stack>
             </Stack>
             
         </Modal>

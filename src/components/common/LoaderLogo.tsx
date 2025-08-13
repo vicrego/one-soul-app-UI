@@ -8,11 +8,15 @@ const LoaderLogo = () => {
       justifyContent: "center",
       alignItems: "center",
       height: "100vh",
-      backgroundColor: "rgb(6, 6, 22)"
+      backgroundColor: "#010A19"
     };
     return (
       <Box sx={styles}>
-        <img src="./logo-initializer.jpeg" alt="Loading Logo" width={400} />
+        <img 
+          src="./logo-initializer.jpeg" 
+          alt="Loading Logo" 
+          width={400} 
+        />
       </Box>
     );
 }

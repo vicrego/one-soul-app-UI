@@ -79,7 +79,7 @@ const SignUp = () => {
       <Stack sx={{minHeight: '100vh'}} direction={{ base: 'column', md: 'row' }}>
         <Stack sx={{p: 8, flex: 1, justifyContent: "center"}}>
           <Stack spacing={4} sx={{maxWidth: 'md', width: 'full'}}>
-            <Typography /*as='h4'*/ fontFamily={'inherit'} >SIGN IN</Typography>
+            <Typography /*as='h4'*/ fontFamily={'inherit'} >SIGN UP</Typography>
             <Formik<ContactFormInputs>
               initialValues={{ username: "", email: "", password: "" }}
               onSubmit={(value: any, actions: any) => {
@@ -129,14 +129,6 @@ const SignUp = () => {
                       {errors.email}
                     </Typography>
                   )}
-                  <Stack 
-                    direction={"row"} 
-                    sx={{
-                      backgroundColor: formStyle.backgroundColor, 
-                      borderRadius: formStyle.borderRadius,
-                      width: formStyle.width
-                    }}
-                  >
                     <Field
                       name="password" 
                       type={showPassword ? 'text' : 'password'}
@@ -146,21 +138,11 @@ const SignUp = () => {
                         color: formStyle.color,
                         backgroundColor: formStyle.backgroundColor, 
                         padding: formStyle.padding,
-                        borderRadius: formStyle.borderRadius
+                        borderRadius: formStyle.borderRadius,
+                        width: formStyle.width
                       }}
                     /> 
-                      <Box sx={{alignSelf: "center"}}>
-                        <InputAdornment position="end"  style={{color: "gray"}} >
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                          >
-                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                          </IconButton>
-                        </InputAdornment>
-                      </Box>
-                    </Stack>
+                     
                   {!!errors.password && (
                     <Typography className="form-text" sx={{color: "red"}}>
                       {errors.password}
@@ -178,6 +160,7 @@ const SignUp = () => {
             )}}
             </Formik>
             <Stack spacing={6}>
+            {/*
               <Stack
                 sx={{justifyContent: 'space-between', alignContent: 'start'}}
                 direction={{ base: 'column', sm: 'row' }}
@@ -185,6 +168,7 @@ const SignUp = () => {
                 <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
                 <Typography color={'blue.500'}>Forgot password?</Typography>
               </Stack>
+              */}
               <Box>
                 <Typography>Already have an account?</Typography>
                 <Link

@@ -98,10 +98,11 @@ const Body = (props: any) => {
         >
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Welcome, {userData?.data?.username}
+              Welcome to OneSelf Academy, {userData?.data?.username}
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Your journey shall begin!
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>             
+              Our platform is still in its early stages of development, so you might notice some slowness or occasional bugs along the way. We’re actively improving performance and fixing issues to bring you the best possible learning experience.
+              Thank you for your patience and for being part of our journey! 
             </Typography>
             <Stack>
               <Button variant="contained" sx={{marginLeft: "auto"}} 

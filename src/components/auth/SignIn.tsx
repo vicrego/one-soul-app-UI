@@ -9,6 +9,7 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { BorderStyle, Visibility, VisibilityOff } from '@mui/icons-material'
 import LoaderLogo, { LoaderLogoRemover } from '../common/LoaderLogo'
 import { Box, Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography } from '@mui/material'
+import { log } from 'console'
 
 
 type ContactFormInputs = TypeOf<typeof contactFormSchema>
@@ -30,10 +31,26 @@ const SignIn = () => {
   const { logUserIn } = useAuth();
   
   useEffect(() => {
+    console.log("userlogged 1", userLogged);
     logUserIn();
     setUserLogged(true);
+    console.log("userlogged 2", userLogged);
   }, [/*userId*/]);
-  
+
+/*
+  useEffect(() => {
+    (async () => {
+      logUserIn()
+      setUserLogged(true);  
+      /*
+      setUserLogged(false); // hide loader, regardless of result
+      if (isLogged) {
+        navigate("/dashboard");
+      }
+      */
+  //  })();
+  //}, []);
+
   let url: string;
 
   const navigate = useNavigate();
@@ -86,10 +103,8 @@ const SignIn = () => {
   }
   
   let formStyle = {
-    color: "white",
+    color: "black",
     backgroundColor: "#CBCCF7",
-    //backgroundColor: "#7a1111",
-    
     borderRadius: "5px",
     width: "250px",
     padding: "13px"
@@ -101,13 +116,24 @@ const SignIn = () => {
 
   return (
     <Box sx={{marginLeft: "auto", marginRight: "auto"}}>
-      {userLogged ?
+
+      {((useAuth().isAuthenticated === true)) ?
         (
-          <LoaderLogoRemover/>
-        ) : (
           <LoaderLogo/>
+        ) : (
+          <LoaderLogoRemover/>
         )
       }
+      
+      {/*
+      {!userLogged ?
+        (
+          <LoaderLogo/>
+        ) : (
+          <LoaderLogoRemover/>
+        )
+      }
+        */}
       { ((useAuth().isAuthenticated === false)) &&     
       (
         <Stack className={styles.wrapperStyle} sx={{color: "white", fontFamily: "mono", alignItems: "center"}}>
@@ -138,7 +164,7 @@ const SignIn = () => {
                       placeholder="username"
                       style={{
                         color: formStyle.color,
-                        //backgroundColor: formStyle.backgroundColor, 
+                        backgroundColor: formStyle.backgroundColor, 
                         //borderRadius: formStyle.borderRadius, 
                         width: formStyle.width, 
                         padding: formStyle.padding,
@@ -182,7 +208,7 @@ const SignIn = () => {
                           
                           style={{
                             color: formStyle.color,
-                            //backgroundColor: formStyle.backgroundColor, 
+                            backgroundColor: formStyle.backgroundColor, 
                             padding: formStyle.padding,
                             width: formStyle.width,
                             border: "none",
